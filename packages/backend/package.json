@@ -1,0 +1,12 @@
+{
+  "name": "@my-post/backend",
+  "version": "1.0.0",
+  "description": "backend for my post",
+  "main": "index.js",
+  "author": "zidan p",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.28",
+    "uuid": "^9.0.1"
+  }
+}

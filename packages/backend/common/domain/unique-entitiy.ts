@@ -1,5 +1,5 @@
 
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { Identifier } from './Identifier'
 
 export class UniqueEntityID{
@@ -28,7 +28,7 @@ export class UniqueEntityID{
    * Return raw value of identifier
    */
 
-  toValue (): T {
+  toValue (): string | number {
     return this.value;
   }
 }
