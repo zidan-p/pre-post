@@ -1,0 +1,13 @@
+{
+  "name": "my-post",
+  "version": "1.0.0",
+  "description": "me trying to implement clean code",
+  "main": "index.js",
+  "author": "zidan p",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/backend"
+    ]
+  }
+}
