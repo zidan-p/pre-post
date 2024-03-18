@@ -1,4 +1,5 @@
 import { ArgumentInvalidException } from "common/exceptions";
+import { z } from "zod";
 import { Result } from "~/common/core/Result";
 import { ValueObject } from "~/common/domain/Value-object";
 
@@ -8,6 +9,8 @@ export interface UserEmailProps{
 }
 
 export class UserEmail extends ValueObject<UserEmailProps>{
+
+  private static emailSchema = z.string().email();
   
   get value() : string {
     return this.props.value;
@@ -18,8 +21,8 @@ export class UserEmail extends ValueObject<UserEmailProps>{
   }
 
   private static isValidEmail (email: string) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    const result = this.emailSchema.safeParse(email);
+    return result.success;
   }
 
   private static format (email: string): string {

@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "references": [
+    { "path": "./packages/backend" },
+    { "path": "./packages/frontend" }
+  ],
+  "files": []
+}

@@ -1,3 +1,4 @@
+import { ZodError } from 'zod';
 import {
   ARGUMENT_INVALID,
   ARGUMENT_NOT_PROVIDED,
@@ -5,6 +6,7 @@ import {
   CONFLICT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
+  VALIDATION_FAIL,
 } from '.';
 import { ExceptionBase } from './exception.base';
 
@@ -79,4 +81,25 @@ export class InternalServerErrorException extends ExceptionBase {
   }
 
   readonly code = INTERNAL_SERVER_ERROR;
+}
+
+
+
+export class ValidationFailException extends ExceptionBase{
+  static readonly message = "Validation Error"
+
+  constructor(message = ValidationFailException.message, cause: Error){
+    super(message, cause);
+  }
+
+  readonly code = VALIDATION_FAIL;
+}
+
+
+// make it easy to handle validation error
+export class ZodValidationException extends ValidationFailException{
+
+  constructor(message, err: ZodError){
+    super(message, err);
+  }
 }

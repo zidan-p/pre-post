@@ -19,7 +19,7 @@ export interface SerializedException {
 declare class Error {
   public name:string;
   public message:string;
-  public stack:string;
+  public stack?:string;
   constructor(message?:string);
   static captureStackTrace(error: Error, constructorOpt: any); // capture stack strace show error when we don't specify the node
 }

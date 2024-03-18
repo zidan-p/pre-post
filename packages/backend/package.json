@@ -8,5 +8,9 @@
   "devDependencies": {
     "@types/node": "^20.11.28",
     "uuid": "^9.0.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "zod": "^3.22.4"
   }
 }
