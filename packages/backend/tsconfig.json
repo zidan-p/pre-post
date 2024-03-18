@@ -11,6 +11,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
+    "rootDir": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -19,9 +20,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "~/common/*": ["common/*"],
-      "~/modules/*": ["modules/*"],
-      "~/auth/*": ["modules/auth"]
+      "~/common/*": ["../src/common/*"],
+      "~/modules/*": ["../src/modules/*"],
+      "~/auth/*": ["../src/modules/auth/*"]
     }
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules/*", "build/*", "dist/*"]
 }

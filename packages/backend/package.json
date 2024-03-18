@@ -1,5 +1,5 @@
 {
-  "name": "@my-post/backend",
+  "name": "@pre-post/backend",
   "version": "1.0.0",
   "description": "backend for my post",
   "main": "index.js",
