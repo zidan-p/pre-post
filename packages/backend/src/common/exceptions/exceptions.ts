@@ -88,7 +88,7 @@ export class InternalServerErrorException extends ExceptionBase {
 export class ValidationFailException extends ExceptionBase{
   static readonly message = "Validation Error"
 
-  constructor(message = ValidationFailException.message, cause: Error){
+  constructor(message = ValidationFailException.message, cause?: Error){
     super(message, cause);
   }
 
