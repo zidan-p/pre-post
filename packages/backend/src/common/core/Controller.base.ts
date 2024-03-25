@@ -1,68 +1,48 @@
+import { ExceptionBase } from "../exceptions";
+import { IInteractor } from "./Interactor.interface";
 
 
-interface IInteractor {
-  reject(message: string, metadata?: Record<string, any>): any;
-  ok(args: any): any;
-}
+export abstract class BaseController{
 
-// T is result from usecase
-abstract class BaseController<T>{
-
+  protected abstract executeImpl(...args: any[]): Promise<any>;
+  
   constructor(
-    private interactor: IInteractor
+    private readonly interactor: IInteractor
   ){}
 
-  abstract executeImpl(): Promise<any>;
 
-  ok(data: T){
-    return this.interactor.ok(data);
+
+  ok<T> (args: T){
+    return this.interactor.ok(args);
+  };
+
+  created (message: string, metadata?: Record<string, any>){
+    return this.interactor.created(message, metadata);
+  };
+
+  clientError (message: string, metadata?: Record<string, any>){
+    return this.interactor.clientError(message, metadata);
+  }; 
+  unauthorized (message: string, metadata?: Record<string, any>){
+    return this.interactor.unauthorized(message, metadata);
+  } 
+  paymentRequired (message: string, metadata?: Record<string, any>){
+    return this.interactor.paymentRequired(message, metadata);
+  }
+  forbidden (message: string, metadata?: Record<string, any>){
+    return this.interactor.forbidden(message, metadata);
+  }
+  notFound (message: string, metadata?: Record<string, any>){
+    return this.interactor.notFound(message, metadata);
+  }
+  conflict (message: string, metadata?: Record<string, any>){
+    return this.interactor.conflict(message, metadata);
+  }
+  tooMany (message: string, metadata?: Record<string, any>){
+    return this.interactor.tooMany(message, metadata);
   }
 
-}
-
-
-class AUseCase{
-
-  execute(){
-    console.log("ini adalah eksekusi use case");
-    return {message: "haiii"};
-  }
-}
-
-class LoginController extends BaseController<{message: string}>{
-  private aUseCase: AUseCase;
-
-  constructor(someInteractor: IInteractor, aUseCase: AUseCase){
-    super(someInteractor);
-    this.aUseCase = aUseCase;
-  }
-
-  executeImpl(): Promise<any> {
-    
-    const result = this.aUseCase.execute();
-    return this.ok(result);
-  }
-}
-
-
-class RealInteractor implements IInteractor {
-
-  constructor(Req, Res){}
-
-  reject(message: string, metadata?: Record<string, any>) {
-    console.log(message);
-  }
-  ok(args: any) {
-    console.log(args);
+  fail (message: string, error?: ExceptionBase, metadata?: Record<string, any>){
+    return this.interactor.fail(message, error, metadata);
   }
 }
-
-
-
-
-
-
-
-userRouter.post('/',
-  (req, res) => new LoginController(new RealInteractor(req, res), new AUseCase()).executeImpl()
-);
