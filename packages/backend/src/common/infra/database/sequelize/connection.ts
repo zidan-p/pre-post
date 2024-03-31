@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import { initModel } from "./models";
 
 
 
@@ -17,3 +18,11 @@ export const sequelizeConnection = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PA
   dialect: "mysql"
 });
 
+
+export const models = initModel(sequelizeConnection);
+
+async function syncDatabase(){
+  await sequelizeConnection.sync({alter: true});
+}
+
+syncDatabase();

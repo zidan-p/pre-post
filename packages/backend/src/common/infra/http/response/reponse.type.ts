@@ -4,10 +4,11 @@
 
 
 
-export interface PrePostResponse<T>{
+export interface PrePostResponse<T, E = null>{
   status: boolean,
   path: string,
   message: string,
   statusCode: string,
-  data: T
+  data: T,
+  error?: E
 }
