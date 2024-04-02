@@ -24,7 +24,7 @@ export class LoginController extends BaseController {
   
         switch (error.constructor) {
           case LoginUseCaseErrors.EmailOrPasswordError:
-            return this.notFound(error.getErrorValue())
+            return this.notFound(error.getErrorValue().message)
           default:
             return this.fail(error.getErrorValue().message, error.getErrorValue());
         }

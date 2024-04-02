@@ -21,6 +21,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare password: string;
   declare email: string;
   declare username: string;
+  declare is_admin: boolean;
 
     // timestamps!
   // createdAt can be undefined during creation
@@ -52,6 +53,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   };
 }
 
+export type UserModelImplementation = typeof User;
 
 User.hasMany(Post, {
   sourceKey: "id",
@@ -63,7 +65,7 @@ User.hasMany(Post, {
 
 
 export function initUser(sequelize: Sequelize){
-  User.init(
+  const definedUser = User.init(
     {
       id: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -89,6 +91,9 @@ export function initUser(sequelize: Sequelize){
         allowNull: false,
         unique: true
       },
+      is_admin: {
+        type: DataTypes.BOOLEAN
+      },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     }, {
@@ -97,5 +102,5 @@ export function initUser(sequelize: Sequelize){
     }
   )
 
-  return User;
+  return definedUser;
 }

@@ -95,7 +95,7 @@ export class User extends AggregateRoot<UserProps> {
     ]);
 
     if (guardResult.isFailure) {
-      return Result.fail<User>(new ValidationFailException(guardResult.getErrorValue()))
+      return Result.fail<User>(new ValidationFailException("validation failure when guard user", guardResult.getErrorValue()))
     }
 
     const isNewUser = !!id === false;

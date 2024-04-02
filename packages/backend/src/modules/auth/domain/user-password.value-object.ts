@@ -8,6 +8,10 @@ import { ZodValidationException } from "~/common/exceptions";
 
 export interface IUserPasswordProps {
   value: string;
+
+  /**
+   * wheter or not the value provided already hashed
+   */
   hashed?: boolean;
 }
 

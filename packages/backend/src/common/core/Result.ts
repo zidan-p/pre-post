@@ -3,10 +3,10 @@ import { ExceptionBase } from "../exceptions";
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean
-  private error: T | ExceptionBase;
+  private error: ExceptionBase;
   private _value: T;
 
-  public constructor (isSuccess: boolean, error?: T | ExceptionBase, value?: T) {
+  public constructor (isSuccess: boolean, error?: ExceptionBase, value?: T) {
     if (isSuccess && error) {
       throw new Error("InvalidOperation: A result cannot be successful and contain an error");
     }
@@ -31,8 +31,8 @@ export class Result<T> {
     return this._value;
   }
 
-  public getErrorValue (): T {
-    return this.error as T;
+  public getErrorValue () {
+    return this.error;
   }
 
   public static ok<U> (value?: U) : Result<U> {

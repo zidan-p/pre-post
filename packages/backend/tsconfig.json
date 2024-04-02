@@ -22,7 +22,9 @@
     "paths": {
       "~/common/*": ["./common/*", "./common"],
       "~/modules/*": ["./modules/*"],
-      "~/auth/*": ["./modules/auth/*"]
+      "~/config/*": ["./config/*"],
+      "~/auth/*": ["./modules/auth/*"],
+      "~/post/*": ["./modules/post/*"]
     }
   },
   "include": ["src/**/*.ts"],
