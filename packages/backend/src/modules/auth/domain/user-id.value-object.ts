@@ -25,7 +25,7 @@ export class UserId extends ValueObject<{ value: UniqueEntityID }> {
   public static create (value: UniqueEntityID): Result<UserId> {
     let guardResult = Guard.againstNullOrUndefined(value, 'value');
     if (guardResult.isFailure) {
-      return Result.fail<UserId>( new ArgumentNotProvidedException(guardResult.getErrorValue()))
+      return Result.fail<UserId>( new ArgumentNotProvidedException(guardResult.getErrorValue().message))
     }
     return Result.ok<UserId>(new UserId(value));
   }

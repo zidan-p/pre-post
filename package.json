@@ -6,6 +6,10 @@
   "main": "index.js",
   "author": "zidan p",
   "license": "MIT",
+  "scripts": {
+    "dev:server": "yarn workspace @pre-post/backend dev",
+    "build:server": "yarn workspace @pre-post/backend build"
+  },
   "workspaces": {
     "packages": [
       "packages/backend"

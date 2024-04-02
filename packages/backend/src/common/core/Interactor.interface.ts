@@ -6,7 +6,7 @@ import { ExceptionBase } from "../exceptions";
 
 export interface IInteractor {
 
-  ok<T> (args: T, message): any;
+  ok<T> (args: T, message?:string): any;
   created (message: string, metadata: Record<string, any>):any ;
   clientError (message: string, metadata: Record<string, any>): any; 
   unauthorized (message: string, metadata: Record<string, any>): any; 

@@ -12,8 +12,8 @@ export abstract class BaseController{
 
 
 
-  ok<T> (args: T){
-    return this.interactor.ok(args);
+  ok<T> (args: T, message?: string){
+    return this.interactor.ok(args, message);
   };
 
   created (message: string, metadata?: Record<string, any>){

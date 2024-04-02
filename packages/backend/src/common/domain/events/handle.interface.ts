@@ -1,6 +1,6 @@
+import {type IDomainEvent } from "./domain-event.interface";
 
-import { IDomainEvent } from "./IDomainEvent";
 
-export interface IHandle<IDomainEvent> {
+export interface IHandle<T = IDomainEvent> {
   setupSubscriptions(): void;
 }

@@ -1,4 +1,5 @@
 
+import { ExceptionBase, UNEXPECTED_ERROR } from "../exceptions";
 import { Result } from "./Result";
 import { UseCaseError } from "./UseCaseError";
 
@@ -7,8 +8,10 @@ export namespace AppError {
     public constructor (err: any) {
       super(false, {
         message: `An unexpected error occurred.`,
-        error: err
-      } as UseCaseError)
+        cause: err,
+        name: 'unexpected error',
+        code: UNEXPECTED_ERROR,
+      } as ExceptionBase)
       console.log(`[AppError]: An unexpected error occurred`);
       console.error(err);
     }

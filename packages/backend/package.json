@@ -5,10 +5,15 @@
   "main": "index.js",
   "author": "zidan p",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json ",
+    "dev": "tsc --project tsconfig.build.json && node ./dist/index.js"
+  },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.28",
     "jsonwebtoken": "^9.0.2",
+    "typescript": "^5.4.3",
     "uuid": "^9.0.1"
   },
   "dependencies": {
