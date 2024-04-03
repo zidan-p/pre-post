@@ -15,7 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors({origin: "*"}));
 
 app.use(v1);
+app.get("/", (req, res) => res.json({msg: "hallooo"}));
 
+
+app.listen(3006, () => {
+  console.log("app listening in locahost:3006");
+})
 console.log(app._router);
 
 export {app}

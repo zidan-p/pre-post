@@ -1,4 +1,4 @@
-import { ArgumentInvalidException } from "common/exceptions";
+import { ArgumentInvalidException } from "~/common/exceptions";
 import { z } from "zod";
 import { Result } from "~/common/core/Result";
 import { ValueObject } from "~/common/domain/Value-object";

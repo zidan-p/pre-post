@@ -55,15 +55,6 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 
 export type UserModelImplementation = typeof User;
 
-User.hasMany(Post, {
-  sourceKey: "id",
-  foreignKey: "user_id",
-  as: "posts",
-  onDelete: 'cascade',
-  onUpdate: 'cascade',
-})
-
-
 export function initUser(sequelize: Sequelize){
   const definedUser = User.init(
     {
@@ -101,6 +92,14 @@ export function initUser(sequelize: Sequelize){
       tableName: 'users'  
     }
   )
+
+  User.hasMany(Post, {
+    sourceKey: "id",
+    foreignKey: "user_id",
+    as: "posts",
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  })
 
   return definedUser;
 }
