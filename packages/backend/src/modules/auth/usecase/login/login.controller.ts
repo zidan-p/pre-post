@@ -1,6 +1,5 @@
 import { BaseController } from "~/common/core/Controller.base";
 import { LoginUseCase } from "./login.use-case";
-import { IInteractor } from "~/common/core/Interactor.interface";
 import { LoginDTO } from "./login.dto";
 import { LoginUseCaseErrors } from "./login.error";
 
@@ -23,14 +22,15 @@ export class LoginController extends BaseController {
         const error = result.value;
   
         switch (error.constructor) {
+          case LoginUseCaseErrors.LoginValidationError:
+            return this.clientError(
+              (error).getErrorValue().message, 
+              (error).getErrorValue().cause
+            );
           case LoginUseCaseErrors.EmailOrPasswordError:
             return this.notFound(error.getErrorValue().message, error.getErrorValue()?.metadata);
 
-          case LoginUseCaseErrors.LoginValidationError:
-            return this.clientError(
-              (error as LoginUseCaseErrors.LoginValidationError).getErrorValue().message, 
-              (error as LoginUseCaseErrors.LoginValidationError).getErrorValue().cause
-            );
+
           default:
             return this.fail(error.getErrorValue().message, error.getErrorValue());
         }

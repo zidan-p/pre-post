@@ -1,6 +1,6 @@
 import { Result } from "~/common/core/Result"
 import { UseCaseError } from "~/common/core/UseCaseError"
-import { ArgumentInvalidException, ValidationFailException } from "~/common/exceptions"
+import { ArgumentInvalidException} from "~/common/exceptions"
 
 export namespace LoginUseCaseErrors {
 
@@ -10,8 +10,8 @@ export namespace LoginUseCaseErrors {
     }
   }
 
-  export class LoginValidationError extends Result<UseCaseError, ValidationFailException>{
-    constructor(error: ValidationFailException){
+  export class LoginValidationError extends Result<UseCaseError, ArgumentInvalidException>{
+    constructor(error: ArgumentInvalidException){
       super(false, error);
     }
   }

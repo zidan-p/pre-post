@@ -7,7 +7,7 @@ import { User } from "../../domain/user.agregate-root";
 import { UserPassword } from "../../domain/user-password.value-object";
 import { Result, left, right } from "~/common/core/Result";
 import { UserEmail } from "../../domain/user-email.value-object";
-import { ValidationFailException } from "~/common/exceptions";
+import { ArgumentInvalidException, ValidationFailException } from "~/common/exceptions";
 import { LoginUseCaseErrors } from "./login.error";
 import { JWTToken } from "../../domain/jwt.interface";
 import { AppError } from "~/common/core/AppError";
@@ -34,21 +34,19 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
 
       console.log(request);
       const userEmailOrError = UserEmail.create(request.email);
-
-      if(userEmailOrError.isFailure){
-        console.error(userEmailOrError.getErrorValue().message);
-      }
       const passwordOrError = UserPassword.create({ value: request.password });
-      if(passwordOrError.isFailure){
+      
+      if(userEmailOrError.isFailure)
+        console.error(userEmailOrError.getErrorValue().message);
+
+      if(passwordOrError.isFailure)
         console.error(passwordOrError.getErrorValue().message);
-      }
 
       const payloadResult = Result.combine([ userEmailOrError, passwordOrError ]);
 
       if (payloadResult.isFailure) {
-        // return left(Result.fail<any>(new ValidationFailException("validation failure when creating payload", payloadResult.getErrorValue())));
-        if(payloadResult.getErrorValue() instanceof ValidationFailException){
-          return left(new LoginUseCaseErrors.LoginValidationError(payloadResult.getErrorValue() as ValidationFailException))
+        if(payloadResult.getErrorValue() instanceof ArgumentInvalidException){
+          return left(new LoginUseCaseErrors.LoginValidationError(payloadResult.getErrorValue() as ArgumentInvalidException))
         }
         else return left(Result.fail(payloadResult.getErrorValue()));
       }
@@ -56,9 +54,8 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       userEmail = userEmailOrError.getValue();
       password = passwordOrError.getValue();
 
-      console.log(userEmail, password)
+
       user = await this.userRepo.getUserByUserEmail(userEmail);
-      console.log(user)
       const userFound = Boolean(user);
 
       if (!userFound) {
@@ -68,7 +65,7 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       const passwordValid = await user.password.comparePassword(password.value);
 
       if (!passwordValid) {
-        return left(new LoginUseCaseErrors.EmailOrPasswordError("error when login"))
+        return left(new LoginUseCaseErrors.EmailOrPasswordError("incorrect password"))
       }
 
       const accessToken: JWTToken = this.authService.signJWT({

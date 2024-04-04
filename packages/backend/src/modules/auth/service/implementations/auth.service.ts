@@ -9,13 +9,27 @@ import { sign, verify } from 'jsonwebtoken'
 export class AuthServiceImpl implements IAuthService{
   
   signJWT(props: JWTClaims): string {
-    const token = sign(props, authConfig.secret);
+    const token = sign(props, authConfig.secret, {expireIn: authConfig.tokenExpiryTime});
     return token
+  }
+
+  signRefreshJWT(props: JWTClaims): string {
+    return sign(props, authConfig.refreshSecret, {expireIn: authConfig.refreshTokenExpireTime});
+    
   }
   
   decodeJWT(token: string): Promise<JWTClaims> {
     return new Promise((resolve, reject) => {
       verify(token, authConfig.secret, (err, decoded) => {
+        if (err) return resolve(null);
+        return resolve(decoded);
+      });
+    })
+  }
+
+  decodeRefreshJWT(token: string): Promise<JWTClaims> {
+    return new Promise((resolve, reject) => {
+      verify(token, authConfig.refreshSecret, (err, decoded) => {
         if (err) return resolve(null);
         return resolve(decoded);
       });

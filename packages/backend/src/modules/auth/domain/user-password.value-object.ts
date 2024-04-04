@@ -2,7 +2,7 @@ import { ValueObject } from "~/common/domain/Value-object";
 import bcrypt = require('bcrypt');
 import { z } from "zod";
 import { Result } from "~/common/core/Result";
-import { ZodValidationException } from "~/common/exceptions";
+import { ArgumentInvalidException, ZodValidationException } from "~/common/exceptions";
 
 
 
@@ -94,7 +94,10 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
     if(result.success === false){
       console.error(result.error);
       return Result.fail<UserPassword>(
-        new ZodValidationException("Fail validating user passowrd", result.error)
+        // new ZodValidationException("Fail validating user passowrd", result.error)
+
+        // return issue list as one string
+        new ArgumentInvalidException(result.error.issues.map(issue => issue.message).join(", "))
       )
     }
 

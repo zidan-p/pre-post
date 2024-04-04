@@ -17,7 +17,7 @@ export class ExpressInteractor implements IInteractor {
 
   jsonResponse(status: boolean, statusCode: number, message: string, data?: any, error?: any){
     this.response.status(statusCode).json({
-      status,
+      success: status,
       message,
       statusCode,
       data: data ?? undefined,
