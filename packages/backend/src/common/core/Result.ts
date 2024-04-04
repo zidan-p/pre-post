@@ -1,12 +1,12 @@
 import { ExceptionBase } from "../exceptions";
 
-export class Result<T> {
+export class Result<T, E extends ExceptionBase = ExceptionBase> {
   public isSuccess: boolean;
   public isFailure: boolean
-  private error: ExceptionBase;
+  private error: E;
   private _value: T;
 
-  public constructor (isSuccess: boolean, error?: ExceptionBase, value?: T) {
+  public constructor (isSuccess: boolean, error?: E, value?: T) {
     if (isSuccess && error) {
       throw new Error("InvalidOperation: A result cannot be successful and contain an error");
     }
@@ -39,7 +39,7 @@ export class Result<T> {
     return new Result<U>(true, null, value);
   }
 
-  public static fail<U> (error: ExceptionBase): Result<U> {
+  public static fail<U, E extends ExceptionBase = ExceptionBase> (error: E): Result<U> {
     return new Result<U>(false, error);
   }
 

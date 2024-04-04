@@ -47,7 +47,10 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
 
       if (payloadResult.isFailure) {
         // return left(Result.fail<any>(new ValidationFailException("validation failure when creating payload", payloadResult.getErrorValue())));
-        return left(payloadResult);
+        if(payloadResult.getErrorValue() instanceof ValidationFailException){
+          return left(new LoginUseCaseErrors.LoginValidationError(payloadResult.getErrorValue() as ValidationFailException))
+        }
+        else return left(Result.fail(payloadResult.getErrorValue()));
       }
 
       userEmail = userEmailOrError.getValue();
