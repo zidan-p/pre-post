@@ -21,8 +21,8 @@ export class AuthControllerFactory implements IAuthUControllerFactory{
     console.log(this.userRepository);
   }
 
-  createLoginController(req: Request, res: Response): LoginController {
-    return new LoginController(new ExpressInteractor(req, res), new LoginUseCase(this.userRepository, this.authService));
+  createLoginController(): LoginController {
+    return new LoginController(new LoginUseCase(this.userRepository, this.authService));
   }
   
 }

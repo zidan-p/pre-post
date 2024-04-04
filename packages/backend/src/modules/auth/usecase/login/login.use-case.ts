@@ -46,7 +46,8 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       const payloadResult = Result.combine([ userEmailOrError, passwordOrError ]);
 
       if (payloadResult.isFailure) {
-        return left(Result.fail<any>(new ValidationFailException("validation failure when creating payload", payloadResult.getErrorValue())));
+        // return left(Result.fail<any>(new ValidationFailException("validation failure when creating payload", payloadResult.getErrorValue())));
+        return left(payloadResult);
       }
 
       userEmail = userEmailOrError.getValue();

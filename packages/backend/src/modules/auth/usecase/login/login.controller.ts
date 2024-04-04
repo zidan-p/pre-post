@@ -9,8 +9,8 @@ export class LoginController extends BaseController {
   
   private useCase: LoginUseCase;
   
-  constructor(interactor: IInteractor, useCase: LoginUseCase){
-    super(interactor);
+  constructor(useCase: LoginUseCase){
+    super();
     this.useCase = useCase;
   }
   

@@ -38,30 +38,30 @@ export class ExpressInteractor implements IInteractor {
   }
 
   clientError(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 400, message, null, metadata);
+    this.jsonResponse(false, 400, message, null, metadata);
   }
   unauthorized(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 401, message, null, metadata);
+    this.jsonResponse(false, 401, message, null, metadata);
   }
   paymentRequired(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 402, message, null, metadata);
+    this.jsonResponse(false, 402, message, null, metadata);
   }
   forbidden(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 403, message, null, metadata);
+    this.jsonResponse(false, 403, message, null, metadata);
   }
   notFound(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 404, message, null, metadata);
+    this.jsonResponse(false, 404, message, null, metadata);
   }
   conflict(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 409, message, null, metadata);
+    this.jsonResponse(false, 409, message, null, metadata);
   }
   tooMany(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 429, message, null, metadata);
+    this.jsonResponse(false, 429, message, null, metadata);
   }
 
   fail(message: string, error: ExceptionBase, metadata: Record<string, any>) {
     console.error(error);
-    this.jsonResponse(true, 500, message, null, error.toJSON());
+    this.jsonResponse(false, 500, message, null, error.toJSON());
   }
   
 }

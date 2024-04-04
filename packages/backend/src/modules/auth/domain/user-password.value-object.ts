@@ -25,7 +25,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
       hashed: z.boolean().optional()
     })
     .refine(
-      arg => !(arg?.hashed && arg.value.length < this.minLength),
+      arg => !(!arg?.hashed && arg.value.length < this.minLength),
       {
         message: "Min value of password is " + this.minLength,
         path: ["value"]
