@@ -5,4 +5,6 @@ import { SequlizeAuthFactory } from "../../repository/implementations/sequelize/
 // change it when you want to use another model
 const AuthRepositoryCreator = new SequlizeAuthFactory(User);
 
-export const userRepository = AuthRepositoryCreator.userRepositoryCreator();
+const userRepository = AuthRepositoryCreator.userRepositoryCreator();
+
+export {userRepository};

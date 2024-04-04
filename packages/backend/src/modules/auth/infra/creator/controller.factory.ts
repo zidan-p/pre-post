@@ -16,7 +16,10 @@ export class AuthControllerFactory implements IAuthUControllerFactory{
   constructor(
     private readonly userRepository: IUserRepo,
     private readonly authService: IAuthService,
-  ){}
+  ){
+    // console.log(userRepository);
+    console.log(this.userRepository);
+  }
 
   createLoginController(req: Request, res: Response): LoginController {
     return new LoginController(new ExpressInteractor(req, res), new LoginUseCase(this.userRepository, this.authService));

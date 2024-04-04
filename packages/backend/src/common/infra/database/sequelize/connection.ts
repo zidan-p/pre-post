@@ -22,7 +22,7 @@ export const sequelizeConnection = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PA
 export const models = initModel(sequelizeConnection);
 
 async function syncDatabase(){
-  await sequelizeConnection.sync({alter: true});
+  await sequelizeConnection.sync();
 }
 
 syncDatabase();

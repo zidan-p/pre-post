@@ -25,7 +25,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
       hashed: z.boolean().optional()
     })
     .refine(
-      arg => arg.hashed && arg.value.length < this.minLength,
+      arg => !(arg?.hashed && arg.value.length < this.minLength),
       {
         message: "Min value of password is " + this.minLength,
         path: ["value"]
@@ -70,7 +70,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
   
   private hashPassword (password: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(password, null, null, (err, hash) => {
+      bcrypt.hash(password, 10, (err, hash) => {
         if (err) return reject(err);
         resolve(hash)
       })
@@ -92,6 +92,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
     const result = this.userPasswordSchema.safeParse(props);
 
     if(result.success === false){
+      console.error(result.error);
       return Result.fail<UserPassword>(
         new ZodValidationException("Fail validating user passowrd", result.error)
       )

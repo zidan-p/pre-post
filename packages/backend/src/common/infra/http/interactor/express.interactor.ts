@@ -25,6 +25,10 @@ export class ExpressInteractor implements IInteractor {
     })
   }
 
+  getRequestData(){
+    return this.request.body;
+  }
+
   ok<T>(args: T, message: string){
     this.jsonResponse(true, 200, message, args);
   }
@@ -56,7 +60,7 @@ export class ExpressInteractor implements IInteractor {
   }
 
   fail(message: string, error: ExceptionBase, metadata: Record<string, any>) {
-    console.log(error);
+    console.error(error);
     this.jsonResponse(true, 500, message, null, error.toJSON());
   }
   

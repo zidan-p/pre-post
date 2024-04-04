@@ -11,6 +11,12 @@ export abstract class BaseController{
   ){}
 
 
+  // this is called by router
+  execute(){
+    const body: any = this.interactor.getRequestData();
+    return this.executeImpl(body);
+  }
+
 
   ok<T> (args: T, message?: string){
     return this.interactor.ok(args, message);

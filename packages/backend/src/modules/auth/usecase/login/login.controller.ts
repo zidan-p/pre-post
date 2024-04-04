@@ -24,13 +24,14 @@ export class LoginController extends BaseController {
   
         switch (error.constructor) {
           case LoginUseCaseErrors.EmailOrPasswordError:
-            return this.notFound(error.getErrorValue().message)
+            return this.notFound(error.getErrorValue().message, error.getErrorValue()?.metadata);
           default:
             return this.fail(error.getErrorValue().message, error.getErrorValue());
         }
         
       } else {
-        return this.ok(result);
+        const dto = result.value
+        return this.ok(dto.getValue());
       }
 
     } catch (err) {

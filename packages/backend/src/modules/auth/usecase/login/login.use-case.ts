@@ -31,9 +31,18 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
     let password: UserPassword;
 
     try {
-      
+
+      console.log(request);
       const userEmailOrError = UserEmail.create(request.email);
+
+      if(userEmailOrError.isFailure){
+        console.error(userEmailOrError.getErrorValue().message);
+      }
       const passwordOrError = UserPassword.create({ value: request.password });
+      if(passwordOrError.isFailure){
+        console.error(passwordOrError.getErrorValue().message);
+      }
+
       const payloadResult = Result.combine([ userEmailOrError, passwordOrError ]);
 
       if (payloadResult.isFailure) {
@@ -44,7 +53,8 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       password = passwordOrError.getValue();
 
       user = await this.userRepo.getUserByUserEmail(userEmail);
-      const userFound = !!user;
+      console.log(user)
+      const userFound = Boolean(user);
 
       if (!userFound) {
         return left(new LoginUseCaseErrors.EmailOrPasswordError())
