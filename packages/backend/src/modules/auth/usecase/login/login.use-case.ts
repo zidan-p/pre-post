@@ -56,18 +56,19 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       userEmail = userEmailOrError.getValue();
       password = passwordOrError.getValue();
 
+      console.log(userEmail, password)
       user = await this.userRepo.getUserByUserEmail(userEmail);
       console.log(user)
       const userFound = Boolean(user);
 
       if (!userFound) {
-        return left(new LoginUseCaseErrors.EmailOrPasswordError())
+        return left(new LoginUseCaseErrors.EmailOrPasswordError("user not found"))
       }
 
       const passwordValid = await user.password.comparePassword(password.value);
 
       if (!passwordValid) {
-        return left(new LoginUseCaseErrors.EmailOrPasswordError())
+        return left(new LoginUseCaseErrors.EmailOrPasswordError("error when login"))
       }
 
       const accessToken: JWTToken = this.authService.signJWT({

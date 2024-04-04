@@ -5,8 +5,8 @@ import { ArgumentInvalidException, ValidationFailException } from "~/common/exce
 export namespace LoginUseCaseErrors {
 
   export class EmailOrPasswordError extends Result<UseCaseError> {    
-    constructor () {
-      super(false, new ArgumentInvalidException("Error with email or password"))
+    constructor (message: string = "Error with email or password") {
+      super(false, new ArgumentInvalidException(message))
     }
   }
 

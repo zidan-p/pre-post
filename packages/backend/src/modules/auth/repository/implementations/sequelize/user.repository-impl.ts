@@ -40,7 +40,7 @@ export class SequelizeUserRepo implements IUserRepo {
     return UserMap.toDomain(this.processUserRaw(user));
   }
 
-  async getUserByUserEmail(email: string | UserEmail): Promise<User> {
+  async getUserByUserEmail(email: string | UserEmail): Promise<User | null> {
     let emailString: string;
     if(email instanceof UserEmail)
       emailString = email.value;
@@ -51,11 +51,13 @@ export class SequelizeUserRepo implements IUserRepo {
       where: {email: emailString}
     })
 
+    if(!user) return null;
+
     return UserMap.toDomain(this.processUserRaw(user));
   }
 
 
-  async getUserByUserName(username: string | UserName): Promise<User> {
+  async getUserByUserName(username: string | UserName): Promise<User | null> {
     let usernameString: string;
     if(username instanceof UserName)
       usernameString = username.value;
@@ -65,6 +67,8 @@ export class SequelizeUserRepo implements IUserRepo {
     const user = await this.userModel.findOne({
       where: {username: usernameString}
     })
+
+    if(!user) return null;
 
     return UserMap.toDomain(this.processUserRaw(user));
   }

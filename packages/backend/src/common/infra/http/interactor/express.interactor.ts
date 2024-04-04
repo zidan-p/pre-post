@@ -61,7 +61,7 @@ export class ExpressInteractor implements IInteractor {
 
   fail(message: string, error: ExceptionBase, metadata: Record<string, any>) {
     console.error(error);
-    this.jsonResponse(false, 500, message, null, error.toJSON());
+    this.jsonResponse(false, 500, message, null, error?.toJSON());
   }
   
 }
