@@ -21,6 +21,27 @@ export abstract class BaseController{
     return this.executeImpl(body);
   }
 
+  // return specified field, if not then return all data
+  getBody(bodyField?: string){
+    if(!this.interactor){
+      console.error("interactor haven't been initialized");
+      return;
+    }
+
+    if(bodyField) return this.interactor.getRequestData(bodyField);
+    return this.interactor.getRequestData();
+  }
+
+  // return specified field, if not then return all data
+  getHeader(headerField?: string){
+    if(!this.interactor){
+      console.error("interactor haven't been initialized");
+      return;
+    }
+
+    if(headerField) return this.interactor.getHeaderData(headerField);
+    return this.interactor.getHeaderData();
+  }
 
   ok<T> (args: T, message?: string){
     if(!this.interactor){
@@ -45,6 +66,7 @@ export abstract class BaseController{
     }
     return this.interactor.clientError(message, metadata);
   }; 
+
   unauthorized (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");
@@ -52,6 +74,7 @@ export abstract class BaseController{
     }
     return this.interactor.unauthorized(message, metadata);
   } 
+
   paymentRequired (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");
@@ -59,6 +82,7 @@ export abstract class BaseController{
     }
     return this.interactor.paymentRequired(message, metadata);
   }
+
   forbidden (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");
@@ -66,6 +90,7 @@ export abstract class BaseController{
     }
     return this.interactor.forbidden(message, metadata);
   }
+
   notFound (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");
@@ -73,6 +98,7 @@ export abstract class BaseController{
     }
     return this.interactor.notFound(message, metadata);
   }
+
   conflict (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");
@@ -80,6 +106,7 @@ export abstract class BaseController{
     }
     return this.interactor.conflict(message, metadata);
   }
+  
   tooMany (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor haven't been initialized");

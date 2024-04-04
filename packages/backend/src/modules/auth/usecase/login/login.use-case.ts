@@ -72,12 +72,20 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
         username: user.username.value,
         email: user.email.value,
         isEmailVerified: user.isEmailVerified,
-        userId: user.userId.getStringValue(),
+        id: user.userId.getStringValue(),
         adminUser: user.isAdminUser,
       });
 
+      const refreshToken: JWTToken = this.authService.signRefreshJWT({
+        username: user.username.value,
+        email: user.email.value,
+        isEmailVerified: user.isEmailVerified,
+        id: user.userId.getStringValue(),
+        adminUser: user.isAdminUser,
+      })
+
       return right(Result.ok<LoginDTOResponse>({
-        accessToken
+        accessToken, refreshToken
       }));
 
 

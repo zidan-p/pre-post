@@ -13,7 +13,9 @@ export class LoginController extends BaseController {
     this.useCase = useCase;
   }
   
-  async executeImpl(payloadBody: LoginDTO) {
+  async executeImpl() {
+
+    const payloadBody = this.getBody() as LoginDTO;
 
     try {
       const result = await this.useCase.execute(payloadBody);

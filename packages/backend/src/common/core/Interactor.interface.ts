@@ -6,7 +6,8 @@ import { ExceptionBase } from "../exceptions";
 
 export interface IInteractor {
 
-  getRequestData(): any;
+  getRequestData(field?:string): any;
+  getHeaderData(field?:string): any;
 
   ok<T> (args: T, message?:string): any;
   created (message: string, metadata: Record<string, any>):any ;

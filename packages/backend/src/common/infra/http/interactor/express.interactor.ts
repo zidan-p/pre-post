@@ -25,8 +25,14 @@ export class ExpressInteractor implements IInteractor {
     })
   }
 
-  getRequestData(){
+  getRequestData(field?:string){
+    if(field) return this.request.body[field];
     return this.request.body;
+  }
+
+  getHeaderData(field?:string){
+    if(field) return this.request.header[field];
+    return this.request.header;
   }
 
   ok<T>(args: T, message: string){

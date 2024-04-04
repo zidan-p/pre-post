@@ -1,6 +1,6 @@
 
 export interface JWTClaims {
-  userId: string;
+  id: string;
   isEmailVerified: boolean;
   email: string;
   username: string;

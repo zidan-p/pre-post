@@ -9,12 +9,12 @@ import { sign, verify } from 'jsonwebtoken'
 export class AuthServiceImpl implements IAuthService{
   
   signJWT(props: JWTClaims): string {
-    const token = sign(props, authConfig.secret, {expireIn: authConfig.tokenExpiryTime});
+    const token = sign(props, authConfig.secret, {expiresIn: authConfig.tokenExpiryTime});
     return token
   }
 
   signRefreshJWT(props: JWTClaims): string {
-    return sign(props, authConfig.refreshSecret, {expireIn: authConfig.refreshTokenExpireTime});
+    return sign(props, authConfig.refreshSecret, {expiresIn: authConfig.refreshTokenExpireTime});
     
   }
   
