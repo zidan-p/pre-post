@@ -7,4 +7,5 @@ export interface LoginDTO {
 
 export interface LoginDTOResponse {
   accessToken: JWTToken;
+  refreshToken: JWTToken;
 }
