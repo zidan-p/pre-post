@@ -4,6 +4,7 @@ import {
   ARGUMENT_NOT_PROVIDED,
   ARGUMENT_OUT_OF_RANGE,
   CONFLICT,
+  EXPIRED,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   VALIDATION_FAIL,
@@ -83,6 +84,15 @@ export class InternalServerErrorException extends ExceptionBase {
   readonly code = INTERNAL_SERVER_ERROR;
 }
 
+export class ExpiredException extends ExceptionBase{
+  static readonly message = "Expire";
+
+  constructor(message = ExpiredException.message, cause?: Error){
+    super(message, cause);
+  }
+
+  readonly code = EXPIRED
+}
 
 
 export class ValidationFailException extends ExceptionBase{
