@@ -43,7 +43,7 @@ export class LoginController extends BaseController {
       }
 
     } catch (err) {
-      return this.fail("unexpexted error eccured");
+      return this.fail("unexpexted error eccured", err);
     }
   }
 

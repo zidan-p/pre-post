@@ -4,7 +4,7 @@ import { IInteractor } from "./Interactor.interface";
 
 export abstract class BaseController{
 
-  protected abstract executeImpl(...args: any[]): Promise<any>;
+  abstract executeImpl(...args: any[]): Promise<any>;
   
   private interactor: IInteractor | undefined;
 
