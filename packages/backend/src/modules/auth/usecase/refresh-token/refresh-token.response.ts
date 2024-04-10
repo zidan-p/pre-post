@@ -8,6 +8,8 @@ import { AppError } from "~/common/core/AppError";
 
 export type RefresTokenResponse = Either<
   RefresTokenUseCaseError.ExpireRefreshToken |
+  RefresTokenUseCaseError.MalformedToken |
+  RefresTokenUseCaseError.UserNotFound |
   AppError.UnexpectedError,
   Result<any> |
   Result<RefreshTokenResponseDTO>

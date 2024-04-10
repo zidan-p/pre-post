@@ -6,8 +6,19 @@ import { ExpressInteractor } from '~/common/infra/http/interactor/express.intera
 
 const authRouter = Router();
 
-const loginController = authControllerFactory.createLoginController();
-authRouter.post("/login", (req, res) => loginController.executeRequest(new ExpressInteractor(req, res)));
+// const loginController = authControllerFactory.createLoginController();
+authRouter.post(
+  "/login", 
+  (req, res) => authControllerFactory
+    .getLoginController()
+    .executeRequest(new ExpressInteractor(req, res))
+);
 
+authRouter.post(
+  "/refresh-token", 
+  (req, res) => authControllerFactory
+    .getRefreshTokenController()
+    .executeRequest(new ExpressInteractor(req, res))
+);
 
 export {authRouter};

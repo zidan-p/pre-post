@@ -36,7 +36,7 @@ export class SequelizeUserRepo implements IUserRepo {
   }
 
   async getUserByUserId(userId: string): Promise<User | null> {
-    const user = await this.userModel.findByPk(userId);
+    const user = await this.userModel.findByPk(Number(userId));
     return UserMap.toDomain(this.processUserRaw(user));
   }
 

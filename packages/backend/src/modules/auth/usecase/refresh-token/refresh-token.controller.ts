@@ -29,6 +29,10 @@ export class RefreshTokenController extends BaseController{
           case error instanceof RefresTokenUseCaseError.UserNotFound:
             return this.notFound(error.getErrorValue().message, error.getErrorValue().metadata);
 
+          case error instanceof RefresTokenUseCaseError.MalformedToken:
+            console.error(error.getErrorValue());
+            return this.clientError(error.getErrorValue().message, error.getErrorValue().metadata);
+
           default:
             return this.fail(error.getErrorValue().message, error.getErrorValue());
         }

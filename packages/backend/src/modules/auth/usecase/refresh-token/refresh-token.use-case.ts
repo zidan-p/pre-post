@@ -27,14 +27,13 @@ export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<Ref
 
     try {
 
-      try {
-        decodedRefreshToken = await  this.authService.decodeRefreshJWT(request.refreshToken);
-      } catch (error) {
-        return left(new RefresTokenUseCaseError.ExpireRefreshToken());
-      }
+      const isTokenValid = this.authService.isTokenValid(request.refreshToken);
+      if(!isTokenValid) return left( new RefresTokenUseCaseError.MalformedToken());
+
+      decodedRefreshToken = await this.authService.decodeRefreshJWT(request.refreshToken);
+      if(!decodedRefreshToken) return left(new RefresTokenUseCaseError.ExpireRefreshToken());
 
       user = await this.userRepo.getUserByUserId(decodedRefreshToken.id);
-
       if(!user) return left( new RefresTokenUseCaseError.UserNotFound());
 
 

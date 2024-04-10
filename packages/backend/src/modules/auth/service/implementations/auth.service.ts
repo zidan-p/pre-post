@@ -21,7 +21,10 @@ export class AuthServiceImpl implements IAuthService{
   decodeJWT(token: string): Promise<JWTClaims> {
     return new Promise((resolve, reject) => {
       verify(token, authConfig.secret, (err, decoded) => {
-        if (err) return resolve(null);
+        if (err){ 
+          console.error(err);
+          return resolve(null)
+        }
         return resolve(decoded);
       });
     })
@@ -30,10 +33,47 @@ export class AuthServiceImpl implements IAuthService{
   decodeRefreshJWT(token: string): Promise<JWTClaims> {
     return new Promise((resolve, reject) => {
       verify(token, authConfig.refreshSecret, (err, decoded) => {
-        if (err) return resolve(null);
+        if (err){ 
+          console.error(err);
+          return resolve(null)
+        };
         return resolve(decoded);
       });
     })
+  }
+
+  isTokenValid(token: string): boolean {
+    try {
+      // Split the token into its parts
+      const parts = token.split('.');
+      
+      // Check if there are three parts
+      if (parts.length !== 3) {
+          return false;
+      }
+      
+      // Decode the header
+      const header = JSON.parse(Buffer.from(parts[0], 'base64').toString('utf8'));
+      
+      // Decode the payload
+      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
+      
+      // Check if the header and payload are objects
+      if (typeof header !== 'object' || typeof payload !== 'object') {
+          return false;
+      }
+      
+      // Check if the token has a signature
+      if (!parts[2]) {
+          return false;
+      }
+      
+      // If all checks pass, return true
+      return true;
+    } catch (err) {
+        // If any error occurs, return false
+        return false;
+    }
   }
 
 }
