@@ -1,4 +1,4 @@
-import { PrePostLoggger } from "~/common/infra/logger/winston/pre-post-logger.winston";
+import { WinstonPrePostLoggger } from "~/common/infra/logger/winston/pre-post-logger.winston";
 /**
  * the implementation of ther core...
  * 
@@ -10,4 +10,6 @@ import { PrePostLoggger } from "~/common/infra/logger/winston/pre-post-logger.wi
  */
 
 
-export const defaultLogger = new PrePostLoggger("Pre Post Service")
+export class PrePostLogger extends WinstonPrePostLoggger { 
+  constructor(){ super("pre-post-service") }
+}

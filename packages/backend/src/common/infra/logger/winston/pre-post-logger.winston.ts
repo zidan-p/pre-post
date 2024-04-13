@@ -111,7 +111,7 @@ const fileFormat = combine(
   json()
 )
 
-export class PrePostLoggger implements IPrePostLogger {
+export class WinstonPrePostLoggger implements IPrePostLogger {
 
   private logger: NestCustomLevels;
   private name : string;

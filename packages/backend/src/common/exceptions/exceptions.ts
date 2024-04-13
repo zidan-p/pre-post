@@ -7,6 +7,7 @@ import {
   EXPIRED,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
+  UNSAVED_ENTITY,
   VALIDATION_FAIL,
 } from '.';
 import { ExceptionBase } from './exception.base';
@@ -111,5 +112,15 @@ export class ZodValidationException extends ValidationFailException{
 
   constructor(message, err: ZodError){
     super(message, err);
+  }
+}
+
+
+export class UnsavedEntityException extends ExceptionBase {
+  static readonly message = "Entity have not saved before processing";
+  readonly code = UNSAVED_ENTITY;
+  
+  constructor(message = UnsavedEntityException.message, cause?: Error){
+    super(message, cause)
   }
 }
