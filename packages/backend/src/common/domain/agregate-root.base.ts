@@ -3,7 +3,7 @@ import { IDomainEvent } from "./events/domain-event.interface";
 import { DomainEvents } from "./events/domain-event";
 import { UniqueEntityID } from "./unique-entitiy";
 
-export abstract class AggregateRoot<T> extends Entity<T> {
+export abstract class AggregateRoot<TProps> extends Entity<TProps> {
   private _domainEvents: IDomainEvent[] = [];
 
   get id (): UniqueEntityID {

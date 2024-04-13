@@ -1,7 +1,7 @@
 
 export type GuardResponse = string;
 
-import { ArgumentInvalidException, ArgumentOutOfRangeException } from "../exceptions";
+import { ArgumentInvalidException, ArgumentNotProvidedException, ArgumentOutOfRangeException } from "../exceptions";
 import { Result } from "./Result";
 
 export interface IGuardArgument {
@@ -41,7 +41,7 @@ export class Guard {
 
   public static againstNullOrUndefined (argument: any, argumentName: string): Result<GuardResponse> {
     if (argument === null || argument === undefined) {
-      return Result.fail<GuardResponse>(new ArgumentInvalidException(`${argumentName} is null or undefined`))
+      return Result.fail<GuardResponse>(new ArgumentNotProvidedException(`${argumentName} is null or undefined`))
     } else {
       return Result.ok<GuardResponse>();
     }

@@ -25,7 +25,8 @@
       "~/modules/*": ["./modules/*"],
       "~/config/*": ["./config/*"],
       "~/auth/*": ["./modules/auth/*"],
-      "~/post/*": ["./modules/post/*"]
+      "~/post/*": ["./modules/post/*"],
+      "~/infra/*": ["./modules/common/infra/*"]
     }
   },
   "include": ["src/**/*.ts"],
