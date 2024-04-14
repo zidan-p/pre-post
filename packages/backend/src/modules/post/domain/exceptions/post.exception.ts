@@ -1,5 +1,5 @@
 import { Result } from "~/common/core/Result";
-import { UnsavedEntityException } from "~/common/exceptions";
+import { InvalidStateException, UnsavedEntityException } from "~/common/exceptions";
 
 
 interface IDomainError {
@@ -22,4 +22,17 @@ export namespace PostDomainErrors {
       super(false, new UnsavedEntityException(message));
     }
   }
+
+  export class NoNewImage extends Result<DomainError, InvalidStateException>{
+    constructor(message : string = "No new image added for this domain"){
+      super(false, new InvalidStateException(message));
+    }
+  }
+
+  export class InvalidOldImageState extends Result<DomainError, InvalidStateException>{
+    constructor(message : string = "previouse image have not been deleted"){
+      super(false, new InvalidStateException(message));
+    }
+  }
+
 }

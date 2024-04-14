@@ -6,6 +6,7 @@ import {
   CONFLICT,
   EXPIRED,
   INTERNAL_SERVER_ERROR,
+  INVALID_STATE,
   NOT_FOUND,
   UNSAVED_ENTITY,
   VALIDATION_FAIL,
@@ -115,12 +116,28 @@ export class ZodValidationException extends ValidationFailException{
   }
 }
 
-
+/**
+ * when the entity have not been saved in database before performing certain 
+ * operation. like get the data or relation of related entity.
+ */
 export class UnsavedEntityException extends ExceptionBase {
   static readonly message = "Entity have not saved before processing";
   readonly code = UNSAVED_ENTITY;
   
   constructor(message = UnsavedEntityException.message, cause?: Error){
+    super(message, cause)
+  }
+}
+
+/**
+ * when some of the domain properties have invalid value that
+ * next operation can't be accesed.
+ */
+export class InvalidStateException extends ExceptionBase {
+  static readonly message = "Invalid state";
+  readonly code = INVALID_STATE;
+  
+  constructor(message = InvalidStateException.message, cause?: Error){
     super(message, cause)
   }
 }
