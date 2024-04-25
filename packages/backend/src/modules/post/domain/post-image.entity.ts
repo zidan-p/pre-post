@@ -14,6 +14,7 @@ import { ArgumentInvalidException } from "~/common/exceptions";
 
 export interface PostImageProps extends ICommonFile {
   imageType: "post-image";
+  group: "post/image"
 
   isDeleted?: boolean;
   isSaved?: boolean; // is already saved in database
@@ -47,7 +48,7 @@ export class PostImage extends Entity<PostImageProps>{
         new ArgumentInvalidException('the imageType should be "post-image", [ ' + props.imageType + " ] provided")
       );
 
-    return Result.ok<void>();
+    return Result.ok<PostImage>();
   }
 
   public static create (props: PostImageProps, id?: UniqueEntityID){
@@ -58,7 +59,7 @@ export class PostImage extends Entity<PostImageProps>{
       { argument: props.size, argumentName: 'createdAt' },
     ]);
 
-    if(nullGuard.isFailure) return nullGuard; // return the fail result
+    if(nullGuard.isFailure) return nullGuard as unknown as Result<PostImage>; // return the fail result
 
     const validation = this.validation(props);
 

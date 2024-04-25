@@ -24,7 +24,7 @@ export class PostContent extends ValueObject<PostContentProps>{
   public static create(props: PostContentProps){
     const nullGuard = Guard.againstNullOrUndefined(props.value, "post content value");
 
-    if(nullGuard.isFailure) return nullGuard;
+    if(nullGuard.isFailure) return nullGuard as unknown as Result<PostContent>;
 
     return Result.ok<PostContent>(new PostContent(props));
   }

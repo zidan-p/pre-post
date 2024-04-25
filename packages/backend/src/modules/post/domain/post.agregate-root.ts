@@ -8,16 +8,19 @@ import { Result } from "~/common/core/Result";
 import { PostDomainErrors } from "./exceptions/post.exception";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { Guard } from "~/common/core/Guard";
+import { PostImageManager } from "./post-image.manager";
+import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 
 
 
 interface PostProps{
   postTitle: PostTitle;
   postContent: PostContent;
-  postImage?: PostImage;
+  postImageManager: SingleImageManager<PostImage>;
 
   /** hold new image value when you want to update it */
-  newPostImage?: PostImage;
+  // postImage?: PostImage;
+  // newPostImage?: PostImage;
   ownerId: UserId;
 
   isPublised: boolean;
@@ -34,7 +37,8 @@ export class Post extends AggregateRoot<PostProps>{
   get postId(): PostId{ return PostId.create(this._id).getValue() }
   get postTitle(): PostTitle {return this.props.postTitle}
   get postContent(): PostContent {return this.props.postContent}
-  get postImage(): PostImage {return this.props.postImage}
+  get postImage(): PostImage {return this.props.postImageManager.getImage}
+  get imageManager(): PostImageManager { return this.props.postImageManager }
   get ownerId(): UserId {return this.props.ownerId}
   get isPublished(): boolean { return this.props.isPublised }
   get dateTimeCreated(): Date { return this.props.dateTimeCreated }
@@ -55,37 +59,6 @@ export class Post extends AggregateRoot<PostProps>{
   }
 
   
-  public removeImage(){
-    if(this.props.postImage)
-      this.props.postImage.delete();
-  }
-
-  public changeImage(image: PostImage){
-    if(!image.isSaved){
-      return new PostDomainErrors.ImageNotSavedInDatabase("image " + image.name + " hasn't been saved in the database ")
-    }
-
-    if(this.postImage) this.postImage.delete();
-
-    this.props.newPostImage = image;
-
-    return Result.ok<void>();
-  }
-
-  public attachNewImage(){
-    if(!this.props.newPostImage)
-      return new PostDomainErrors.NoNewImage();
-
-    if(!this.props.postImage){
-      if(!this.props.postImage.isDeleted)
-        return new PostDomainErrors.InvalidOldImageState();
-    }
-    this.props.postImage = this.props.postImage;
-    delete this.props.newPostImage;
-
-    return Result.ok<void>();
-  }
-
   public updateTitle(title: PostTitle){
     this.props.postTitle = title;
     return Result.ok<void>();
@@ -108,6 +81,7 @@ export class Post extends AggregateRoot<PostProps>{
       {argument: payload.ownerId, argumentName: "ownerId"},
       {argument: payload.postContent, argumentName: "postContent"},
       {argument: payload.postTitle, argumentName: "postTitle"},
+      {argument: payload.postImageManager, argumentName: "postImageManager"}
     ]);
 
     if(nullGuard.isFailure) return nullGuard;
