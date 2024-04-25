@@ -37,6 +37,7 @@ export class PostImage extends Entity<PostImageProps>{
   get imageType(): string { return this.props.imageType }
   get isDeleted() { return this.props.isDeleted }
   get isSaved() { return this.props.size }
+  get group() {return this.props.group}
 
   public delete(){
     if(!this.props.isDeleted) this.props.isDeleted = true;

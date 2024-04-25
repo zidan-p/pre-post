@@ -1,6 +1,6 @@
 import { Result } from "~/common/core/Result";
 import { ValueObject } from "../Value-object";
-import { ImageDomainErrors } from "../exception/image.exception";
+import { SingleImageManagerDomainErrors } from "../exception/image.exception";
 import { ICommonFile } from "./common-file.interface";
 import { CommonImageEntity } from "./common-image.entity.base";
 
@@ -26,7 +26,7 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
 
   public changeImage(image: TImage){
     if(!image.isSaved){
-      return new ImageDomainErrors.UnsavedImage("image " + image.name + " hasn't been saved in the database ")
+      return new SingleImageManagerDomainErrors.UnsavedImage<SingleImageManager<TImage>>("image " + image.name + " hasn't been saved in the database ")
     }
 
     if(this.props.currentImage) this.props.currentImage.delete();
@@ -38,11 +38,11 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
 
   public attachNewImage(){
     if(!this.props.newImage)
-      return new ImageDomainErrors.NoNewImage();
+      return new SingleImageManagerDomainErrors.NoNewImage<SingleImageManager<TImage>>();
 
     if(!this.props.currentImage){
       if(!this.props.currentImage.isDeleted)
-        return new ImageDomainErrors.InvalidOldImageState();
+        return new SingleImageManagerDomainErrors.InvalidOldImageState<SingleImageManager<TImage>>();
     }
     this.props.currentImage = this.props.currentImage;
     delete this.props.newImage;
@@ -52,11 +52,11 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
 
   public static create<TImage extends CommonImageEntity>(props: ISingleImageManagerProps<TImage>){
     if(props.currentImage || !props.currentImage.isSaved){
-      return new ImageDomainErrors.UnsavedImage("image " + props.currentImage.name + " hasn't been saved in the database ")
+      return new SingleImageManagerDomainErrors.UnsavedImage<SingleImageManager<TImage>>("image " + props.currentImage.name + " hasn't been saved in the database ")
     }
 
     if(props.newImage || !props.newImage.isSaved){
-      return new ImageDomainErrors.UnsavedImage("image " + props.newImage.name + " hasn't been saved in the database ")
+      return new SingleImageManagerDomainErrors.UnsavedImage<SingleImageManager<TImage>>("image " + props.newImage.name + " hasn't been saved in the database ")
     }
     return Result.ok<SingleImageManager<TImage>>(new SingleImageManager(props));
   }

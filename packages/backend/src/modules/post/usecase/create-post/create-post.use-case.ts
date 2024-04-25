@@ -10,11 +10,11 @@ import { Result, left } from "~/common/core/Result";
 import { CreatePostResponse } from "./create-post.response";
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { CreatePostUseCaseErrors } from "./create-post.error";
-import { PostImageManager } from "../../domain/post-image.manager";
 import { IImageRepo } from "../../repository/image.repository.port";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IPostRepo } from "../../repository/post.repository.port";
 import { IPostImageRepo } from "../../repository/post-image.repository.port";
+import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 
 
 
@@ -29,7 +29,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
   async execute(request: CreatePostDTORequest): Promise<CreatePostResponse> {
     let post: Post;
-    let postImageManager: PostImageManager;
+    let postImageManager: SingleImageManager<PostImage>;
     let postTitle: PostTitle;
     let postContent: PostContent;
     let userId: UserId;
@@ -50,7 +50,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       const postImage = postImageOrError.getValue();
       this.postImageRepository.save(postImage);
       
-      const postImageManagerOrError = PostImageManager.create({currentImage: postImage});
+      const postImageManagerOrError = SingleImageManager.create({currentImage: postImage});
       if(postImageManagerOrError.isFailure)
         return left(new CreatePostUseCaseErrors.InvalidImageManagerProps(postImageManagerOrError.getErrorValue()));
       

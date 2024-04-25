@@ -8,7 +8,6 @@ import { Result } from "~/common/core/Result";
 import { PostDomainErrors } from "./exceptions/post.exception";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { Guard } from "~/common/core/Guard";
-import { PostImageManager } from "./post-image.manager";
 import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 
 
@@ -38,7 +37,7 @@ export class Post extends AggregateRoot<PostProps>{
   get postTitle(): PostTitle {return this.props.postTitle}
   get postContent(): PostContent {return this.props.postContent}
   get postImage(): PostImage {return this.props.postImageManager.getImage}
-  get imageManager(): PostImageManager { return this.props.postImageManager }
+  get imageManager(): SingleImageManager<PostImage> { return this.props.postImageManager }
   get ownerId(): UserId {return this.props.ownerId}
   get isPublished(): boolean { return this.props.isPublised }
   get dateTimeCreated(): Date { return this.props.dateTimeCreated }
@@ -58,7 +57,7 @@ export class Post extends AggregateRoot<PostProps>{
     return Result.ok<void>();
   }
 
-  
+
   public updateTitle(title: PostTitle){
     this.props.postTitle = title;
     return Result.ok<void>();
