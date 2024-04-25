@@ -1,12 +1,12 @@
 import { UseCase } from "~/common/core/UseCase";
-import { CreatePostDTO, CreatePostDTORequest, CreatePostDTOResponse, CreatePostFiles } from "./create-post.dto";
+import { CreatePostDTORequest, CreatePostDTOResponse, CreatePostFiles } from "./create-post.dto";
 import { Post } from "../../domain/post.agregate-root";
 import { PostImage, PostImageProps } from "../../domain/post-image.entity";
 import { PostTitle } from "../../domain/post-title.value-object";
 import { PostContent } from "../../domain/post-content.value-object";
 import { UserId } from "../../domain/user-id.value-object";
 import { AppError } from "~/common/core/AppError";
-import { Result, left } from "~/common/core/Result";
+import { Result, left, right } from "~/common/core/Result";
 import { CreatePostResponse } from "./create-post.response";
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { CreatePostUseCaseErrors } from "./create-post.error";
@@ -36,6 +36,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
     try {
       const files = request.files;
+      const body = request.body;
       const postImageProps: PostImageProps = {...files.postImage, imageType: "post-image"};
       
       const postImageOrError = PostImage.create(postImageProps);
@@ -55,8 +56,8 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
         return left(new CreatePostUseCaseErrors.InvalidImageManagerProps(postImageManagerOrError.getErrorValue()));
       
       
-      const postTitleOrError = PostTitle.create({value: request.title});
-      const postContentOrError = PostContent.create({value: request.content});
+      const postTitleOrError = PostTitle.create({value: body.title});
+      const postContentOrError = PostContent.create({value: body.content});
 
       const combineresult = Result.combine([postTitleOrError, postContentOrError]);
 
@@ -66,10 +67,10 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       postTitle = postTitleOrError.getValue();
       postContent = postContentOrError.getValue();
 
-      const user = await this.userRepository.getUserByUserId(String(request.ownerId));
+      const user = await this.userRepository.getUserByUserId(String(body.ownerId));
 
       if(!user)
-        return left(new CreatePostUseCaseErrors.UserNotFound(request.ownerId, "user not found for id " + request.ownerId));
+        return left(new CreatePostUseCaseErrors.UserNotFound(body.ownerId, "user not found for id " + body.ownerId));
 
       userId = user.userId;
 
@@ -82,7 +83,15 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
         dateTimeCreated: new Date()
       })
 
+      if(postOrError.isFailure){
+        return left(new CreatePostUseCaseErrors.FailBuildingPost(postOrError.getErrorValue()));
+      }
 
+      post = postOrError.getValue();
+
+      this.postRepository.save(post);
+
+      return right(Result.ok({postId: post.id.toString() }));
 
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));

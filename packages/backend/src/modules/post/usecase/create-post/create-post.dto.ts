@@ -5,16 +5,18 @@ export interface CreatePostFiles{
   postImage: PostImageProps;
 }
 
-export interface CreatePostDTO{
+export interface CreatePostBody{
   ownerId: string | number;
   title: string;
   content: string;
   isPublished: boolean;
   dateTimeCreate: Date;
-  files: CreatePostFiles;
 }
 
-export interface CreatePostDTORequest extends CreatePostDTO, CreatePostDTO{}
+export interface CreatePostDTORequest {
+  body: CreatePostBody;
+  files: CreatePostFiles
+}
 
 
 export interface CreatePostDTOResponse{

@@ -8,6 +8,8 @@ export interface IInteractor {
 
   getRequestData(field?:string): any;
   getHeaderData(field?:string): any;
+  getFilesData(field?:string) : any;
+  getFileData(): any;
 
   ok<T> (args: T, message?:string): any;
   created (message: string, metadata: Record<string, any>):any ;

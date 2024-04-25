@@ -2,6 +2,7 @@ import { Result } from "~/common/core/Result";
 import { CreatePostDTOResponse } from "./create-post.dto";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
 import { UseCaseError } from "~/common/core/UseCaseError";
+import { BaseError } from "sequelize";
 
 
 
@@ -28,6 +29,12 @@ export namespace CreatePostUseCaseErrors {
   export class UserNotFound extends Result<UseCaseError, NotFoundException>{
     constructor(id?: string | number, message = "user not found"){
       super(false, new NotFoundException(message));
+    }
+  }
+
+  export class FailBuildingPost<TError extends ExceptionBase> extends Result<UseCaseError, TError>{
+    constructor(cause: TError){
+      super(false, cause);
     }
   }
 }

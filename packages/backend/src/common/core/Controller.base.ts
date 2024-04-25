@@ -43,6 +43,15 @@ export abstract class BaseController{
     return this.interactor.getHeaderData();
   }
 
+  // return the file name if any
+  getFiles(filename?: string){
+    if(filename){
+      return this.interactor.getFilesData(filename);
+    }
+
+    return this.interactor.getFilesData();
+  }
+
   ok<T> (args: T, message?: string){
     if(!this.interactor){
       console.error("interactor haven't been initialized");

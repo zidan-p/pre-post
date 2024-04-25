@@ -83,9 +83,9 @@ export class Post extends AggregateRoot<PostProps>{
       {argument: payload.postImageManager, argumentName: "postImageManager"}
     ]);
 
-    if(nullGuard.isFailure) return nullGuard;
+    if(nullGuard.isFailure) return Result.fail<Post>(nullGuard.getErrorValue());
     const validation = this.validation(payload);
-    if(validation.isFailure) return validation;
+    if(validation.isFailure) return Result.fail<Post>(validation.getErrorValue());
 
     const isNewInstance = !!id === false;
 

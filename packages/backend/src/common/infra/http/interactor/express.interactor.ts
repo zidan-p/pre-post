@@ -35,6 +35,20 @@ export class ExpressInteractor implements IInteractor {
     return this.request.header;
   }
 
+  // get only single file
+  getFileDate(){
+    return this.request.file;
+  }
+
+  // get multiple files
+  getFilesData(field?:string){
+    if(field){
+      return this.request.files[field];
+    }
+
+    return this.request.files;
+  }
+
   ok<T>(args: T, message: string){
     this.jsonResponse(true, 200, message, args);
   }
