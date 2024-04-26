@@ -7,6 +7,6 @@ export interface Mapper<
   TRaw extends Record<string, any> = Record<string, any> 
   >
 {
-  toDomain?: (raw: TRaw) => TEntity;
-  toPersistance?: (entity: TEntity) => TRaw;
+  toDomain: (raw: TRaw) => TEntity;
+  toPersistance: (entity: TEntity) => TRaw;
 }

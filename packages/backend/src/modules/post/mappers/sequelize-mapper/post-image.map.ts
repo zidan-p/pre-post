@@ -1,5 +1,5 @@
 import { Mapper } from "~/common/core/Mapper";
-import { PostImage } from "../domain/post-image.entity";
+import { PostImage } from "../../domain/post-image.entity";
 
 
 
@@ -13,9 +13,9 @@ export interface IPostImageRaw {
 }
 
 
-export class PostImageMapp implements Mapper<PostImage, IPostImageRaw>{
+export class PostImageMap implements Mapper<PostImage, IPostImageRaw>{
 
-  public static toDomain(raw: IPostImageRaw){
+  public toDomain(raw: IPostImageRaw){
     const postImageOrError = PostImage.create({
       size: raw.size,
       fileType: raw.file_type,
@@ -33,7 +33,7 @@ export class PostImageMapp implements Mapper<PostImage, IPostImageRaw>{
   };
 
 
-  public static toPersistance(entity: PostImage): IPostImageRaw | null{
+  public toPersistance(entity: PostImage): IPostImageRaw | null{
     if(!entity) return null;
     
     return {

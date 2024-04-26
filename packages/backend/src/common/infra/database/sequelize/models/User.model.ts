@@ -42,7 +42,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare hasPost: HasManyHasAssociationMixin<Post, number>;
   declare hasPosts: HasManyHasAssociationsMixin<Post, number>;
   declare countPosts: HasManyCountAssociationsMixin;
-  declare createPost: HasManyCreateAssociationMixin<Post, 'user_id'>;
+  declare createPost: HasManyCreateAssociationMixin<Post, 'owner_id'>;
 
     // You can also pre-declare possible inclusions, these will only be populated if you
   // actively include a relation.
@@ -59,9 +59,9 @@ export function initUser(sequelize: Sequelize){
   const definedUser = User.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
+        type: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING(250),
@@ -95,7 +95,7 @@ export function initUser(sequelize: Sequelize){
 
   User.hasMany(Post, {
     sourceKey: "id",
-    foreignKey: "user_id",
+    foreignKey: "owner_id",
     as: "posts",
     onDelete: 'cascade',
     onUpdate: 'cascade',
