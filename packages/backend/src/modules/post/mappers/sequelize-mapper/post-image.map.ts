@@ -12,6 +12,7 @@ export interface IPostImageRaw {
 
 }
 
+export type SequelizePostImageMapper = Mapper<PostImage, IPostImageRaw>;
 
 export class PostImageMap implements Mapper<PostImage, IPostImageRaw>{
 

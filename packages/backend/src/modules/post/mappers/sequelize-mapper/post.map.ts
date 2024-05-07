@@ -11,6 +11,7 @@ import { PostTitle } from "../../domain/post-title.value-object";
 
 
 interface IPostRaw {
+  id?: string;
   title: string;
   content: string;
   image: IPostImageRaw | null;
@@ -25,6 +26,8 @@ interface IPostRaw {
   date_time_posted?: Date; 
 }
 
+
+export type SequelizePostMapper = Mapper<Post, IPostRaw>;
 
 export class postMap implements Mapper<Post, IPostRaw> {
 
@@ -41,7 +44,7 @@ export class postMap implements Mapper<Post, IPostRaw> {
         currentImage: this.postImageMap.toDomain(raw.image)
       }).getValue() ?? null as SingleImageManager<PostImage>,
       postTitle: PostTitle.create({value: raw.title}).getValue() ?? null
-    })
+    }, new UniqueEntityID(raw?.id))
 
     if(postOrError.isFailure){
       console.error(postOrError.getErrorValue());

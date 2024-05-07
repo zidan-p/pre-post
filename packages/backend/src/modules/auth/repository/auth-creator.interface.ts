@@ -5,6 +5,6 @@ import { IUserRepo } from "./user.repository.port";
 
 
 
-export interface IAuthFactory{
+export interface IAuthCreator{
   userRepositoryCreator(...args: any): IUserRepo;
 }

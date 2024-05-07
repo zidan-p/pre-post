@@ -16,7 +16,7 @@ import { Post } from './Post.model';
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   // 'CreationOptional' is a special type that marks the field as optional
   // when creating an instance of the model (such as using Model.create()).
-  declare id: CreationOptional<number>;
+  declare id: CreationOptional<string>;
   declare name: string;
   declare password: string;
   declare email: string;
@@ -34,13 +34,13 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   // we have to declare them here purely virtually
   // these will not exist until `Model.init` was called.
   declare getPosts: HasManyGetAssociationsMixin<Post>; // Note the null assertions!
-  declare addPost: HasManyAddAssociationMixin<Post, number>;
-  declare addPosts: HasManyAddAssociationsMixin<Post, number>;
-  declare setPosts: HasManySetAssociationsMixin<Post, number>;
-  declare removePost: HasManyRemoveAssociationMixin<Post, number>;
-  declare removePosts: HasManyRemoveAssociationsMixin<Post, number>;
-  declare hasPost: HasManyHasAssociationMixin<Post, number>;
-  declare hasPosts: HasManyHasAssociationsMixin<Post, number>;
+  declare addPost: HasManyAddAssociationMixin<Post, string>;
+  declare addPosts: HasManyAddAssociationsMixin<Post, string>;
+  declare setPosts: HasManySetAssociationsMixin<Post, string>;
+  declare removePost: HasManyRemoveAssociationMixin<Post, string>;
+  declare removePosts: HasManyRemoveAssociationsMixin<Post, string>;
+  declare hasPost: HasManyHasAssociationMixin<Post, string>;
+  declare hasPosts: HasManyHasAssociationsMixin<Post, string>;
   declare countPosts: HasManyCountAssociationsMixin;
   declare createPost: HasManyCreateAssociationMixin<Post, 'owner_id'>;
 

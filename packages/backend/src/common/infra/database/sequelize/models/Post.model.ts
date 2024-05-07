@@ -30,6 +30,8 @@ export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<P
   declare owner?: NonAttribute<User>;
 }
 
+export type PostModelImplementation = typeof Post;
+
 export function initPost(sequelize: Sequelize){
   Post.init(
     {

@@ -1,5 +1,5 @@
 import { UserModelImplementation } from "~/common/infra/database/sequelize/models/User.model";
-import { IAuthFactory } from "../../auth-factory.interface";
+import { IAuthCreator } from "../../auth-creator.interface";
 import { IUserRepo } from "../../user.repository.port";
 import { SequelizeUserRepo } from "./user.repository-impl";
 
@@ -7,7 +7,7 @@ import { SequelizeUserRepo } from "./user.repository-impl";
 
 
 
-export class SequlizeAuthFactory implements IAuthFactory {
+export class SequlizeAuthFactory implements IAuthCreator {
 
   constructor(
     private readonly model: UserModelImplementation

@@ -28,6 +28,8 @@ export class PostImage extends Model<InferAttributes<PostImage>, InferCreationAt
   
 }
 
+export type PostImageModelImplementation = typeof PostImage;
+
 export function initPostImage(sequelize: Sequelize){
   PostImage.init(
     {
@@ -55,7 +57,7 @@ export function initPostImage(sequelize: Sequelize){
     }
   )
 
-  PostImage.belongsTo(Post, {as : "post", foreignKey: "image_id"})
+  PostImage.hasOne(Post, {as : "post", foreignKey: "image_id"})
 
   return PostImage;
 }
