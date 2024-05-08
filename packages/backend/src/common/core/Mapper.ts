@@ -8,5 +8,5 @@ export interface Mapper<
   >
 {
   toDomain: (raw: TRaw) => TEntity;
-  toPersistance: (entity: TEntity) => TRaw;
+  toPersistence: (entity: TEntity) => TRaw;
 }

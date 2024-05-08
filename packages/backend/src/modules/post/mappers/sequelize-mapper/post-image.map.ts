@@ -3,7 +3,7 @@ import { PostImage } from "../../domain/post-image.entity";
 
 
 
-export interface IPostImageRaw {
+export interface ISequelizePostImageRaw {
   name: string;
   size: number; // in vytes
   file_type: string; // mime type
@@ -12,11 +12,11 @@ export interface IPostImageRaw {
 
 }
 
-export type SequelizePostImageMapper = Mapper<PostImage, IPostImageRaw>;
+export type SequelizePostImageMapper = Mapper<PostImage, ISequelizePostImageRaw>;
 
-export class PostImageMap implements Mapper<PostImage, IPostImageRaw>{
+export class PostImageMap implements Mapper<PostImage, ISequelizePostImageRaw>{
 
-  public toDomain(raw: IPostImageRaw){
+  public toDomain(raw: ISequelizePostImageRaw){
     const postImageOrError = PostImage.create({
       size: raw.size,
       fileType: raw.file_type,
@@ -34,7 +34,7 @@ export class PostImageMap implements Mapper<PostImage, IPostImageRaw>{
   };
 
 
-  public toPersistance(entity: PostImage): IPostImageRaw | null{
+  public toPersistence(entity: PostImage): ISequelizePostImageRaw | null{
     if(!entity) return null;
     
     return {

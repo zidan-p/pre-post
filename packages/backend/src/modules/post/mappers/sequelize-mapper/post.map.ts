@@ -1,7 +1,7 @@
 import { Mapper } from "~/common/core/Mapper";
 import { Entity } from "~/common/domain/entity.base";
 import { Post } from "../../domain/post.agregate-root";
-import { IPostImageRaw, PostImageMap } from "./post-image.map";
+import { ISequelizePostImageRaw, PostImageMap } from "./post-image.map";
 import { UserId } from "../../domain/user-id.value-object";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { PostContent } from "../../domain/post-content.value-object";
@@ -10,11 +10,11 @@ import { PostImage } from "../../domain/post-image.entity";
 import { PostTitle } from "../../domain/post-title.value-object";
 
 
-interface IPostRaw {
+interface ISequelizePostRaw {
   id?: string;
   title: string;
   content: string;
-  image: IPostImageRaw | null;
+  image: ISequelizePostImageRaw | null;
 
   /** hold new image value when you want to update it */
   // postImage?: PostImage;
@@ -27,13 +27,13 @@ interface IPostRaw {
 }
 
 
-export type SequelizePostMapper = Mapper<Post, IPostRaw>;
+export type SequelizePostMapper = Mapper<Post, ISequelizePostRaw>;
 
-export class postMap implements Mapper<Post, IPostRaw> {
+export class postMap implements Mapper<Post, ISequelizePostRaw> {
 
   private readonly postImageMap = new PostImageMap();
 
-  public toDomain(raw: IPostRaw){
+  public toDomain(raw: ISequelizePostRaw){
     
     const postOrError = Post.create({
       dateTimeCreated: raw.date_time_created,
@@ -55,12 +55,12 @@ export class postMap implements Mapper<Post, IPostRaw> {
   } 
 
 
-  public toPersistance(entity: Post): IPostRaw{
+  public toPersistence(entity: Post): ISequelizePostRaw{
 
     return{
       title: entity.postTitle.value,
       content: entity.postContent.value,
-      image: this.postImageMap.toPersistance(entity.imageManager.getImage),
+      image: this.postImageMap.toPersistence(entity.imageManager.getImage),
       owner_id: entity.ownerId.getStringValue(),
       is_published: entity.isPublished,
       date_time_created: entity.dateTimeCreated,

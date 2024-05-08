@@ -15,6 +15,11 @@ export class ExpressInteractor implements IInteractor {
     private readonly response: Response,
   ){}
 
+  
+  getFileData() {
+    throw new Error("Method not implemented.");
+  }
+
   jsonResponse(status: boolean, statusCode: number, message: string, data?: any, error?: any){
     this.response.status(statusCode).json({
       success: status,

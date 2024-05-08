@@ -10,7 +10,7 @@ import { SequelizePostImageMapper } from "~/modules/post/mappers/sequelize-mappe
 
 
 
-export class postImageRepository implements IPostImageRepo{
+export class SequelizePostImageRepository implements IPostImageRepo{
 
   constructor(
     private readonly postImageMapper: SequelizePostImageMapper,
@@ -19,12 +19,11 @@ export class postImageRepository implements IPostImageRepo{
 
   async save(postImage: PostImage): Promise<SaveStatus> {
     const exist = this.exists(postImage.id.toString());
-    const postImageRaw = this.postImageMapper.toPersistance(postImage);
+    const postImageRaw = this.postImageMapper.toPersistence(postImage);
 
     if(!exist){ // is new
       await this.postImageModel.create(postImageRaw);
       return 1;
-        
     }else{
       await this.postImageModel.update(postImageRaw, {where: {id: postImage.id.toString()}});
       return 0;

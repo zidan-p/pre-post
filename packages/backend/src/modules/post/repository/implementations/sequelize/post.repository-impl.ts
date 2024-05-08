@@ -1,7 +1,7 @@
 import { Post } from "~/modules/post/domain/post.agregate-root";
 import { IPostRepo, saveStatus } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
-import { postImageRepository } from "./post-image.repository-impl";
+import { SequelizePostImageRepository } from "./post-image.repository-impl";
 import { SequelizePostMapper } from "~/modules/post/mappers/sequelize-mapper/post.map";
 
 
@@ -17,7 +17,7 @@ export class SequelizePostRepository implements IPostRepo {
     // raw that can be compared by typescript.
     private readonly postMapper: SequelizePostMapper,
     private readonly postModel: PostModelImplementation,
-    private readonly postImageRepository: postImageRepository
+    private readonly postImageRepository: SequelizePostImageRepository
   ) {}
 
   async exists(postId: string): Promise<boolean> {
@@ -30,7 +30,7 @@ export class SequelizePostRepository implements IPostRepo {
   async save(post: Post): Promise<saveStatus> {
     
     const exist = this.exists(post.postId.getStringValue());
-    const {image, ...postraw} = this.postMapper.toPersistance(post);
+    const {image, ...postraw} = this.postMapper.toPersistence(post);
 
     if(!exist){ // is new
       await this.postModel.create(postraw);
