@@ -8,7 +8,7 @@ type Created = 1;
 export type saveStatus = Created | Updated; 
 
 export interface IUserRepo {
-  exists (userEmail: string): Promise<boolean>;
+  exists (id: string): Promise<boolean>;
   existsByEmail (userEmail: string): Promise<boolean>;
   getUserByUserId (userId: string): Promise<User | null>;
   getUserByUserEmail (email: string): Promise<User | null>;

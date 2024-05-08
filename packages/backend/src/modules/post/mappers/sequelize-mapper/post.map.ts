@@ -10,7 +10,7 @@ import { PostImage } from "../../domain/post-image.entity";
 import { PostTitle } from "../../domain/post-title.value-object";
 
 
-interface ISequelizePostRaw {
+export interface ISequelizePostRaw {
   id?: string;
   title: string;
   content: string;
@@ -29,7 +29,7 @@ interface ISequelizePostRaw {
 
 export type SequelizePostMapper = Mapper<Post, ISequelizePostRaw>;
 
-export class postMap implements Mapper<Post, ISequelizePostRaw> {
+export class PostMap implements SequelizePostMapper {
 
   private readonly postImageMap = new PostImageMap();
 
