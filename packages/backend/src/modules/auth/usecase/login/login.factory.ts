@@ -1,11 +1,11 @@
-import { IUseCaseFactory } from "~/common/core/use-case.factory.interface";
+import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IAuthService } from "../../service/auth.service.interface";
 import { LoginController } from "./login.controller"
 import { LoginUseCase } from "./login.use-case";
 
 
-export class LoginFactory implements IUseCaseFactory{
+export class LoginFactory implements IUseCaseManager{
 
   private controller: LoginController;
   private useCase: LoginUseCase
@@ -26,7 +26,7 @@ export class LoginFactory implements IUseCaseFactory{
     return new LoginUseCase(this.userRepo, this.authService);
   }
 
-  getNewControllerInstance(){
+  createController(){
     return new LoginController(this.useCase);
   }
 

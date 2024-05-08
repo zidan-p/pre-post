@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/Controller.base";
 import { UseCase } from "~/common/core/UseCase";
-import { IUseCaseFactory } from "~/common/core/use-case.factory.interface";
+import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { RefreshTokenController } from "./refresh-token.controller";
 import { RefreshTokenUseCase } from "./refresh-token.use-case";
 import { IUserRepo } from "../../repository/user.repository.port";
@@ -8,7 +8,7 @@ import { IAuthService } from "../../service/auth.service.interface";
 
 
 
-export class RefreshTokenFactory implements IUseCaseFactory{
+export class RefreshTokenFactory implements IUseCaseManager{
 
 
   private controller: RefreshTokenController;
@@ -32,7 +32,7 @@ export class RefreshTokenFactory implements IUseCaseFactory{
   getNewUseCaseInstance(){
     return new RefreshTokenUseCase(this.userRepo, this.authService);
   };
-  getNewControllerInstance(){
+  createController(){
     return new RefreshTokenController(this.useCase);
   }
   

@@ -1,7 +1,7 @@
 import { BaseController } from "./Controller.base";
 import { UseCase } from "./UseCase";
 
-export interface IUseCaseFactory{
+export interface IUseCaseManager{
 
   getController ?: () => BaseController;
 
@@ -15,5 +15,5 @@ export interface IUseCaseFactory{
   /**
    * create new controller based on stored instance value
    */
-  getNewControllerInstance ?: () => BaseController;
+  createController ?: () => BaseController;
 }

@@ -7,6 +7,7 @@ import { IPostMapperFactory } from "~/modules/post/mappers/post-mapper.factory.i
 import { PostImageModelImplementation } from "~/common/infra/database/sequelize/models/PostImage.model";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { UserModelImplementation } from "~/common/infra/database/sequelize/models/User.model";
+import { IUserRepo } from "../../user.repository.port";
 
 
 
@@ -14,33 +15,35 @@ import { UserModelImplementation } from "~/common/infra/database/sequelize/model
 
 export class SequelizePostFactory implements IPostFactory{
 
+  private postImageRepo: SequelizePostImageRepository;
+  private postRepo: SequelizePostRepository;
+  private userRepo: IUserRepo;
+
   constructor(
     private readonly postMapperFactory: IPostMapperFactory,
     private readonly postImageModel: PostImageModelImplementation,
     private readonly postModel: PostModelImplementation,
     private readonly userModel: UserModelImplementation
   ){
-  }
-
-  createPostImageRepo(){
-    return new SequelizePostImageRepository(
-      this.postMapperFactory.createPostImageMapper(),
+    this.postImageRepo = new SequelizePostImageRepository(
+      postMapperFactory.createPostImageMapper(),
       this.postImageModel
-    )
-  }
-  createPostRepo(){
-    return new SequelizePostRepository(
+    );
+
+    this.postRepo = new SequelizePostRepository(
       this.postMapperFactory.createPostMapper(),
       this.postModel,
-      this.createPostRepo()
-    )
-  }
+      this.postImageRepo
+    );
 
-  createUserRepo(){
-    return new SequelizeUserRepository(
+    this.userRepo = new SequelizeUserRepository(
       this.postMapperFactory.createUserMapper(),
       this.userModel
-    )
+    );
   }
+
+  createPostImageRepo(){ return this.postImageRepo }
+  createPostRepo(){return this.postRepo}
+  createUserRepo(){return this.userRepo}
   
 }
