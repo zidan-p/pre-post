@@ -7,14 +7,11 @@ import { CreatePostUseCase } from "./create-post.use-case";
 
 
 
-
-
-
-
 export class CreatePostManager implements IUseCaseManager{
 
   private controller: CreatePostController;
   private useCase: CreatePostUseCase;
+  private postRepoFactory: IPostFactory
 
   constructor(postRepoFactory: IPostFactory){
 
@@ -31,11 +28,15 @@ export class CreatePostManager implements IUseCaseManager{
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new LoginUseCase(this.userRepo, this.authService);
+    return new CreatePostUseCase(
+      this.postRepoFactory.createPostImageRepo(),
+      this.postRepoFactory.createUserRepo(),
+      this.postRepoFactory.createPostRepo(),
+    )
   }
 
   createController(){
-    return new LoginController(this.useCase);
+    return new CreatePostController(this.useCase);
   }
 
 }
