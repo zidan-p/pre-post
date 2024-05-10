@@ -8,6 +8,7 @@ export interface IInteractor {
 
   getRequestData(field?:string): any;
   getHeaderData(field?:string): any;
+
   getFilesData(field?:string) : any;
   getFileData(): any;
 
