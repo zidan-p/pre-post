@@ -1,6 +1,6 @@
 import { DomainError } from "~/common/core/DomainError";
 import { Result } from "~/common/core/Result";
-import { InvalidStateException, UnsavedEntityException } from "~/common/exceptions";
+import { ConflictException, UnsavedEntityException } from "~/common/exceptions";
 import { CommonImageEntity } from "../common/common-image.entity.base";
 import { SingleImageManager } from "../common/single-image-manager.domain";
 
@@ -15,15 +15,15 @@ export namespace SingleImageManagerDomainErrors {
     }
   }
 
-  export class NoNewImage<TImage extends SingleImageManager<CommonImageEntity>> extends Result<TImage, InvalidStateException>{
+  export class NoNewImage<TImage extends SingleImageManager<CommonImageEntity>> extends Result<TImage, ConflictException>{
     constructor(message : string = "No new image added for this domain"){
-      super(false, new InvalidStateException(message));
+      super(false, new ConflictException(message));
     }
   }
 
-  export class InvalidOldImageState<TImage extends SingleImageManager<CommonImageEntity>> extends Result<TImage, InvalidStateException>{
+  export class InvalidOldImageState<TImage extends SingleImageManager<CommonImageEntity>> extends Result<TImage, ConflictException>{
     constructor(message : string = "previouse image have not been deleted"){
-      super(false, new InvalidStateException(message));
+      super(false, new ConflictException(message));
     }
   }
 }

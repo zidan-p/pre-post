@@ -1,3 +1,4 @@
+import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
 
 
@@ -9,8 +10,9 @@ export interface IInteractor {
   getRequestData(field?:string): any;
   getHeaderData(field?:string): any;
 
-  getFilesData(field?:string) : any;
-  getFileData(): any;
+  getFilesRecord(field?:string) : Record<string, ICommonFile[]> | ICommonFile[];
+  getSingleArrayFiles(): ICommonFile[];
+  getSingleFile(): ICommonFile;
 
   ok<T> (args: T, message?:string): any;
   created (message: string, metadata: Record<string, any>):any ;

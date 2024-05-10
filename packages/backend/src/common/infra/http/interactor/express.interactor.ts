@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import { IInteractor } from "~/common/core/Interactor.interface";
 import { ExceptionBase } from "~/common/exceptions";
 import { PrePostResponse } from "../response/reponse.type";
+import { ICommonFile } from "~/common/domain/common/common-file.interface";
 
 
 
 
-
+type ExpressFile = Express.Multer.File;
 
 export class ExpressInteractor implements IInteractor {
 
@@ -15,9 +16,23 @@ export class ExpressInteractor implements IInteractor {
     private readonly response: Response,
   ){}
 
+
+  serializeFile(file: Express.Multer.File): ICommonFile{
+    return {
+      fileType: file.mimetype,
+      name: file.filename,
+      size: file.size,
+      group: file.fieldname
+    }
+  }
+
   
-  getFileData() {
-    throw new Error("Method not implemented.");
+  getSingleFile() {
+    if(this.request.file){
+      const file = this.serializeFile(this.request.file);
+      return file;
+    }
+    return null;
   }
 
   jsonResponse(status: boolean, statusCode: number, message: string, data?: any, error?: any){
@@ -41,17 +56,35 @@ export class ExpressInteractor implements IInteractor {
   }
 
   // get only single file
-  getFileDate(){
-    return this.request.file;
+  getSingleArrayFiles(){
+    if(this.request?.files?.length){
+      const serializedFiles = (this.request.files as ExpressFile[])
+        .map(file => this.serializeFile(file));
+      return serializedFiles;
+    }
+    return null;
   }
 
   // get multiple files
-  getFilesData(field?:string){
+  getFilesRecord(field?:string): Record<string, ICommonFile[]> | ICommonFile[]{
     if(field){
-      return this.request.files[field];
+      if(!Array.isArray(this.request.files[field])){
+        console.error("uploaded file is not an array");
+        return null;
+      }
+      
+      const file = (this.request.files[field] as ExpressFile[])
+        .map(item => this.serializeFile(item));
+      return file;
     }
 
-    return this.request.files;
+    if(this.request.files){
+      const mappedFiles = objectMap(
+        (this.request.files as Record<string, ExpressFile[]>), 
+        items => items.map(item => this.serializeFile(item))  
+      );
+      return mappedFiles;
+    }
   }
 
   ok<T>(args: T, message: string){

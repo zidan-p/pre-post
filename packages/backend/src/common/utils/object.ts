@@ -8,12 +8,11 @@
  * @returns obec mapped object
  */
 function objectMap<
-  TRecord extends Record<string, TValue>, 
-  TValue , 
+  TRecord extends Record<string, any>, 
   TValueResult
 >(
   obj: TRecord, 
-  func: (arg: TValue) => TValueResult 
+  func: (arg: TRecord[keyof TRecord]) => TValueResult 
 )
   : Record<string, TValueResult> 
 {

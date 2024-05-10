@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UseCaseManagerFactory } from "~/common/core/use-case-manager.factory";
-import { ExpressInteractor } from "~/common/infra/http/interactor/express.interactor";
-
+import { ExpressInteractor } from "./express.interactor";
 
 
 

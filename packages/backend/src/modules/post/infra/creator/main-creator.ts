@@ -5,7 +5,7 @@ import { SequelizeMapperFactory } from "../../mappers/sequelize-mapper/sequelize
 import { SequelizePostFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
 import { CreatePostManager } from "../../usecase/create-post/create-post.manager";
 import { CREATE_POST } from "../../usecase/create-post/create-post.type";
-import { ExpressUseCaseManagerFactory } from "./express-use-case-manager";
+import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
 
 
 
@@ -21,6 +21,5 @@ const postRepositoryFactory = new SequelizePostFactory(
 );
 
 export const postUseCaseManagerFactory = new ExpressUseCaseManagerFactory();
-
 
 postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(postRepositoryFactory));

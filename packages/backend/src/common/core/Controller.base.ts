@@ -43,13 +43,36 @@ export abstract class BaseController{
     return this.interactor.getHeaderData();
   }
 
-  // return the file name if any
+  /**
+   * get file from interactor. 
+   * this method assume the file is stored in Record<string, IComminFile[]> format.
+   * @param filename 
+   * @returns 
+   */
   getFiles(filename?: string){
     if(filename){
-      return this.interactor.getFilesData(filename);
+      return this.interactor.getFilesRecord(filename);
     }
 
-    return this.interactor.getFilesData();
+    return this.interactor.getFilesRecord();
+  }
+
+  /**
+   * get array of file from one field.
+   * this method assume the file is stored in ICommonFile[] format.
+   * like single input in form that accept multiple files
+   * @returns 
+   */
+  getSingleArrayFile(){
+    return this.interactor.getSingleArrayFiles();
+  }
+
+  /**
+   * get single file from one field.
+   * @returns 
+   */
+  getSingleFile(){
+    return this.interactor.getSingleFile();
   }
 
   ok<T> (args: T, message?: string){
