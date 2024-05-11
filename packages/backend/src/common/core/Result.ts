@@ -6,7 +6,7 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
   private error: E;
   private _value: T;
 
-  public constructor (isSuccess: boolean, error?: E, value?: T) {
+  public constructor (isSuccess: boolean, error?: E | null, value?: T) {
     if (isSuccess && error) {
       throw new Error("InvalidOperation: A result cannot be successful and contain an error");
     }
@@ -16,7 +16,10 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
 
     this.isSuccess = isSuccess;
     this.isFailure = !isSuccess;
+
+    // @ts-ignore
     this.error = error;
+    // @ts-ignore
     this._value = value;
     
     Object.freeze(this);

@@ -12,7 +12,7 @@ import { UserModelImplementation } from "~/common/infra/database/sequelize/model
 
 
 
-export class SequelizePostFactory implements IPostFactory{
+export class SequelizePostRepoFactory implements IPostFactory{
 
   constructor(
     private readonly postMapperFactory: IPostMapperFactory,

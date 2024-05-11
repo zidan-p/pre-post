@@ -3,7 +3,7 @@ import { UseCase } from "./UseCase";
 
 export interface IUseCaseManager{
 
-  getController ?: () => BaseController;
+  getController : () => BaseController;
 
   getUseCase : () => UseCase<any, any>;
 

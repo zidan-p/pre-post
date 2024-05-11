@@ -66,9 +66,16 @@ export class ExpressInteractor implements IInteractor {
   }
 
   // get multiple files
-  getFilesRecord(field?:string): Record<string, ICommonFile[]> | ICommonFile[]{
+  getFilesRecord(field?:string): Record<string, ICommonFile[]> | ICommonFile[] | null{
     if(field){
-      if(!Array.isArray(this.request.files[field])){
+
+      // check if files exists
+      if(!this?.request?.files){
+        console.error("no files provided");
+        return null;
+      }
+
+      if(!Array.isArray(this?.request?.files[field])){
         console.error("uploaded file is not an array");
         return null;
       }
@@ -84,6 +91,8 @@ export class ExpressInteractor implements IInteractor {
         items => items.map(item => this.serializeFile(item))  
       );
       return mappedFiles;
+    }else {
+      return null;
     }
   }
 
@@ -119,7 +128,8 @@ export class ExpressInteractor implements IInteractor {
 
   fail(message: string, error: ExceptionBase, metadata: Record<string, any>) {
     console.error(error);
-    this.jsonResponse(false, 500, message, null, error ?? error?.toJSON());
+    // this.jsonResponse(false, 500, message, null, error ?? error?.toJSON ? error?.toJSON() : error);
+    this.jsonResponse(false, 500, message, null, error?.toJSON ? error?.toJSON() : error);
   }
   
 }

@@ -13,7 +13,7 @@ import { IUserRepo } from "../../user.repository.port";
 
 
 
-export class SequelizePostFactory implements IPostFactory{
+export class SequelizePostRepoFactory implements IPostFactory{
 
   private postImageRepo: SequelizePostImageRepository;
   private postRepo: SequelizePostRepository;

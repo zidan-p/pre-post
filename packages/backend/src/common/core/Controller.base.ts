@@ -50,12 +50,12 @@ export abstract class BaseController{
    * @param filename 
    * @returns 
    */
-  getFiles(filename: string): ICommonFile[] | undefined;
-  getFiles() : Record<string, ICommonFile[]> | undefined;
-  getFiles(filename?: string): ICommonFile[] | Record<string, ICommonFile[]> | undefined{
+  getFiles(filename: string): ICommonFile[] | null;
+  getFiles() : Record<string, ICommonFile[]> | null;
+  getFiles(filename?: string): ICommonFile[] | Record<string, ICommonFile[]> | null{
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
-      return;
+      return null;
     }
     if(filename){
       return this.interactor.getFilesRecord(filename);

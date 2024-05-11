@@ -2,21 +2,22 @@ import { Post as PostModel } from "~/common/infra/database/sequelize/models/Post
 import { PostImage as PostImageMode } from "~/common/infra/database/sequelize/models/PostImage.model";
 import { User as UserModel} from "~/common/infra/database/sequelize/models/User.model";
 import { SequelizeMapperFactory } from "../../mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
-import { SequelizePostFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
+import { SequelizePostRepoFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
 import { CreatePostManager } from "../../usecase/create-post/create-post.manager";
 import { CREATE_POST } from "../../usecase/create-post/create-post.type";
 import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
+import { ExpressMapperFactory } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
 
 
 
 
 
 
-const postMapperFactory = new SequelizeMapperFactory();
+const postPersistenceMapperFactory = new SequelizeMapperFactory();
+const postPresenterMapperFactory = new ExpressMapperFactory();
 
-
-const postRepositoryFactory = new SequelizePostFactory(
-  postMapperFactory,
+const postRepositoryFactory = new SequelizePostRepoFactory(
+  postPersistenceMapperFactory,
   PostImageMode, PostModel, UserModel
 );
 

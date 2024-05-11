@@ -10,9 +10,9 @@ export interface IInteractor {
   getRequestData(field?:string): any;
   getHeaderData(field?:string): any;
 
-  getFilesRecord(field?:string) : Record<string, ICommonFile[]> | ICommonFile[];
-  getSingleArrayFiles(): ICommonFile[];
-  getSingleFile(): ICommonFile;
+  getFilesRecord(field?:string) : Record<string, ICommonFile[]> | ICommonFile[] | null;
+  getSingleArrayFiles(): ICommonFile[] | null; 
+  getSingleFile(): ICommonFile | null;
 
   ok<T> (args: T, message?:string): any;
   created (message: string, metadata?: Record<string, any>):any ;

@@ -8,7 +8,7 @@ import { ExpressPostMap } from "./post.map";
 
 
 
-export class SequelizeMapperFactory implements IPostMapperPresenterFactory{
+export class ExpressMapperFactory implements IPostMapperPresenterFactory{
   createUserMapper(): PresenterMapper<any, any> {
     return new ExpressUserMap();
   }
