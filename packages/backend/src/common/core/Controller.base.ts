@@ -24,7 +24,7 @@ export abstract class BaseController{
   // return specified field, if not then return all data
   getBody(bodyField?: string){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
 
@@ -35,7 +35,7 @@ export abstract class BaseController{
   // return specified field, if not then return all data
   getHeader(headerField?: string){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
 
