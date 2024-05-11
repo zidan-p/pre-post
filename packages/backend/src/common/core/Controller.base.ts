@@ -50,6 +50,10 @@ export abstract class BaseController{
    * @returns 
    */
   getFiles(filename?: string){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
     if(filename){
       return this.interactor.getFilesRecord(filename);
     }
@@ -64,20 +68,29 @@ export abstract class BaseController{
    * @returns 
    */
   getSingleArrayFile(){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
     return this.interactor.getSingleArrayFiles();
   }
 
   /**
    * get single file from one field.
+   * assumed the file is uploaded by single field that only accept one file
    * @returns 
    */
   getSingleFile(){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
     return this.interactor.getSingleFile();
   }
 
   ok<T> (args: T, message?: string){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.ok(args, message);
@@ -85,7 +98,7 @@ export abstract class BaseController{
 
   created (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.created(message, metadata);
@@ -93,7 +106,7 @@ export abstract class BaseController{
 
   clientError (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.clientError(message, metadata);
@@ -101,7 +114,7 @@ export abstract class BaseController{
 
   unauthorized (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.unauthorized(message, metadata);
@@ -109,7 +122,7 @@ export abstract class BaseController{
 
   paymentRequired (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.paymentRequired(message, metadata);
@@ -117,7 +130,7 @@ export abstract class BaseController{
 
   forbidden (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.forbidden(message, metadata);
@@ -125,7 +138,7 @@ export abstract class BaseController{
 
   notFound (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.notFound(message, metadata);
@@ -133,7 +146,7 @@ export abstract class BaseController{
 
   conflict (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.conflict(message, metadata);
@@ -141,13 +154,17 @@ export abstract class BaseController{
   
   tooMany (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
-      console.error("interactor haven't been initialized");
+      console.error("interactor hasn't been initialized");
       return;
     }
     return this.interactor.tooMany(message, metadata);
   }
 
   fail (message: string, error?: ExceptionBase, metadata?: Record<string, any>){
-    return this.interactor.fail(message, error, metadata);
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+    return this.interactor.fail(message, error as ExceptionBase, metadata);
   }
 }
