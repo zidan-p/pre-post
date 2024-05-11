@@ -2,7 +2,7 @@ import { SaveStatus, SaveStatusConst } from "~/common/types/repository";
 import { PostImage } from "~/modules/post/domain/post-image.entity";
 import { IPostImageRepo } from "../../post-image.repository.port";
 import { PostImageModelImplementation } from "~/common/infra/database/sequelize/models/PostImage.model";
-import { SequelizePostImageMapper } from "~/modules/post/mappers/sequelize-mapper/post-image.map";
+import { SequelizePostImageMapper } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
 
 
 

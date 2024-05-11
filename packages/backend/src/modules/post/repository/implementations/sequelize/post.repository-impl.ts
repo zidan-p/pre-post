@@ -2,7 +2,7 @@ import { Post } from "~/modules/post/domain/post.agregate-root";
 import { IPostRepo, saveStatus } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
-import { SequelizePostMapper } from "~/modules/post/mappers/sequelize-mapper/post.map";
+import { SequelizePostMapper } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
 
 
 

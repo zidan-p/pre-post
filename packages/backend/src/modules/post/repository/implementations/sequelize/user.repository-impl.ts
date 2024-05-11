@@ -1,7 +1,7 @@
 import { User } from "~/modules/post/domain/user.agreegate-root";
 import { IUserRepo, saveStatus } from "../../user.repository.port";
 import { UserModelImplementation, User as UserModel } from "~/common/infra/database/sequelize/models/User.model";
-import { ISequelizeUserRaw, UserMap } from "~/modules/post/mappers/sequelize-mapper/user.map";
+import { ISequelizeUserRaw, UserMap } from "~/modules/post/mappers/sequelize-persistence-mapper/user.map";
 
 
 

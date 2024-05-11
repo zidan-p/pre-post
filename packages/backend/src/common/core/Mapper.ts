@@ -14,7 +14,7 @@ export interface Mapper<
 
 
 
-export interface PresentationLayerMapper<
+export interface PresenterMapper<
   TEntity extends Entity<any> = Entity<any>, 
   TRaw extends Record<string, any> = Record<string, any> 
 >{
