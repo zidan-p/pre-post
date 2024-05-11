@@ -29,6 +29,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
   async execute(request: CreatePostDTORequest): Promise<CreatePostResponse> {
     let post: Post;
+    let postImage: PostImage | undefined = undefined;
     let postImageManager: SingleImageManager<PostImage>;
     let postTitle: PostTitle;
     let postContent: PostContent;
@@ -37,24 +38,30 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
     try {
       const files = request.files;
       const body = request.body;
-      const postImageProps: PostImageProps = {...files.postImage, imageType: "post-image"};
-      
-      const postImageOrError = PostImage.create(postImageProps);
 
-      if(postImageOrError.isFailure)
-        return left( new CreatePostUseCaseErrors.InvalidImageProperties(
-          postImageOrError.getErrorValue()
-        ));
+      // if there are image uploaded
+      if(files.postImage){
+        const postImageProps: PostImageProps = {...files.postImage, imageType: "post-image"};
+        
+        const postImageOrError = PostImage.create(postImageProps);
+  
+        if(postImageOrError.isFailure)
+          return left( new CreatePostUseCaseErrors.InvalidImageProperties(
+            postImageOrError.getErrorValue()
+          ));
+  
+        // save the image data to database
+        
+        postImage = postImageOrError.getValue();
+        this.postImageRepository.save(postImage);
+      }
 
-      // save the image data to database
-      
-      const postImage = postImageOrError.getValue();
-      this.postImageRepository.save(postImage);
       
       const postImageManagerOrError = SingleImageManager.create({currentImage: postImage});
       if(postImageManagerOrError.isFailure)
         return left(new CreatePostUseCaseErrors.InvalidImageManagerProps(postImageManagerOrError.getErrorValue()));
       
+      postImageManager = postImageManagerOrError.getValue();
       
       const postTitleOrError = PostTitle.create({value: body.title});
       const postContentOrError = PostContent.create({value: body.content});

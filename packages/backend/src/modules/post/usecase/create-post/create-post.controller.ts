@@ -23,7 +23,7 @@ export class CreatePostController extends BaseController {
     try {
       const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
       
-      if(result.isLeft){
+      if(result.isLeft()){
         const error = result.value;
         const exception = error.getErrorValue();
 

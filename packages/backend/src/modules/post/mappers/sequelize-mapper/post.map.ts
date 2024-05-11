@@ -8,6 +8,7 @@ import { PostContent } from "../../domain/post-content.value-object";
 import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 import { PostImage } from "../../domain/post-image.entity";
 import { PostTitle } from "../../domain/post-title.value-object";
+import { ParseException } from "~/common/exceptions";
 
 
 export interface ISequelizePostRaw {
@@ -40,15 +41,17 @@ export class PostMap implements SequelizePostMapper {
       isPublised: raw.is_published,
       ownerId: UserId.create(new UniqueEntityID(raw.owner_id)).getValue() ?? null,
       postContent: PostContent.create({value: raw.content}).getValue() ?? null,
+      postTitle: PostTitle.create({value: raw.title}).getValue() ?? null,
       postImageManager: SingleImageManager.create<PostImage>({
-        currentImage: this.postImageMap.toDomain(raw.image)
-      }).getValue() ?? null as SingleImageManager<PostImage>,
-      postTitle: PostTitle.create({value: raw.title}).getValue() ?? null
+        currentImage: raw.image ?  this.postImageMap.toDomain(raw.image) : undefined
+      })
+        .getValue(),
     }, new UniqueEntityID(raw?.id))
 
     if(postOrError.isFailure){
-      console.error(postOrError.getErrorValue());
-      return null;
+      const error = postOrError.getErrorValue()
+      console.error(error);
+      throw new ParseException(["ISequelizePostRaw", "Post"], error);
     }
     
     return postOrError.getValue();
@@ -57,10 +60,12 @@ export class PostMap implements SequelizePostMapper {
 
   public toPersistence(entity: Post): ISequelizePostRaw{
 
+    const image = entity.imageManager.getImage;
+
     return{
       title: entity.postTitle.value,
       content: entity.postContent.value,
-      image: this.postImageMap.toPersistence(entity.imageManager.getImage),
+      image: image ? this.postImageMap.toPersistence(image) : null,
       owner_id: entity.ownerId.getStringValue(),
       is_published: entity.isPublished,
       date_time_created: entity.dateTimeCreated,

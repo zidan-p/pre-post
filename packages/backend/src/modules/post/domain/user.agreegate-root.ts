@@ -8,7 +8,7 @@ import { ValidationFailException } from "~/common/exceptions";
 interface UserProps {
   email: string;
   username: string;
-  isAdminUser?: boolean;
+  isAdminUser: boolean;
 }
 
 

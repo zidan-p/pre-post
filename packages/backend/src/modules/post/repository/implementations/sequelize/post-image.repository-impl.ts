@@ -1,4 +1,4 @@
-import { SaveStatus } from "~/common/types/repository";
+import { SaveStatus, SaveStatusConst } from "~/common/types/repository";
 import { PostImage } from "~/modules/post/domain/post-image.entity";
 import { IPostImageRepo } from "../../post-image.repository.port";
 import { PostImageModelImplementation } from "~/common/infra/database/sequelize/models/PostImage.model";
@@ -23,10 +23,10 @@ export class SequelizePostImageRepository implements IPostImageRepo{
 
     if(!exist){ // is new
       await this.postImageModel.create(postImageRaw);
-      return 1;
+      return SaveStatusConst.CREATED;
     }else{
       await this.postImageModel.update(postImageRaw, {where: {id: postImage.id.toString()}});
-      return 0;
+      return SaveStatusConst.UPDATED;
     }
 
   }

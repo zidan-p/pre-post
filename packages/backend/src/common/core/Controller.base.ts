@@ -1,3 +1,4 @@
+import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
 import { IInteractor } from "./Interactor.interface";
 
@@ -49,7 +50,9 @@ export abstract class BaseController{
    * @param filename 
    * @returns 
    */
-  getFiles(filename?: string){
+  getFiles(filename: string): ICommonFile[] | undefined;
+  getFiles() : Record<string, ICommonFile[]> | undefined;
+  getFiles(filename?: string): ICommonFile[] | Record<string, ICommonFile[]> | undefined{
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
       return;

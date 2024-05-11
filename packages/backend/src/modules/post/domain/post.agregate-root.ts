@@ -36,7 +36,7 @@ export class Post extends AggregateRoot<PostProps>{
   get postId(): PostId{ return PostId.create(this._id).getValue() }
   get postTitle(): PostTitle {return this.props.postTitle}
   get postContent(): PostContent {return this.props.postContent}
-  get postImage(): PostImage {return this.props.postImageManager.getImage}
+  get postImage(): PostImage | undefined {return this.props.postImageManager.getImage}
   get imageManager(): SingleImageManager<PostImage> { return this.props.postImageManager }
   get ownerId(): UserId {return this.props.ownerId}
   get isPublished(): boolean { return this.props.isPublised }
@@ -53,7 +53,7 @@ export class Post extends AggregateRoot<PostProps>{
   public unPublishPost(){
 
     this.props.isPublised = false;
-    this.props.dateTimePosted = null;
+    this.props.dateTimePosted = undefined;
     return Result.ok<void>();
   }
 

@@ -1,5 +1,6 @@
 import { Mapper } from "~/common/core/Mapper";
 import { PostImage } from "../../domain/post-image.entity";
+import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 
 
 
@@ -27,15 +28,17 @@ export class PostImageMap implements Mapper<PostImage, ISequelizePostImageRaw>{
 
     if(postImageOrError.isFailure){
       console.error(postImageOrError.getErrorValue());
-      return null;
+      throw new ParseException(["ISequelizePostImageRaw", "PostImage"], postImageOrError.getErrorValue())
     }
 
     return postImageOrError.getValue();
   };
 
 
-  public toPersistence(entity: PostImage): ISequelizePostImageRaw | null{
-    if(!entity) return null;
+  public toPersistence(entity: PostImage): ISequelizePostImageRaw{
+    if(!entity) {
+      throw new ArgumentNotProvidedException("Argument entity not provided when parsing to persistance")
+    };
     
     return {
       name: entity.name,

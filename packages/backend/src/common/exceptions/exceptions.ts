@@ -8,6 +8,7 @@ import {
   INTERNAL_SERVER_ERROR,
   INVALID_STATE,
   NOT_FOUND,
+  PARSE_ERROR,
   UNSAVED_ENTITY,
   VALIDATION_FAIL,
 } from '.';
@@ -84,6 +85,27 @@ export class InternalServerErrorException extends ExceptionBase {
   }
 
   readonly code = INTERNAL_SERVER_ERROR;
+}
+
+export class ParseException extends ExceptionBase{
+  code = PARSE_ERROR;
+  static readonly message = 'Failed to parse';
+
+
+  constructor(message: string | [value: string, target: string], cause?: Error){
+
+
+    let tempMessage = "";
+    if(Array.isArray(message)){
+      tempMessage = "Failed to parse from [ " + message[0] + " ] to [ " + message[1] + "]";
+    }else{
+      tempMessage = message;
+    }
+    
+    super(tempMessage, cause);
+  }
+
+  
 }
 
 export class ExpiredException extends ExceptionBase{
