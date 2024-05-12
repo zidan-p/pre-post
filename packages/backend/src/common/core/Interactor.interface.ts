@@ -7,6 +7,9 @@ import { ExceptionBase } from "../exceptions";
 
 export interface IInteractor {
 
+  getRequestParams(name: string): string | null;
+  getRequestParams(): Record<string, string> | null;
+  getRequestParams(name?: string): string | Record<string, string> | null;
   getRequestData(field?:string): any;
   getHeaderData(field?:string): any;
 

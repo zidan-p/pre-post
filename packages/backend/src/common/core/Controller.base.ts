@@ -22,6 +22,21 @@ export abstract class BaseController{
     return this.executeImpl(body);
   }
 
+  getParams(name?: string){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+
+    if(name){
+      const value = this.interactor.getRequestParams(name);
+      return value;
+    }
+
+    return this.interactor.getRequestParams();
+    
+  }
+
   // return specified field, if not then return all data
   getBody(bodyField?: string){
     if(!this.interactor){

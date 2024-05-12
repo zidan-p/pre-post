@@ -17,6 +17,20 @@ export class ExpressInteractor implements IInteractor {
   ){}
 
 
+  getRequestParams(name: string): string | null;
+  getRequestParams(): Record<string, string> | null;
+  getRequestParams(name?: string | undefined): string | Record<string, string> | null{
+    if(name){
+      const value = this.request.params[name];
+      if(!value) return null;
+      return value;
+    }
+
+    const value = this.request.params;
+    return value;
+  }
+
+
   serializeFile(file: Express.Multer.File): ICommonFile{
     return {
       fileType: file.mimetype,
