@@ -1,6 +1,7 @@
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
 import { Mapper } from "~/common/core/Mapper";
+import { ParseException } from "~/common/exceptions";
 
 
 
@@ -30,10 +31,12 @@ export class UserMap implements SequelizeUserMapper {
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){
-      console.log(userOrError.getErrorValue().message);
+      const error = userOrError.getErrorValue();
+      console.error(error);
+      throw new ParseException(["ISequelizeUserRaw", "User"], error);
     }
 
-    return userOrError.isSuccess ? userOrError.getValue() : null;
+    return userOrError.getValue();
   }
 
 

@@ -92,6 +92,18 @@ export class ParseException extends ExceptionBase{
   static readonly message = 'Failed to parse';
 
 
+  /**
+   * 
+   * @param message message string
+   * @param cause Why this error should be thrown? does it caused by another error or just by logical checking? provide the cause it here
+   */
+  constructor(message: string, cause?: Error)
+  /**
+   * 
+   * @param message prove the type of initial value to targeted value, [initial value, targeted value]
+   * @param cause  Why this error should be thrown? does it caused by another error or just by logical checking? provide the cause it here
+   */
+  constructor(message: [value: string, target: string], cause?: Error)
   constructor(message: string | [value: string, target: string], cause?: Error){
 
 

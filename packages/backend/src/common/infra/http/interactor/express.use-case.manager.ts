@@ -8,8 +8,6 @@ import { InternalServerErrorException } from "~/common/exceptions";
 
 
 export class ExpressUseCaseManagerFactory extends UseCaseManagerFactory{
-
-
   executeRequest(name: string){
 
     return (req: Request, res: Response, next: NextFunction) => {

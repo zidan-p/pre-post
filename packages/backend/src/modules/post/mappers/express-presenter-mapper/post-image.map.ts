@@ -1,6 +1,7 @@
 import { Mapper, PresenterMapper } from "~/common/core/Mapper";
 import { PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
+import { Entity } from "~/common/domain/entity.base";
 
 
 
@@ -12,17 +13,15 @@ export interface IExpressPostImageRaw {
   imageType: string;
 }
 
-export type SequelizePostImageMapper = PresenterMapper<PostImage, IExpressPostImageRaw>;
-
 export class ExpressPostImageMap implements PresenterMapper<PostImage, IExpressPostImageRaw>{
 
 
   // or just return the url to image
-  toPresentation(entity: PostImage): IExpressPostImageRaw{
+  toPresentation(entity: PostImage): IExpressPostImageRaw {
     if(!entity) {
       throw new ArgumentNotProvidedException("Argument entity not provided when parsing to persistance")
     };
-    
+
     return {
       name: entity.name,
       size: entity.size,
