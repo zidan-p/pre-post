@@ -2,33 +2,33 @@ import { BaseController } from "~/common/core/Controller.base";
 import { UseCase } from "~/common/core/UseCase";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { IPostFactory } from "../../repository/post-creator.interface";
-import { CreatePostController } from "./update-post.controller";
-import { CreatePostUseCase } from "./update-post.use-case";
+import { UpdatePostController } from "./update-post.controller";
+import { UpdatePostUseCase } from "./update-post.use-case";
 
 
 
-export class CreatePostManager implements IUseCaseManager{
+export class UpdatePostManager implements IUseCaseManager{
 
-  private controller: CreatePostController;
-  private useCase: CreatePostUseCase;
+  private controller: UpdatePostController;
+  private useCase: UpdatePostUseCase;
   private postRepoFactory: IPostFactory
 
   constructor(postRepoFactory: IPostFactory){
 
-    this.useCase = new CreatePostUseCase(
+    this.useCase = new UpdatePostUseCase(
       postRepoFactory.createPostImageRepo(),
       postRepoFactory.createUserRepo(),
       postRepoFactory.createPostRepo(),
     )
 
-    this.controller = new CreatePostController(this.useCase);
+    this.controller = new UpdatePostController(this.useCase);
   }
 
   getUseCase(){return this.useCase};
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new CreatePostUseCase(
+    return new UpdatePostUseCase(
       this.postRepoFactory.createPostImageRepo(),
       this.postRepoFactory.createUserRepo(),
       this.postRepoFactory.createPostRepo(),
@@ -36,7 +36,7 @@ export class CreatePostManager implements IUseCaseManager{
   }
 
   createController(){
-    return new CreatePostController(this.useCase);
+    return new UpdatePostController(this.useCase);
   }
 
 }

@@ -1,4 +1,4 @@
 
 
 
-export const CREATE_POST = "create-post";
+export const UPDATE_POST = "update-post";

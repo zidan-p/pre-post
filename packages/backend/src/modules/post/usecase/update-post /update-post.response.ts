@@ -1,16 +1,16 @@
 import { AppError } from "~/common/core/AppError";
 import { Either, Result } from "~/common/core/Result";
-import { CreatePostDTOResponse } from "./update-post.dto";
-import { CreatePostUseCaseErrors } from "./update-post.error";
 import { ExceptionBase } from "~/common/exceptions";
 import { PostDomainErrors } from "../../domain/exceptions/post.exception";
+import { UpdatePostUseCaseErrors } from "./update-post.error";
+import { UpdatePostDTOResponse } from "./update-post.dto";
 
 
 
 
-export type CreatePostResponse = Either<
-  CreatePostUseCaseErrors.InvalidImageProperties |
+export type UpdatePostResponse = Either<
+  UpdatePostUseCaseErrors.InvalidImageProperties |
   AppError.UnexpectedError,
   Result<any> |
-  Result<CreatePostDTOResponse>
+  Result<UpdatePostDTOResponse>
 >

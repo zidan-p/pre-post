@@ -1,15 +1,15 @@
 import { BaseController } from "~/common/core/Controller.base";
-import { CreatePostUseCase } from "./update-post.use-case";
-import { CreatePostBody, CreatePostFiles } from "./update-post.dto";
-import { CreatePostUseCaseErrors } from "./update-post.error";
+import { UpdatePostUseCase } from "./update-post.use-case";
+import { UpdatePostBody, UpdatePostFiles } from "./update-post.dto";
+import { UpdatePostUseCaseErrors } from "./update-post.error";
 
 
 
-export class CreatePostController extends BaseController {
+export class UpdatePostController extends BaseController {
 
-  private useCase: CreatePostUseCase;
+  private useCase: UpdatePostUseCase;
   
-  constructor(useCase: CreatePostUseCase){
+  constructor(useCase: UpdatePostUseCase){
     super();
     this.useCase = useCase;
   }
@@ -17,8 +17,8 @@ export class CreatePostController extends BaseController {
 
   async executeImpl(){
     
-    const payloadBody = this.getBody() as CreatePostBody;
-    const payloadFiles = this.getFiles() as CreatePostFiles;
+    const payloadBody = this.getBody() as UpdatePostBody;
+    const payloadFiles = this.getFiles() as UpdatePostFiles;
 
     try {
       const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
@@ -28,17 +28,17 @@ export class CreatePostController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
-          case error instanceof CreatePostUseCaseErrors.InvalidProperties:
-          case error instanceof CreatePostUseCaseErrors.InvalidImageManagerProps:
-          case error instanceof CreatePostUseCaseErrors.InvalidImageProperties:
+          case error instanceof UpdatePostUseCaseErrors.InvalidProperties:
+          case error instanceof UpdatePostUseCaseErrors.InvalidImageManagerProps:
+          case error instanceof UpdatePostUseCaseErrors.InvalidImageProperties:
             return this.clientError(exception.message, exception.cause);
             break;
           
-          case error instanceof CreatePostUseCaseErrors.FailBuildingPost:
+          case error instanceof UpdatePostUseCaseErrors.FailBuildingPost:
             return this.fail(exception.message, exception);
             break;
           
-          case error instanceof CreatePostUseCaseErrors.UserNotFound:
+          case error instanceof UpdatePostUseCaseErrors.UserNotFound:
             return this.notFound(exception.message, exception.toJSON());
             break;
           

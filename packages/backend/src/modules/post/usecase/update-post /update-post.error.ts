@@ -1,12 +1,11 @@
 import { Result } from "~/common/core/Result";
-import { CreatePostDTOResponse } from "./update-post.dto";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
 import { UseCaseError } from "~/common/core/UseCaseError";
 import { BaseError } from "sequelize";
 
 
 
-export namespace CreatePostUseCaseErrors {
+export namespace UpdatePostUseCaseErrors {
 
   export class InvalidProperties extends Result<UseCaseError>{
     constructor(message: string = "there are some invalid properties", cause?: ExceptionBase){
