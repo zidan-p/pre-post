@@ -1,11 +1,11 @@
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
 import { PostImageProps } from "../../domain/post-image.entity";
 
-export interface UpdatePostFiles{
-  postImage: PostImageProps;
+export interface CreatePostFiles{
+  postImage?: ICommonFile;
 }
 
-export interface UpdatePostBody{
+export interface CreatePostBody{
   ownerId: string | number;
   title: string;
   content: string;
@@ -13,12 +13,12 @@ export interface UpdatePostBody{
   dateTimeCreate: Date;
 }
 
-export interface UpdatePostDTORequest {
-  body: UpdatePostBody;
-  files?: UpdatePostFiles
+export interface CreatePostDTORequest {
+  body: CreatePostBody;
+  files: CreatePostFiles
 }
 
 
-export interface UpdatePostDTOResponse{
+export interface CreatePostDTOResponse{
   postId: string;
 }

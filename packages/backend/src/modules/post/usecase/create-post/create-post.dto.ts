@@ -2,7 +2,7 @@ import { ICommonFile } from "~/common/domain/common/common-file.interface";
 import { PostImageProps } from "../../domain/post-image.entity";
 
 export interface CreatePostFiles{
-  postImage?: PostImageProps;
+  postImage?: ICommonFile;
 }
 
 export interface CreatePostBody{

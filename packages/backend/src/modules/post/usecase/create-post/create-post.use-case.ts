@@ -41,7 +41,21 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
       // if there are image uploaded
       if(files.postImage){
-        const postImageProps: PostImageProps = {...files.postImage, imageType: "post-image"};
+        
+        const unValidatedFile = files.postImage;
+
+        if(unValidatedFile.group !== "post/image")
+          return left( new CreatePostUseCaseErrors.InvalidImageProperties(
+            new ArgumentInvalidException("Files group should be post/image not [ " + unValidatedFile.group + " ]")
+          ));
+
+        const postImageProps: PostImageProps = {
+          imageType: "post-image",
+          fileType: unValidatedFile.fileType,
+          group: unValidatedFile.group,
+          name: unValidatedFile.name,
+          size: unValidatedFile.size
+        };
         
         const postImageOrError = PostImage.create(postImageProps);
   

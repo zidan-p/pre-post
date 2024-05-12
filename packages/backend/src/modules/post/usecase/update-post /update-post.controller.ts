@@ -1,5 +1,6 @@
 import { BaseController } from "~/common/core/Controller.base";
 import { CreatePostUseCase } from "./update-post.use-case";
+import { CreatePostBody, CreatePostFiles } from "./update-post.dto";
 import { CreatePostUseCaseErrors } from "./update-post.error";
 
 
@@ -17,12 +18,12 @@ export class CreatePostController extends BaseController {
   async executeImpl(){
     
     const payloadBody = this.getBody() as CreatePostBody;
-    const payloadFiles = this.getFiles("image") as CreatePostFiles;
+    const payloadFiles = this.getFiles() as CreatePostFiles;
 
     try {
       const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
       
-      if(result.isLeft){
+      if(result.isLeft()){
         const error = result.value;
         const exception = error.getErrorValue();
 
@@ -49,7 +50,7 @@ export class CreatePostController extends BaseController {
       }
 
       const dto = result.value;
-      return this.ok({postId: dto.getValue().postId});
+      return this.ok({post_id: dto.getValue().postId});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
