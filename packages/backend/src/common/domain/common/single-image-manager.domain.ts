@@ -24,6 +24,11 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
       this.props.currentImage.delete();
   }
 
+  /**
+   * add new image value for current image replacement 
+   * @param image 
+   * @returns 
+   */
   public changeImage(image: TImage){
     if(!image.isSaved){
       return new SingleImageManagerDomainErrors.UnsavedImage<SingleImageManager<TImage>>(
@@ -38,6 +43,11 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
     return Result.ok<void>();
   }
 
+  /**
+   * remove old image from domain and change it with the new image that attached.
+   * #### Remember to use changeImage or provide the new image first in initialization 
+   * @returns 
+   */
   public attachNewImage(){
     if(!this.props.newImage)
       return new SingleImageManagerDomainErrors.NoNewImage<SingleImageManager<TImage>>();

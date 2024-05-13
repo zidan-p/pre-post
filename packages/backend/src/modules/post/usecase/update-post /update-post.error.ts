@@ -25,8 +25,8 @@ export namespace UpdatePostUseCaseErrors {
     }
   }
 
-  export class UserNotFound extends Result<UseCaseError, NotFoundException>{
-    constructor(id?: string | number, message = "user not found"){
+  export class PostNotFound extends Result<UseCaseError, NotFoundException>{
+    constructor(id?: string | number, message = "post not found"){
       super(false, new NotFoundException(message));
     }
   }

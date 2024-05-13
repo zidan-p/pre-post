@@ -11,6 +11,10 @@ export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<P
   declare content: string;
   declare owner_id: ForeignKey<User["id"]>;
   declare image_id: ForeignKey<PostImage["id"]>;
+  // is the article published or still in owner vault
+  declare is_published: boolean;
+  // a little unnecessary, but ok
+  declare date_time_created: Date;
     // timestamps!
   // createdAt can be undefined during creation
   declare createdAt: CreationOptional<Date>;
@@ -63,6 +67,8 @@ export function initPost(sequelize: Sequelize){
       content: {
         type: DataTypes.TEXT
       },
+      is_published: DataTypes.BOOLEAN,
+      date_time_created: DataTypes.DATE,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },{

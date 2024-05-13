@@ -15,7 +15,7 @@ export interface ISequelizePostRaw {
   id?: string;
   title: string;
   content: string;
-  image: ISequelizePostImageRaw | null;
+  image?: ISequelizePostImageRaw | null;
 
   /** hold new image value when you want to update it */
   // postImage?: PostImage;

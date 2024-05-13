@@ -7,7 +7,6 @@ import { UserId } from "../../domain/user-id.value-object";
 import { AppError } from "~/common/core/AppError";
 import { Result, left, right } from "~/common/core/Result";
 import { ArgumentInvalidException } from "~/common/exceptions";
-import { IImageRepo } from "../../repository/image.repository.port";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IPostRepo } from "../../repository/post.repository.port";
 import { IPostImageRepo } from "../../repository/post-image.repository.port";
@@ -38,6 +37,14 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
     try {
       const files = request.files;
       const body = request.body;
+      const param = request.param;
+
+      const postId = param.postId;
+      // get current post
+      const post = await this.postRepository.findById(postId);
+
+      if(!post)
+        throw new UpdatePostUseCaseErrors.PostNotFound(postId);
 
       // if there are image uploaded
       if(files.postImage){
@@ -65,56 +72,44 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
           ));
   
         // save the image data to database
-        
         postImage = postImageOrError.getValue();
         this.postImageRepository.save(postImage);
+
+        // change current image
+        post?.imageManager.changeImage(postImage);
       }
 
-      
-      const postImageManagerOrError = SingleImageManager.create({currentImage: postImage});
-      if(postImageManagerOrError.isFailure)
-        return left(new UpdatePostUseCaseErrors.InvalidImageManagerProps(postImageManagerOrError.getErrorValue()));
-      
-      postImageManager = postImageManagerOrError.getValue();
-      
-      const postTitleOrError = PostTitle.create({value: body.title});
-      const postContentOrError = PostContent.create({value: body.content});
+      // check content
+      if(body.content){
+        const contentOrError = PostContent.create({value: body.content});
 
-      const combineresult = Result.combine([postTitleOrError, postContentOrError]);
+        if(contentOrError.isFailure){
+          const error = contentOrError.getErrorValue();
+          return left(new UpdatePostUseCaseErrors.InvalidProperties(error.message, error));
+        }
 
-      if(combineresult.isFailure)
-        return left(new UpdatePostUseCaseErrors.InvalidProperties(combineresult.getErrorValue().message, combineresult.getErrorValue()));
+        post.postContent = contentOrError.getValue();
 
-      postTitle = postTitleOrError.getValue();
-      postContent = postContentOrError.getValue();
-
-      const user = await this.userRepository.getUserByUserId(String(body.ownerId));
-
-      if(!user)
-        return left(new UpdatePostUseCaseErrors.UserNotFound(body.ownerId, "user not found for id " + body.ownerId));
-
-      userId = user.userId;
-
-      const postOrError = Post.create({
-        postTitle,
-        ownerId : userId,
-        postContent,
-        isPublised : false,
-        postImageManager,
-        dateTimeCreated: new Date()
-      })
-
-      if(postOrError.isFailure){
-        return left(new UpdatePostUseCaseErrors.FailBuildingPost(postOrError.getErrorValue()));
       }
 
-      post = postOrError.getValue();
+      // check title
+      if(body.title){
+        const titleOrError = PostTitle.create({value: body.title});
 
-      this.postRepository.save(post);
+        if(titleOrError.isFailure){
+          const error = titleOrError.getErrorValue();
+          return left(new UpdatePostUseCaseErrors.InvalidProperties(error.message, error));
+        }
 
-      return right(Result.ok({postId: post.id.toString() }));
+        post.postTitle = titleOrError.getValue();
+      }
+
+      await this.postRepository.save(post);
+
+      return right(Result.ok({post: Post}));
 
     } catch (error) {
+      console.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }

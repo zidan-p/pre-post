@@ -43,6 +43,14 @@ export class Post extends AggregateRoot<PostProps>{
   get dateTimeCreated(): Date { return this.props.dateTimeCreated }
   get dateTimePosted(): undefined | Date { return this.props.dateTimePosted }
 
+  public set postContent(content: PostContent){
+    this.props.postContent = content;
+  }
+
+  public set postTitle(title: PostTitle){
+    this.props.postTitle = title;
+  }
+
   public publishPost(){
 
     this.props.isPublised = true;

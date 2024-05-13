@@ -2,23 +2,45 @@ import { Post } from "~/modules/post/domain/post.agregate-root";
 import { IPostRepo, saveStatus } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
-import { SequelizePostMapper } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
-
-
+import { PostImage as PostImageModel} from "~/common/infra/database/sequelize/models/PostImage.model";
+import { PostImage } from "~/modules/post/domain/post-image.entity";
+import { SequelizeMapperFactory } from "~/modules/post/mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
+import { PostMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
+import { PostImageMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
+import { PostId } from "~/modules/post/domain/post-id.value-object";
 
 
 
 export class SequelizePostRepository implements IPostRepo {
 
+  private readonly postMapper: PostMap; 
+  private readonly postImageMapper: PostImageMap;
 
   constructor (
 
     // actually it better to make util type when handling mappper, so oac from mapper and repository can have it's own
     // raw that can be compared by typescript.
-    private readonly postMapper: SequelizePostMapper,
+    postAppMapper: SequelizeMapperFactory,
     private readonly postModel: PostModelImplementation,
     private readonly postImageRepository: SequelizePostImageRepository
-  ) {}
+  ) {
+    this.postMapper = postAppMapper.createPostMapper() as PostMap;
+    this.postImageMapper = postAppMapper.createPostImageMapper() as PostImageMap;
+  }
+
+
+  async findById(postId: string| PostId): Promise<Post | null> {
+
+    const post = await this.postModel.findByPk(postId.toString(), {
+      include: PostImageModel
+    });
+
+    if(!post) return null;
+
+    const postDomain = this.postMapper.toDomain(post);
+
+    return postDomain;
+  }
 
   async exists(postId: string): Promise<boolean> {
     
