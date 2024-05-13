@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/Controller.base";
 import { UpdatePostUseCase } from "./update-post.use-case";
-import { UpdatePostBody, UpdatePostFiles } from "./update-post.dto";
+import { UpdatePostBody, UpdatePostFiles, UpdatePostParam } from "./update-post.dto";
 import { UpdatePostUseCaseErrors } from "./update-post.error";
 
 
@@ -19,9 +19,10 @@ export class UpdatePostController extends BaseController {
     
     const payloadBody = this.getBody() as UpdatePostBody;
     const payloadFiles = this.getFiles() as UpdatePostFiles;
+    const param = this.getParams() as unknown as UpdatePostParam;
 
     try {
-      const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
+      const result = await this.useCase.execute({body: payloadBody, files: payloadFiles, param});
       
       if(result.isLeft()){
         const error = result.value;
@@ -38,7 +39,7 @@ export class UpdatePostController extends BaseController {
             return this.fail(exception.message, exception);
             break;
           
-          case error instanceof UpdatePostUseCaseErrors.UserNotFound:
+          case error instanceof UpdatePostUseCaseErrors.PostNotFound:
             return this.notFound(exception.message, exception.toJSON());
             break;
           

@@ -3,10 +3,10 @@ import { PostImage as PostImageMode } from "~/common/infra/database/sequelize/mo
 import { User as UserModel} from "~/common/infra/database/sequelize/models/User.model";
 import { SequelizeMapperFactory } from "../../mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
 import { SequelizePostRepoFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
-import { CreatePostManager } from "../../usecase/create-post/create-post.manager";
-import { CREATE_POST } from "../../usecase/create-post/create-post.type";
 import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
 import { ExpressMapperFactory } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
+import { UPDATE_POST, UpdatePostManager } from "../../usecase/update-post ";
+import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
 
 
 
@@ -24,3 +24,4 @@ const postRepositoryFactory = new SequelizePostRepoFactory(
 export const postUseCaseManagerFactory = new ExpressUseCaseManagerFactory();
 
 postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(postRepositoryFactory));
+postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(postRepositoryFactory));

@@ -22,6 +22,8 @@ export abstract class BaseController{
     return this.executeImpl(body);
   }
 
+  getParams(): Record<string, string> | undefined;
+  getParams(name: string): string | undefined;
   getParams(name?: string){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
