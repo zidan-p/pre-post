@@ -4,7 +4,7 @@ import { User } from "../domain/user.agregate-root";
 
 
 
-export interface IAuthService {
+export interface IJWTService {
   signJWT (props: JWTClaims): JWTToken;
   signRefreshJWT(props: JWTClaims) : JWTToken;
   decodeJWT (token: string): Promise<JWTClaims>;

@@ -2,20 +2,20 @@ import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { RefreshTokenController } from "./refresh-token.controller";
 import { RefreshTokenUseCase } from "./refresh-token.use-case";
 import { IUserRepo } from "../../repository/user.repository.port";
-import { IAuthService } from "../../service/auth.service.interface";
+import { IJWTService } from "../../service/jwt.service.interface";
 
 
 
-export class RefreshTokenFactory implements IUseCaseManager{
+export class RefreshTokenManager implements IUseCaseManager{
 
 
   private controller: RefreshTokenController;
   private useCase: RefreshTokenUseCase;
 
   private userRepo: IUserRepo;
-  private authService: IAuthService;
+  private authService: IJWTService;
 
-  constructor(userepo: IUserRepo, authService: IAuthService){
+  constructor(userepo: IUserRepo, authService: IJWTService){
     this.userRepo = userepo;
     this.authService = authService;
 

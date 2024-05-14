@@ -1,14 +1,14 @@
 import { authConfig } from "~/config/index";
-import { JWTClaims } from "../../domain/jwt.interface";
-import { IAuthService } from "../auth.service.interface";
+import { JWTClaims } from "../../../domain/jwt.interface";
+import { IJWTService } from "../../jwt.service.interface";
 import { sign, verify } from 'jsonwebtoken'
 import { ServiceError } from "~/common/core/service-error.base";
-import { AuthServiceErrors } from "../exception/auth-service.exception";
+import { JWTServiceErrors } from "../../exception/jwt-service.exception";
 
 
 
 
-export class AuthServiceImpl implements IAuthService{
+export class JWTServiceImpl implements IJWTService{
   
   signJWT(props: JWTClaims): string {
     const token = sign(props, authConfig.secret, {expiresIn: authConfig.tokenExpiryTime});
@@ -27,9 +27,9 @@ export class AuthServiceImpl implements IAuthService{
           console.error(err);
 
           if(err?.name === "TokenExpiredError")
-            return reject(new AuthServiceErrors.ExpiredJWT("Expired Token when Decode", err));
+            return reject(new JWTServiceErrors.ExpiredJWT("Expired Token when Decode", err));
           // return resolve(null)
-          return reject(new AuthServiceErrors.JSONIssue("Failed Decode JWT", err));
+          return reject(new JWTServiceErrors.JSONIssue("Failed Decode JWT", err));
         }
         return resolve(decoded);
       });
@@ -43,9 +43,9 @@ export class AuthServiceImpl implements IAuthService{
           console.error(err);
 
           if(err?.name === "TokenExpiredError")
-            return reject(new AuthServiceErrors.ExpiredJWT("Expired Token when Decode", err));
+            return reject(new JWTServiceErrors.ExpiredJWT("Expired Token when Decode", err));
           // return resolve(null)
-          return reject(new AuthServiceErrors.JSONIssue("Failed Decode JWT", err));
+          return reject(new JWTServiceErrors.JSONIssue("Failed Decode JWT", err));
         }
         return resolve(decoded);
       });

@@ -5,7 +5,7 @@ import { AppError } from "~/common/core/AppError";
 import { Result, left, right } from "~/common/core/Result";
 import { JWTClaims, JWTToken } from "../../domain/jwt.interface";
 import { IUserRepo } from "../../repository/user.repository.port";
-import { IAuthService } from "../../service/auth.service.interface";
+import { IJWTService } from "../../service/jwt.service.interface";
 import { RefresTokenUseCaseError } from "./refresh-token.error";
 import { User } from "../../domain/user.agregate-root";
 
@@ -18,7 +18,7 @@ export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<Ref
 
   constructor(
     private readonly userRepo: IUserRepo,
-    private readonly authService: IAuthService,
+    private readonly authService: IJWTService,
   ){}
   
   async execute(request: RefreshTokenDTO): Promise<RefresTokenResponse> {

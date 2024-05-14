@@ -4,12 +4,12 @@ import { User } from "../domain/user.agregate-root";
 
 
 
-export interface AuthMapperPresenterFactory{
+export interface IAuthMapperPresenterFactory{
   createUserMapper<TDomain extends User> (): PresenterMapper<TDomain, any>
 }
 
 
 
-export interface AuthMapperPersitenceFactory{
+export interface IAuthMapperPersitenceFactory{
   createUserMapper<TDomain extends User> (): Mapper<TDomain, any>
 }

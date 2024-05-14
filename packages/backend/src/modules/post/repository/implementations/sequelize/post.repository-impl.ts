@@ -22,7 +22,6 @@ export class SequelizePostRepository implements IPostRepo {
     // raw that can be compared by typescript.
     postAppMapper: SequelizeMapperFactory,
     private readonly postModel: PostModelImplementation,
-    private readonly postImageRepository: SequelizePostImageRepository
   ) {
     this.postMapper = postAppMapper.createPostMapper() as PostMap;
     this.postImageMapper = postAppMapper.createPostImageMapper() as PostImageMap;

@@ -7,7 +7,7 @@ export const AuthServiceErrorCodes = {
 }
 
 
-export namespace AuthServiceErrors{
+export namespace JWTServiceErrors{
 
 
   export class JSONIssue extends ServiceError{

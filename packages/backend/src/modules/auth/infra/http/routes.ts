@@ -1,24 +1,12 @@
 import express, { Router } from 'express';
-import { authControllerFactory } from '../creator/controller.creator';
-import { ExpressInteractor } from '~/common/infra/http/interactor/express.interactor';
-
+import { authUseCaseManagerFactory } from '../creator/main.creator';
+import { LOGIN } from '../../usecase/login';
+import { REFRESH_TOKEN } from '../../usecase/refresh-token';
 
 
 const authRouter = Router();
 
-// const loginController = authControllerFactory.createLoginController();
-authRouter.post(
-  "/login", 
-  (req, res) => authControllerFactory
-    .getLoginController()
-    .executeRequest(new ExpressInteractor(req, res))
-);
-
-authRouter.post(
-  "/refresh-token", 
-  (req, res) => authControllerFactory
-    .getRefreshTokenController()
-    .executeRequest(new ExpressInteractor(req, res))
-);
+authRouter.post("/login", authUseCaseManagerFactory.executeRequest(LOGIN));
+authRouter.post("/refresh-token", authUseCaseManagerFactory.executeRequest(REFRESH_TOKEN));
 
 export {authRouter};

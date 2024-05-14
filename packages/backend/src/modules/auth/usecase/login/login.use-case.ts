@@ -2,7 +2,7 @@ import { UseCase } from "~/common/core/UseCase";
 import { LoginDTO, LoginDTOResponse } from "./login.dto";
 import { LoginResponse } from "./login.response";
 import { IUserRepo } from "../../repository/user.repository.port";
-import { IAuthService } from "../../service/auth.service.interface";
+import { IJWTService } from "../../service/jwt.service.interface";
 import { User } from "../../domain/user.agregate-root";
 import { UserPassword } from "../../domain/user-password.value-object";
 import { Result, left, right } from "~/common/core/Result";
@@ -21,7 +21,7 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
 
   constructor(
     private readonly userRepo: IUserRepo,
-    private readonly authService: IAuthService,
+    private readonly authService: IJWTService,
   ){}
 
   public async execute(request: LoginDTO): Promise<LoginResponse> {

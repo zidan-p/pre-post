@@ -30,9 +30,8 @@ export class SequelizePostRepoFactory implements IPostFactory{
   }
   createPostRepo(){
     return new SequelizePostRepository(
-      this.postMapperFactory.createPostMapper(),
-      this.postModel,
-      this.createPostRepo()
+      this.postMapperFactory,
+      this.postModel
     )
   }
 

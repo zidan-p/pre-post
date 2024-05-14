@@ -1,10 +1,10 @@
-import { IAuthService } from "./auth.service.interface";
+import { IJWTService } from "./jwt.service.interface";
 
 
 
 
 /**i dont think it's needed yet */
-export interface IAuthServiceFactory{
+export interface IJWTServiceFactory{
 
-  createAuthService(...args: any[]): IAuthService
+  createJwtService(...args: any[]): IJWTService
 }
