@@ -4,21 +4,22 @@ import { UserModelImplementation, User as UserModel } from "~/common/infra/datab
 import { UserEmail } from "~/modules/auth/domain/user-email.value-object";
 import { UserName } from "~/modules/auth/domain/user-name.value-object";
 import { User } from "~/modules/auth/domain/user.agregate-root";
-import { IUserRaw, UserMap } from "~/modules/auth/mappers/user.mapper";
+import { SequelizeUserMap } from "~/modules/auth/mappers/seqluelize-user-mapper/user.mapper";
+import { SequelizeAuthMapperFactory } from "~/modules/auth/mappers/seqluelize-user-mapper/express-mapper.factory";
 
 
 
 export class SequelizeUserRepo implements IUserRepo {
 
+  userMapper: SequelizeUserMap;
 
   constructor (
+    mapperFactory: SequelizeAuthMapperFactory,
     private readonly userModel: UserModelImplementation
-  ) {}
-
-  
-  processUserRaw(user: UserModel): IUserRaw{
-    return user as unknown as IUserRaw;
+  ) {
+    this.userMapper = mapperFactory.createUserMapper();
   }
+
 
   async exists(id: string | number): Promise<boolean> {
     
@@ -37,7 +38,8 @@ export class SequelizeUserRepo implements IUserRepo {
 
   async getUserByUserId(userId: string): Promise<User | null> {
     const user = await this.userModel.findByPk(Number(userId));
-    return UserMap.toDomain(this.processUserRaw(user));
+    if(!user) return null;
+    return this.userMapper.toDomain(user);
   }
 
   async getUserByUserEmail(email: string | UserEmail): Promise<User | null> {
@@ -53,7 +55,7 @@ export class SequelizeUserRepo implements IUserRepo {
 
     if(!user) return null;
 
-    return UserMap.toDomain(this.processUserRaw(user));
+    return this.userMapper.toDomain(user);
   }
 
 
@@ -70,22 +72,22 @@ export class SequelizeUserRepo implements IUserRepo {
 
     if(!user) return null;
 
-    return UserMap.toDomain(this.processUserRaw(user));
+    return this.userMapper.toDomain(user);
   }
 
   async save(user: User): Promise<saveStatus>{
     
     const exists = await this.exists(user.id.toValue()); 
-    const rawUser = await UserMap.toPersistence(user);
+    const rawUser = await this.userMapper.toPersistence(user);
 
     // created
     if(!exists){
-      await this.userModel.create(rawUser as unknown as UserModel);
+      await this.userModel.create(rawUser);
       return 1;
     }
 
     // updated
-    await this.userModel.update(rawUser as unknown as UserModel, {where: {id: user.id.toValue()}});
+    await this.userModel.update(rawUser, {where: {id: user.id.toValue()}});
     return 0;
   }
 

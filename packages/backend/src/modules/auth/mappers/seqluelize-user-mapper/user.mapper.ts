@@ -1,14 +1,16 @@
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
-import { UserEmail } from "../domain/user-email.value-object";
-import { UserName } from "../domain/user-name.value-object";
-import { UserPassword } from "../domain/user-password.value-object";
-import { User } from "../domain/user.agregate-root";
+import { UserEmail } from "../../domain/user-email.value-object";
+import { UserName } from "../../domain/user-name.value-object";
+import { UserPassword } from "../../domain/user-password.value-object";
+import { User } from "../../domain/user.agregate-root";
+import { ParseException } from "~/common/exceptions";
+import { Mapper } from "~/common/core/Mapper";
 
 
 
 
 export interface IUserRaw {
-  id: string | number;
+  id: string;
   password: string;
   email: string;
   username: string;
@@ -19,8 +21,10 @@ export interface IUserRaw {
 
 
 
-export class UserMap {
-  public static toDomain(raw: IUserRaw): User {
+export class SequelizeUserMap implements Mapper<User, IUserRaw | Promise<IUserRaw>>{
+
+
+  toDomain(raw: IUserRaw): User {
     const usernameOrError = UserName.create({name: raw.username});
     const userPasswordOrError = UserPassword.create({ value: raw.password, hashed: true });
     const userEmailOrError = UserEmail.create(raw.email);
@@ -33,15 +37,17 @@ export class UserMap {
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){
-      console.log(userOrError.getErrorValue().message);
+      const error = userOrError.getErrorValue()
+      console.error(error);
+      throw new ParseException(["IUserRaw", "User"], error);
     }
 
-    return userOrError.isSuccess ? userOrError.getValue() : null;
+    return userOrError.getValue();
   }
 
 
-  public static async toPersistence (user: User): Promise<IUserRaw> {
-    let password: string = null;
+  async toPersistence (user: User): Promise<IUserRaw> {
+    let password: string = "";
     if (!!user.password === true) {
       if (user.password.isAlreadyHashed()) {
         password = user.password.value;

@@ -17,7 +17,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   // 'CreationOptional' is a special type that marks the field as optional
   // when creating an instance of the model (such as using Model.create()).
   declare id: CreationOptional<string>;
-  declare name: string;
+  // declare name: string;
   declare password: string;
   declare email: string;
   declare username: string;
@@ -68,10 +68,10 @@ export function initUser(sequelize: Sequelize){
         allowNull: false,
         unique: true
       },
-      name: {
-        type: DataTypes.STRING(250),
-        allowNull: false,
-      },
+      // name: {
+      //   type: DataTypes.STRING(250),
+      //   allowNull: false,
+      // },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
