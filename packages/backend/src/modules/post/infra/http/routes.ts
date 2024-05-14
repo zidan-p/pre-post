@@ -6,7 +6,7 @@ import { UPDATE_POST } from "../../usecase/update-post ";
 
 
 
-const postRouter = Router();
+export const postRouter = Router();
 
 // note, serialize upload image fulfill 
 postRouter.post("/", postUseCaseManagerFactory.executeRequest(CREATE_POST));

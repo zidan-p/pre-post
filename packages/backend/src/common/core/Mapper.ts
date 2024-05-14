@@ -27,7 +27,7 @@ export interface PresenterMapper<
    * */
   TRaw1 extends Record<string, any> = Record<string, any>,
   /** 
-   * the secondary input or output, make a better way to handle input or output 
+   * the secondary input or output, when there are more output that can be used 
    * */
   TRaw2 extends Record<string, any> = TRaw1,
 >{
