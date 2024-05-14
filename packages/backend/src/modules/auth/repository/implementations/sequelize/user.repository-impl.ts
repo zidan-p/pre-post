@@ -22,13 +22,11 @@ export class SequelizeUserRepo implements IUserRepo {
 
 
   async exists(id: string | number): Promise<boolean> {
-    
     const user = await this.userModel.findByPk(id);
     return Boolean(user);
   }
 
   async existsByEmail(userEmail: UserEmail): Promise<boolean> {
-    
     const user = await this.userModel.findOne({
       where: { email : userEmail.value}
     });

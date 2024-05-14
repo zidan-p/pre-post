@@ -22,19 +22,21 @@ export class LoginController extends BaseController {
 
       if (result.isLeft()) {
         const error = result.value;
-  
-        switch (error.constructor) {
-          case LoginUseCaseErrors.LoginValidationError:
+        const exception = error.getErrorValue();
+        switch (true) {
+          case error instanceof LoginUseCaseErrors.LoginValidationError:
             return this.clientError(
-              (error).getErrorValue().message, 
-              (error).getErrorValue().cause
+              exception.message, 
+              exception.cause
             );
-          case LoginUseCaseErrors.EmailOrPasswordError:
-            return this.notFound(error.getErrorValue().message, error.getErrorValue()?.metadata);
+          case error instanceof LoginUseCaseErrors.EmailOrPasswordError:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>);
 
 
           default:
-            return this.fail(error.getErrorValue().message, error.getErrorValue());
+            console.error(error);
+            return this.fail("Unexpexted Error", exception)
+            // return this.fail(exception.message, exception);
         }
         
       } else {

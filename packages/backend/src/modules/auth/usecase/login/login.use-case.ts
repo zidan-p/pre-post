@@ -55,12 +55,13 @@ export class LoginUseCase implements UseCase<LoginDTO, Promise<LoginResponse>>{
       password = passwordOrError.getValue();
 
 
-      user = await this.userRepo.getUserByUserEmail(userEmail);
-      const userFound = Boolean(user);
+      const userOrFound = await this.userRepo.getUserByUserEmail(userEmail);
 
-      if (!userFound) {
+      if (!userOrFound) {
         return left(new LoginUseCaseErrors.EmailOrPasswordError("user not found"))
       }
+
+      user = userOrFound;
 
       const passwordValid = await user.password.comparePassword(password.value);
 

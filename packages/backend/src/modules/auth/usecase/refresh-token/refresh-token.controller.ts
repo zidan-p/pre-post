@@ -21,20 +21,21 @@ export class RefreshTokenController extends BaseController{
 
       if (result.isLeft()) {
         const error = result.value;
+        const exception = error.getErrorValue();
 
         switch(true){
           case error instanceof RefresTokenUseCaseError.ExpireRefreshToken:
-            return this.unauthorized(error.getErrorValue().message, error.getErrorValue().metadata)
+            return this.unauthorized(exception.message, exception.metadata as Record<string, any>)
           
           case error instanceof RefresTokenUseCaseError.UserNotFound:
-            return this.notFound(error.getErrorValue().message, error.getErrorValue().metadata);
+            return this.notFound(exception.message, exception.metadata  as Record<string, any>);
 
           case error instanceof RefresTokenUseCaseError.MalformedToken:
-            console.error(error.getErrorValue());
-            return this.clientError(error.getErrorValue().message, error.getErrorValue().metadata);
+            console.error(exception);
+            return this.clientError(exception.message, exception.metadata  as Record<string, any>);
 
           default:
-            return this.fail(error.getErrorValue().message, error.getErrorValue());
+            return this.fail(exception.message, exception);
         }
         
       } else {

@@ -21,7 +21,7 @@ export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<Ref
     private readonly authService: IAuthService,
   ){}
   
-  async execute(request?: RefreshTokenDTO): Promise<RefresTokenResponse> {
+  async execute(request: RefreshTokenDTO): Promise<RefresTokenResponse> {
     let decodedRefreshToken: JWTClaims;
     let user: User;
 
@@ -33,9 +33,10 @@ export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<Ref
       decodedRefreshToken = await this.authService.decodeRefreshJWT(request.refreshToken);
       if(!decodedRefreshToken) return left(new RefresTokenUseCaseError.ExpireRefreshToken());
 
-      user = await this.userRepo.getUserByUserId(decodedRefreshToken.id);
-      if(!user) return left( new RefresTokenUseCaseError.UserNotFound());
+      const userOrNotFound = await this.userRepo.getUserByUserId(decodedRefreshToken.id);
+      if(!userOrNotFound) return left( new RefresTokenUseCaseError.UserNotFound());
 
+      user = userOrNotFound;
 
       const accessToken: JWTToken = this.authService.signJWT({
         adminUser: user.isAdminUser,

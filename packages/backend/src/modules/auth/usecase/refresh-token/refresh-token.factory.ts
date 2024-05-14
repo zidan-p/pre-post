@@ -1,5 +1,3 @@
-import { BaseController } from "~/common/core/Controller.base";
-import { UseCase } from "~/common/core/UseCase";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { RefreshTokenController } from "./refresh-token.controller";
 import { RefreshTokenUseCase } from "./refresh-token.use-case";
