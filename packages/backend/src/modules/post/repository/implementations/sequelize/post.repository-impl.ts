@@ -1,5 +1,5 @@
 import { Post } from "~/modules/post/domain/post.agregate-root";
-import { IPostRepo, saveStatus } from "../../post.repository.port";
+import { FindConfig, IPostRepo } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
 import { PostImage as PostImageModel} from "~/common/infra/database/sequelize/models/PostImage.model";
@@ -28,6 +28,21 @@ export class SequelizePostRepository implements IPostRepo {
   }
 
 
+  async find(config: FindConfig): Promise<Post[]> {
+    let offset: number | undefined;
+    let limit: number | undefined;
+
+    if(config?.paginate && !isEmpty(config.paginate)){
+      offset = config.paginate.page * config.paginate.dataPerPage;
+      limit = config.paginate.dataPerPage;
+    }
+
+    const postDocument = await this.postModel.findAll({offset, limit});
+    const postDomain = postDocument.map(item => this.postMapper.toDomain(item));
+    return postDomain;
+  }
+
+
   async findById(postId: string| PostId): Promise<Post | null> {
 
     const post = await this.postModel.findByPk(postId.toString(), {
@@ -37,7 +52,6 @@ export class SequelizePostRepository implements IPostRepo {
     if(!post) return null;
 
     const postDomain = this.postMapper.toDomain(post);
-
     return postDomain;
   }
 
@@ -48,7 +62,7 @@ export class SequelizePostRepository implements IPostRepo {
   }
 
 
-  async save(post: Post): Promise<saveStatus> {
+  async save(post: Post) {
     
     const exist = this.exists(post.postId.getStringValue());
     const {image, ...postraw} = this.postMapper.toPersistence(post);

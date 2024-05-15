@@ -1,16 +1,14 @@
+import { IPaginate, ResultWithPagination } from "~/common/types/paginate";
 import { PostId } from "../domain/post-id.value-object";
-import { Post } from "../domain/post.agregate-root";
+import { Post, PostProps } from "../domain/post.agregate-root";
+import { saveStatus } from "./user.repository.port";
+import { FilterConfig } from "~/common/types/filter-query";
 
-
-
-
-type Updated = 0;
-type Created = 1;
-export type saveStatus = Created | Updated; 
 
 
 export interface IPostRepo{
   exists(postId: string): Promise<boolean>;
   findById(postId: string | PostId): Promise<Post | null>;
+  find(config: FilterConfig<PostProps>): Promise<ResultWithPagination<Post[]>>;
   save (user: Post): Promise<saveStatus>;
 }

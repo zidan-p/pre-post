@@ -12,7 +12,7 @@ import { SingleImageManager } from "~/common/domain/common/single-image-manager.
 
 
 
-interface PostProps{
+export interface PostProps{
   postTitle: PostTitle;
   postContent: PostContent;
   postImageManager: SingleImageManager<PostImage>;
