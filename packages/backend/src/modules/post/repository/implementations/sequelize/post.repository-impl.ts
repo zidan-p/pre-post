@@ -1,5 +1,5 @@
-import { Post } from "~/modules/post/domain/post.agregate-root";
-import { FindConfig, IPostRepo } from "../../post.repository.port";
+import { Post, PostProps } from "~/modules/post/domain/post.agregate-root";
+import { IPostRepo } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
 import { PostImage as PostImageModel} from "~/common/infra/database/sequelize/models/PostImage.model";
@@ -8,13 +8,14 @@ import { SequelizeMapperFactory } from "~/modules/post/mappers/sequelize-persist
 import { PostMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
 import { PostImageMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
 import { PostId } from "~/modules/post/domain/post-id.value-object";
+import { FilterConfig, WhereConfig } from "~/common/types/filter-query";
+import { IPaginate, IPaginateReponse } from "~/common/types/paginate";
 
 
 
 export class SequelizePostRepository implements IPostRepo {
 
   private readonly postMapper: PostMap; 
-  private readonly postImageMapper: PostImageMap;
 
   constructor (
 
@@ -24,11 +25,27 @@ export class SequelizePostRepository implements IPostRepo {
     private readonly postModel: PostModelImplementation,
   ) {
     this.postMapper = postAppMapper.createPostMapper() as PostMap;
-    this.postImageMapper = postAppMapper.createPostImageMapper() as PostImageMap;
   }
 
 
-  async find(config: FindConfig): Promise<Post[]> {
+
+  async getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse> {
+
+    const dataPerPage = paginate?.dataPerPage;
+    const page = paginate?.page;
+
+    const dataTotal = await this.postModel.count({where: payload});
+    let pageTotal = 0;
+
+    if(dataTotal !== 0){
+      pageTotal = dataTotal / dataPerPage; 
+    }
+
+    return { dataPerPage, dataTotal, page, pageTotal}
+  }
+
+
+  async find(payload: WhereConfig<PostProps>,config: FilterConfig<PostProps>): Promise<Post[]> {
     let offset: number | undefined;
     let limit: number | undefined;
 
@@ -37,7 +54,7 @@ export class SequelizePostRepository implements IPostRepo {
       limit = config.paginate.dataPerPage;
     }
 
-    const postDocument = await this.postModel.findAll({offset, limit});
+    const postDocument = await this.postModel.findAll({offset, limit, where: payload});
     const postDomain = postDocument.map(item => this.postMapper.toDomain(item));
     return postDomain;
   }

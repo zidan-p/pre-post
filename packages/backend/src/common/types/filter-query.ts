@@ -9,5 +9,5 @@ export type OrderByCofig<T extends Object> = [keyof T, OrderConfig?][];
 export interface FilterConfig<TProps extends Object>{
   paginate?: IPaginate;
   order?: OrderConfig;
-  filter?: OrderByCofig<TProps>; 
+  filter?: OrderByCofig<TProps>;
 } 
