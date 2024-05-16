@@ -2,41 +2,45 @@ import { BaseController } from "~/common/core/Controller.base";
 import { UseCase } from "~/common/core/UseCase";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { IPostFactory } from "../../repository/post-creator.interface";
-import { CreatePostController } from "./get-all-post.controller";
-import { CreatePostUseCase } from "./get-all-post.use-case";
+import { GetAllPostController } from "./get-all-post.controller";
+import { GetAllPostUseCase } from "./get-all-post.use-case";
+import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
 
-export class CreatePostManager implements IUseCaseManager{
+export class GetAllManager implements IUseCaseManager{
 
-  private controller: CreatePostController;
-  private useCase: CreatePostUseCase;
+  private controller: GetAllPostController;
+  private useCase: GetAllPostUseCase;
   private postRepoFactory: IPostFactory
+  private postMapperPresenterFactory: IPostMapperPresenterFactory;
 
-  constructor(postRepoFactory: IPostFactory){
+  constructor(postRepoFactory: IPostFactory, postMapperPresenterFactory: IPostMapperPresenterFactory){
+    this.postRepoFactory = postRepoFactory;
+    this.postMapperPresenterFactory = postMapperPresenterFactory;
 
-    this.useCase = new CreatePostUseCase(
-      postRepoFactory.createPostImageRepo(),
-      postRepoFactory.createUserRepo(),
-      postRepoFactory.createPostRepo(),
+    this.useCase = new GetAllPostUseCase(
+      postRepoFactory.createPostRepo()
     )
 
-    this.controller = new CreatePostController(this.useCase);
+    this.controller = new GetAllPostController(this.useCase, this.postMapperPresenterFactory.createPostMapper());
   }
 
   getUseCase(){return this.useCase};
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new CreatePostUseCase(
-      this.postRepoFactory.createPostImageRepo(),
-      this.postRepoFactory.createUserRepo(),
-      this.postRepoFactory.createPostRepo(),
+    return new GetAllPostUseCase(
+      this.postRepoFactory.createPostRepo()
     )
   }
 
   createController(){
-    return new CreatePostController(this.useCase);
+    return new GetAllPostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
+
   }
 
 }
