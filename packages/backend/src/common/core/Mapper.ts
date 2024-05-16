@@ -17,7 +17,7 @@ export interface Mapper<
  * Interface for presenter mapper.
  * @todo find a better way to handle multiple output or input from raw data.
  */
-export interface PresenterMapper<
+export interface IPresenterMapper<
   /** 
    * Main Mapper entity 
    * */

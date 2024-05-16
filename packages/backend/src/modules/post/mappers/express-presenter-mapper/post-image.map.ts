@@ -1,4 +1,4 @@
-import { Mapper, PresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
 import { PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 import { Entity } from "~/common/domain/entity.base";
@@ -13,7 +13,7 @@ export interface IExpressPostImageRaw {
   imageType: string;
 }
 
-export class ExpressPostImageMap implements PresenterMapper<PostImage, IExpressPostImageRaw>{
+export class ExpressPostImageMap implements IPresenterMapper<PostImage, IExpressPostImageRaw>{
 
 
   // or just return the url to image

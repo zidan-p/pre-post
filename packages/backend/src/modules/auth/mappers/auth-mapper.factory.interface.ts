@@ -1,11 +1,11 @@
-import { Mapper, PresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
 import { User } from "../domain/user.agregate-root";
 
 
 
 
 export interface IAuthMapperPresenterFactory{
-  createUserMapper<TDomain extends User> (): PresenterMapper<TDomain, any>
+  createUserMapper<TDomain extends User> (): IPresenterMapper<TDomain, any>
 }
 
 

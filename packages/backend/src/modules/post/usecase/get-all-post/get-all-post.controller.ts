@@ -1,15 +1,16 @@
 import { BaseController } from "~/common/core/Controller.base";
-import { CreatePostUseCase } from "./get-all-post.use-case";
-import { CreatePostBody, CreatePostFiles } from "./get-all-post.dto";
-import { CreatePostUseCaseErrors } from "./get-all-post.error";
+import { Post } from "../../domain/post.agregate-root";
+import { IPresenterMapper } from "~/common/core/Mapper";
+import { GetAllPostUseCase } from "./get-all-post.use-case";
+import { GetAllPostBody, GetAllPostQuery } from "./get-all-post.dto";
 
 
 
-export class CreatePostController extends BaseController {
+export class GetAllPostController extends BaseController {
 
-  private useCase: CreatePostUseCase;
+  private useCase: GetAllPostUseCase;
   
-  constructor(useCase: CreatePostUseCase){
+  constructor(useCase: GetAllPostUseCase, private readonly postMapper: IPresenterMapper<Post, any>){
     super();
     this.useCase = useCase;
   }
@@ -17,30 +18,17 @@ export class CreatePostController extends BaseController {
 
   async executeImpl(){
     
-    const payloadBody = this.getBody() as CreatePostBody;
-    const payloadFiles = this.getFiles() as CreatePostFiles;
+    const payloadBody = this.getBody() as GetAllPostBody;
+    const payloadQuery = this.getQueryData() as GetAllPostQuery;
 
     try {
-      const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
+      const result = await this.useCase.execute({query: payloadQuery});
       
       if(result.isLeft()){
         const error = result.value;
         const exception = error.getErrorValue();
 
         switch(true){
-          case error instanceof CreatePostUseCaseErrors.InvalidProperties:
-          case error instanceof CreatePostUseCaseErrors.InvalidImageManagerProps:
-          case error instanceof CreatePostUseCaseErrors.InvalidImageProperties:
-            return this.clientError(exception.message, exception.cause);
-            break;
-          
-          case error instanceof CreatePostUseCaseErrors.FailBuildingPost:
-            return this.fail(exception.message, exception);
-            break;
-          
-          case error instanceof CreatePostUseCaseErrors.UserNotFound:
-            return this.notFound(exception.message, exception.toJSON());
-            break;
           
           default:
             console.log(exception);
@@ -50,7 +38,10 @@ export class CreatePostController extends BaseController {
       }
 
       const dto = result.value;
-      return this.ok({post_id: dto.getValue().postId});
+      const posts = dto.getValue().posts;
+      const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
+      const paginate = dto.getValue().paginate;
+      return this.ok({posts: postsRaw, paginate});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

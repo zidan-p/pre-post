@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
-import { Mapper, PresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
 import { ParseException } from "~/common/exceptions";
 
 
@@ -19,7 +19,7 @@ export interface IExpressUserRaw {
 }
 
 
-export type ExpressUserMapper = PresenterMapper<User, IExpressUserRaw>;
+export type ExpressUserMapper = IPresenterMapper<User, IExpressUserRaw>;
 
 export class ExpressUserMap implements ExpressUserMapper {
   public toDomain(raw: IExpressUserRaw): User {

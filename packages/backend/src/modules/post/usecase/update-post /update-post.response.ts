@@ -11,6 +11,6 @@ import { UpdatePostDTOResponse } from "./update-post.dto";
 export type UpdatePostResponse = Either<
   UpdatePostUseCaseErrors.InvalidImageProperties |
   AppError.UnexpectedError,
-  Result<any> |
+  // Result<any> |
   Result<UpdatePostDTOResponse>
 >

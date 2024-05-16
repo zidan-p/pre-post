@@ -64,9 +64,33 @@ export class ExpressInteractor implements IInteractor {
     return this.request.body;
   }
 
-  getHeaderData(field?:string){
-    if(field) return this.request.header[field];
-    return this.request.header;
+  getHeaderData(): Record<string, any> | null;
+  getHeaderData(field:string): string | null;
+  getHeaderData(field?:string): string | Record<string, any> | null{
+    if(field) {
+      const data = this.request.header[field];
+      if(!data) return null;
+      return data;
+    };
+    
+    const dataRecord = this.request.header;
+    if(isEmpty(dataRecord)) return null;
+    return dataRecord
+  }
+
+  getQueryData(): Record<string, any> | null;
+  getQueryData(field:string): string | null;
+  getQueryData(field?:string): string | Record<string, any> | null{
+    if(field) {
+      const data = this.request.query[field];
+      if(!data) return null;
+      return data;
+    };
+    
+    const dataRecord = this.request.query;
+    if(isEmpty(dataRecord)) return null;
+    return dataRecord
+
   }
 
   // get only single file

@@ -4,13 +4,17 @@ import { Post } from "../../domain/post.agregate-root";
 
 export interface GetAllPostBody{}
 
-export interface GetAllPostParam extends IPaginate{}
+export interface GetAllPostParam {}
+
+export interface GetAllPostQuery extends IPaginate{}
 
 
-export interface GetAllPostDTORequest {}
+export interface GetAllPostDTORequest {
+  query: GetAllPostQuery
+}
 
 
 export interface GetAllPostDTOResponse{
-  posts: Post;
+  posts: Post[];
   paginate: IPaginateReponse
 }

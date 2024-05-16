@@ -4,7 +4,7 @@ import { UserName } from "../../domain/user-name.value-object";
 import { UserPassword } from "../../domain/user-password.value-object";
 import { User } from "../../domain/user.agregate-root";
 import { ParseException } from "~/common/exceptions";
-import { Mapper, PresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
 
 
 
@@ -30,7 +30,7 @@ interface PresenterConfig {
 }
 
 
-export class UserMap implements PresenterMapper<User, IUserRaw | Promise<IUserRaw | IUserRawOutput>>{
+export class UserMap implements IPresenterMapper<User, IUserRaw | Promise<IUserRaw | IUserRawOutput>>{
 
 
   async toPresentation(user: User, config?: PresenterConfig): Promise<IUserRawOutput>{

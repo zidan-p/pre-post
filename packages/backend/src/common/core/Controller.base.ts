@@ -62,6 +62,21 @@ export abstract class BaseController{
   }
 
   /**
+   * get value from query param in url..
+   */
+  getQueryData(): Record<string, any> | null;
+  getQueryData(field:string): string | null;
+  getQueryData(field?:string): string | Record<string, any> | null{
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return null;
+    }
+    if(field) return this.interactor.getQueryData(field);
+    return this.interactor.getQueryData();
+
+  }
+
+  /**
    * get file from interactor. 
    * this method assume the file is stored in Record<string, IComminFile[]> format.
    * @param filename 

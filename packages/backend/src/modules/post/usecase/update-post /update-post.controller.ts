@@ -2,16 +2,20 @@ import { BaseController } from "~/common/core/Controller.base";
 import { UpdatePostUseCase } from "./update-post.use-case";
 import { UpdatePostBody, UpdatePostFiles, UpdatePostParam } from "./update-post.dto";
 import { UpdatePostUseCaseErrors } from "./update-post.error";
+import { IPresenterMapper } from "~/common/core/Mapper";
+import { Post } from "../../domain/post.agregate-root";
 
 
 
 export class UpdatePostController extends BaseController {
 
   private useCase: UpdatePostUseCase;
+  private postPresenterMapper: IPresenterMapper<Post, any>;
   
-  constructor(useCase: UpdatePostUseCase){
+  constructor(useCase: UpdatePostUseCase, postMapper: IPresenterMapper<Post, any>){
     super();
     this.useCase = useCase;
+    this.postPresenterMapper = postMapper;
   }
 
 
@@ -51,7 +55,8 @@ export class UpdatePostController extends BaseController {
       }
 
       const dto = result.value;
-      return this.ok({post_id: dto.getValue().postId});
+      const presenterPost = this.postPresenterMapper.toPresentation(dto.getValue().post);
+      return this.ok({post: presenterPost});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

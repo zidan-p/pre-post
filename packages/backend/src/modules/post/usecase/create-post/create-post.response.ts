@@ -11,6 +11,6 @@ import { PostDomainErrors } from "../../domain/exceptions/post.exception";
 export type CreatePostResponse = Either<
   CreatePostUseCaseErrors.InvalidImageProperties |
   AppError.UnexpectedError,
-  Result<any> |
+  // Result<any> |
   Result<CreatePostDTOResponse>
 >

@@ -7,12 +7,25 @@ import { ExceptionBase } from "../exceptions";
 
 export interface IInteractor {
 
+  // REQUEST PARAM
   getRequestParams(name: string): string | null;
   getRequestParams(): Record<string, string> | null;
   getRequestParams(name?: string): string | Record<string, string> | null;
-  getRequestData(field?:string): any;
-  getHeaderData(field?:string): any;
 
+  // BODY
+  getRequestData(field?:string): any;
+
+  // HEADER
+  getHeaderData(): Record<string, any> | null;
+  getHeaderData(field:string): string | null;
+  getHeaderData(field?:string): string | Record<string, any> | null;
+
+  // QUERY
+  getQueryData(): Record<string, any> | null;
+  getQueryData(field:string): string | null;
+  getQueryData(field?:string): string | Record<string, any> | null;
+
+  // FILES
   getFilesRecord(field?:string) : Record<string, ICommonFile[]> | ICommonFile[] | null;
   getSingleArrayFiles(): ICommonFile[] | null; 
   getSingleFile(): ICommonFile | null;

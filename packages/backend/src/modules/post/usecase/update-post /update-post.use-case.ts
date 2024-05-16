@@ -27,7 +27,7 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
   ){}
 
   async execute(request: UpdatePostDTORequest): Promise<UpdatePostResponse> {
-    let post: Post;
+    let post: Post | null;
     let postImage: PostImage | undefined = undefined;
     let postImageManager: SingleImageManager<PostImage>;
     let postTitle: PostTitle;
@@ -41,7 +41,7 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
 
       const postId = param.postId;
       // get current post
-      const post = await this.postRepository.findById(postId);
+      post = await this.postRepository.findById(postId);
 
       if(!post)
         throw new UpdatePostUseCaseErrors.PostNotFound(postId);
@@ -106,7 +106,7 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
 
       await this.postRepository.save(post);
 
-      return right(Result.ok({post: Post}));
+      return right(Result.ok({post}));
 
     } catch (error) {
       console.error(error);

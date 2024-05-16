@@ -7,12 +7,13 @@ import { FilterConfig, WhereConfig } from "~/common/types/filter-query";
 
 
 export interface IPostRepo{
-  
+
   exists(postId: string): Promise<boolean>;
   
   findById(postId: string | PostId): Promise<Post | null>;
 
-  find(payload: WhereConfig<PostProps>,config: FilterConfig<PostProps>): Promise<Post[]>;
+  find(payload: {}, config?: FilterConfig<PostProps>): Promise<Post[]>;
+  find(payload?: WhereConfig<PostProps>,config?: FilterConfig<PostProps>): Promise<Post[]>;
 
   getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse>;
 
