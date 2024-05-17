@@ -28,7 +28,6 @@ export class SequelizePostRepository implements IPostRepo {
   }
 
 
-
   async getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse> {
 
     const dataPerPage = paginate?.dataPerPage;
@@ -77,6 +76,16 @@ export class SequelizePostRepository implements IPostRepo {
     const post = await this.postModel.findByPk(postId);
     return Boolean(post);
   }
+
+
+  async delete(postId: string | PostId): Promise<void> {
+    
+    const postStringId = postId.toString();
+
+    const result = await this.postModel.destroy({where: {id: postStringId}});
+    return;
+  }
+
 
 
   async save(post: Post) {

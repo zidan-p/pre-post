@@ -13,7 +13,9 @@ import { User } from "../../domain/user.agregate-root";
 
 
 
-
+/**
+ * get access token by providing refresh token
+ */
 export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<RefresTokenResponse>>{
 
   constructor(

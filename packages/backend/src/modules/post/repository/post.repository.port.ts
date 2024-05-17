@@ -1,8 +1,8 @@
 import { IPaginate, IPaginateReponse, ResultWithPagination } from "~/common/types/paginate";
 import { PostId } from "../domain/post-id.value-object";
 import { Post, PostProps } from "../domain/post.agregate-root";
-import { saveStatus } from "./user.repository.port";
 import { FilterConfig, WhereConfig } from "~/common/types/filter-query";
+import { SaveStatus } from "~/common/types/repository";
 
 
 
@@ -17,5 +17,11 @@ export interface IPostRepo{
 
   getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse>;
 
-  save (user: Post): Promise<saveStatus>;
+  /**
+   * note, this method may not apply the data checking. so always try to check it first before delete it
+   * @param postId target record id
+   */
+  delete(postId: string | PostId): Promise<void>;
+
+  save (user: Post): Promise<SaveStatus>;
 }

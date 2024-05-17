@@ -4,7 +4,7 @@ import { IJWTService } from "./jwt.service.interface";
 
 
 /**i dont think it's needed yet */
-export interface IJWTServiceFactory{
+export interface IAuthServiceFactory{
 
   createJwtService(...args: any[]): IJWTService
 }
