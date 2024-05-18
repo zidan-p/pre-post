@@ -1,0 +1,1 @@
+export const PUBLISH_POST = "publish-post";

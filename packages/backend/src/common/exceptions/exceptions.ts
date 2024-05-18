@@ -5,6 +5,7 @@ import {
   ARGUMENT_OUT_OF_RANGE,
   CONFLICT,
   EXPIRED,
+  FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   INVALID_STATE,
   NOT_FOUND,
@@ -128,6 +129,17 @@ export class ExpiredException extends ExceptionBase{
   }
 
   readonly code = EXPIRED
+}
+
+
+export class ForbiddenException extends ExceptionBase{
+  readonly code = FORBIDDEN;
+  static readonly message = "Forbidden to access this resource";
+
+  constructor(message = ForbiddenException.message, cause?: Error){
+    super(message, cause);
+  }
+  
 }
 
 
