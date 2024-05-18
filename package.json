@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev:server": "yarn workspace @pre-post/backend dev",
-    "build:server": "yarn workspace @pre-post/backend build"
+    "build:server": "yarn workspace @pre-post/backend build",
+    "generate:server": "yarn workspace @pre-post/backend generate"
   },
   "workspaces": {
     "packages": [

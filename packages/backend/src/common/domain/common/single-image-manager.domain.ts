@@ -1,5 +1,5 @@
 import { Result } from "~/common/core/result";
-import { ValueObject } from "../Value-object";
+import { ValueObject } from "../value-object";
 import { SingleImageManagerDomainErrors } from "../exception/image.exception";
 import { ICommonFile } from "./common-file.interface";
 import { CommonImageEntity } from "./common-image.entity.base";

@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.build.json ",
-    "generate:usecase": "node ./tools/generator/generate.js",
+    "generate": "node ./tools/generator/generate.js",
     "dev": "tsc-watch --project tsconfig.build.json --incremental --onSuccess \" node ./dist/index.js \"",
     "dev_fail": "tsc --project tsconfig.build.json --watch --incremental && nodemon ./dist/index.js"
   },

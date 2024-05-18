@@ -8,6 +8,24 @@ console.log(__dirname);
 console.log(path.join("./"));
 generateTemplateFiles([
   {
+    option: 'Generate new Module',
+    entry: {
+      folderPath: path.join(process.cwd(), '/tools/generator/templates/module/'),
+    },
+    stringReplacers: [
+      {
+        slot: "__module__",
+        question: "Insert your new modules name"
+      }
+    ],
+    output: {
+      path: './src/modules/__module__(kebabCase)',
+    },
+    onComplete: (results) => {
+      console.log(`results`, results);
+    },
+  },
+  {
     option: 'Generate Use Case',
     entry: {
       folderPath: path.join(process.cwd(), '/tools/generator/templates/usecase/'),
