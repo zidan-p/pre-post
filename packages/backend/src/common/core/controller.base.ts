@@ -123,6 +123,7 @@ export abstract class BaseController{
     return this.interactor.getSingleFile();
   }
 
+  ok<T> (args?: T, message?: string);
   ok<T> (args: T, message?: string){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");

@@ -18,7 +18,7 @@ export interface IPostRepo{
   getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse>;
 
   /**
-   * note, this method may not apply the data checking. so always try to check it first before delete it
+   * note, this method may not apply the data existence checking. so always try to check it first before delete it
    * @param postId target record id
    */
   delete(postId: string | PostId): Promise<void>;

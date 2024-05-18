@@ -1,46 +1,32 @@
-import { BaseController } from "~/common/core/controller.base";
-import { UseCase } from "~/common/core/use-case";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
+import { DeletePostController } from "./delete-post.controller";
+import { DeletePostUseCase } from "./delete-post.use-case";
 import { IPostFactory } from "../../repository/post-creator.interface";
-import { GetAllPostController } from "./delete-post.controller";
-import { GetAllPostUseCase } from "./delete-post.use-case";
-import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
+export class __usecase_PascalCase__Manager implements IUseCaseManager{
 
-export class GetAllManager implements IUseCaseManager{
+  private controller: DeletePostController;
+  private useCase: DeletePostUseCase;
 
-  private controller: GetAllPostController;
-  private useCase: GetAllPostUseCase;
-  private postRepoFactory: IPostFactory
-  private postMapperPresenterFactory: IPostMapperPresenterFactory;
+  constructor(
+    private readonly postRepoFactory: IPostFactory
+  ){
 
-  constructor(postRepoFactory: IPostFactory, postMapperPresenterFactory: IPostMapperPresenterFactory){
-    this.postRepoFactory = postRepoFactory;
-    this.postMapperPresenterFactory = postMapperPresenterFactory;
+    this.useCase = new DeletePostUseCase( this.postRepoFactory.createPostRepo());
 
-    this.useCase = new GetAllPostUseCase(
-      postRepoFactory.createPostRepo()
-    )
-
-    this.controller = new GetAllPostController(this.useCase, this.postMapperPresenterFactory.createPostMapper());
+    this.controller = new DeletePostController(this.useCase);
   }
 
   getUseCase(){return this.useCase};
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new GetAllPostUseCase(
-      this.postRepoFactory.createPostRepo()
-    )
+    return new DeletePostUseCase(this.postRepoFactory.createPostRepo())
   }
 
   createController(){
-    return new GetAllPostController(
-      this.useCase,
-      this.postMapperPresenterFactory.createPostMapper()
-    );
-
+    return new DeletePostController(this.useCase);
   }
 
 }
