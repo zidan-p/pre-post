@@ -1,0 +1,1 @@
+export const __usecase__ConstantCase__ = "__usecase__KebabCase__";
