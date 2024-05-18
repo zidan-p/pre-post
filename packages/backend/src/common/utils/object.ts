@@ -3,9 +3,22 @@
 
 /**
  * 
- * @param obj object to be mapper
- * @param func mapp function
- * @returns obec mapped object
+ * @param obj object to be mapped
+ * @param func map function
+ * @returns objec mapped object
+ * @example
+ * ```
+ * const serializerFunction = (value) => {
+ *  return p + 2;
+ * }
+ * const targetObject = {
+ *  a: 12,
+ *  b: 13,
+ * }
+ * const result = objectMap(targetObject, serializerFunction);
+ * 
+ * result // {a: 15, b: 15}
+ * ```
  */
 function objectMap<
   TRecord extends Record<string, any>, 
