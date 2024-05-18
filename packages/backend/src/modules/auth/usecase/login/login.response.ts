@@ -1,4 +1,4 @@
-import { Either, Result } from "~/common/core/Result";
+import { Either, Result } from "~/common/core/result";
 import { LoginUseCaseErrors } from "./login.error";
 import { LoginDTOResponse } from "./login.dto";
 

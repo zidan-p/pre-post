@@ -1,11 +1,11 @@
-import { UseCase } from "~/common/core/UseCase";
+import { UseCase } from "~/common/core/use-case";
 import { Post } from "../../domain/post.agregate-root";
 import { PostImage, PostImageProps } from "../../domain/post-image.entity";
 import { PostTitle } from "../../domain/post-title.value-object";
 import { PostContent } from "../../domain/post-content.value-object";
 import { UserId } from "../../domain/user-id.value-object";
-import { AppError } from "~/common/core/AppError";
-import { Result, left, right } from "~/common/core/Result";
+import { AppError } from "~/common/core/app.error";
+import { Result, left, right } from "~/common/core/result";
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IPostRepo } from "../../repository/post.repository.port";

@@ -1,4 +1,4 @@
-import { IPresenterMapper } from "~/common/core/Mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
 import { IPostMapperPresenterFactory } from "../post-mapper.factory.interface";
 import { ExpressPostImageMap } from "./post-image.map";
 import { ExpressUserMap } from "./user.map";

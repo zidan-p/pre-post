@@ -4,10 +4,10 @@ import { PostImage } from "./post-image.entity";
 import { PostTitle } from "./post-title.value-object";
 import { UserId } from "./user-id.value-object";
 import { PostId } from "./post-id.value-object";
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { PostDomainErrors } from "./exceptions/post.exception";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
-import { Guard } from "~/common/core/Guard";
+import { Guard } from "~/common/core/guard";
 import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 
 

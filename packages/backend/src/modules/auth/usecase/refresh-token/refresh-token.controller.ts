@@ -1,4 +1,4 @@
-import { BaseController } from "~/common/core/Controller.base";
+import { BaseController } from "~/common/core/controller.base";
 import { RefreshTokenDTO } from "./refresh-token.dto";
 import { RefreshTokenUseCase } from "./refresh-token.use-case";
 import { RefresTokenUseCaseError } from "./refresh-token.error";

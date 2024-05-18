@@ -1,7 +1,7 @@
-import { Either, Result } from "~/common/core/Result";
+import { Either, Result } from "~/common/core/result";
 import { RefresTokenUseCaseError } from "./refresh-token.error";
 import { RefreshTokenResponseDTO } from "./refresh-token.dto";
-import { AppError } from "~/common/core/AppError";
+import { AppError } from "~/common/core/app.error";
 import { ExceptionBase } from "~/common/exceptions";
 
 

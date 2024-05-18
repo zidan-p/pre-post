@@ -1,4 +1,4 @@
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ValueObject } from "../Value-object";
 import { SingleImageManagerDomainErrors } from "../exception/image.exception";
 import { ICommonFile } from "./common-file.interface";

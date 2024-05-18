@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/mapper";
 import { User } from "../domain/user.agregate-root";
 
 
@@ -11,5 +11,5 @@ export interface IAuthMapperPresenterFactory{
 
 
 export interface IAuthMapperPersitenceFactory{
-  createUserMapper<TDomain extends User> (): Mapper<TDomain, any>
+  createUserMapper<TDomain extends User> (): PersisterMapper<TDomain, any>
 }

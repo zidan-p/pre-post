@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
-import { Mapper } from "~/common/core/Mapper";
+import { PersisterMapper } from "~/common/core/mapper";
 import { ParseException } from "~/common/exceptions";
 
 
@@ -19,7 +19,7 @@ export interface ISequelizeUserRaw {
 }
 
 
-export type SequelizeUserMapper = Mapper<User, ISequelizeUserRaw>;
+export type SequelizeUserMapper = PersisterMapper<User, ISequelizeUserRaw>;
 
 export class UserMap implements SequelizeUserMapper {
   public toDomain(raw: ISequelizeUserRaw): User {

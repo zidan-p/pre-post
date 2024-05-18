@@ -1,7 +1,7 @@
 
 import { ExceptionBase, UNEXPECTED_ERROR } from "../exceptions";
-import { Result } from "./Result";
-import { UseCaseError } from "./UseCaseError";
+import { Result } from "./result";
+import { UseCaseError } from "./use-case.error.base";
 
 export namespace AppError {
   export class UnexpectedError extends Result<UseCaseError> {

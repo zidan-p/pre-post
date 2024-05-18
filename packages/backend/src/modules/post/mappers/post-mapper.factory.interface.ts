@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/mapper";
 import { Entity } from "~/common/domain/entity.base";
 import { Post } from "../domain/post.agregate-root";
 import { PostImage } from "../domain/post-image.entity";
@@ -14,8 +14,8 @@ export interface IPostMapperPresenterFactory{
 
 export interface IPostMapperFactory{
   
-  createPostMapper<TDomain extends Post> (): Mapper<TDomain, any>;
-  createPostImageMapper<TDomain extends PostImage, TRaw extends Record<string, any>> (): Mapper<TDomain, TRaw>;
-  createUserMapper<TDomain extends User, TRaw extends Record<string, any>> (): Mapper<TDomain, TRaw>;
+  createPostMapper<TDomain extends Post> (): PersisterMapper<TDomain, any>;
+  createPostImageMapper<TDomain extends PostImage, TRaw extends Record<string, any>> (): PersisterMapper<TDomain, TRaw>;
+  createUserMapper<TDomain extends User, TRaw extends Record<string, any>> (): PersisterMapper<TDomain, TRaw>;
 
 }

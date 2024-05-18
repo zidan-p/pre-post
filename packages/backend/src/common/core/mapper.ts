@@ -2,7 +2,7 @@ import { Entity } from "../domain/entity.base";
 
 
 
-export interface Mapper<
+export interface PersisterMapper<
   TEntity extends Entity<any> = Entity<any>, 
   TRaw extends Record<string, any> = Record<string, any> 
   >

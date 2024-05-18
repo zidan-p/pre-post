@@ -1,5 +1,5 @@
-import { DomainError } from "~/common/core/DomainError";
-import { Result } from "~/common/core/Result";
+import { DomainError } from "~/common/core/domain.error.base";
+import { Result } from "~/common/core/result";
 import { ConflictException, UnsavedEntityException } from "~/common/exceptions";
 import { CommonImageEntity } from "../common/common-image.entity.base";
 import { SingleImageManager } from "../common/single-image-manager.domain";

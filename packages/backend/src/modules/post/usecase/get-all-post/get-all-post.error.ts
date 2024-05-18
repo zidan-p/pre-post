@@ -1,4 +1,4 @@
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
 import { UseCaseError } from "~/common/core/UseCaseError";
 import { BaseError } from "sequelize";

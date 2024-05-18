@@ -1,4 +1,4 @@
-import { Mapper } from "~/common/core/Mapper";
+import { PersisterMapper } from "~/common/core/mapper";
 import { Entity } from "~/common/domain/entity.base";
 import { IPostMapperFactory } from "../post-mapper.factory.interface";
 import { ISequelizePostRaw, PostMap } from "./post.map";
@@ -10,15 +10,15 @@ import { UserMap } from "./user.map";
 
 
 export class SequelizeMapperFactory implements IPostMapperFactory{
-  createUserMapper(): Mapper<any, any> {
+  createUserMapper(): PersisterMapper<any, any> {
     return new UserMap();
   }
 
-  createPostMapper(): Mapper<any, any> {
+  createPostMapper(): PersisterMapper<any, any> {
     return new PostMap();
   }
 
-  createPostImageMapper(): Mapper<any, any>{
+  createPostImageMapper(): PersisterMapper<any, any>{
     return new PostImageMap
   }
   

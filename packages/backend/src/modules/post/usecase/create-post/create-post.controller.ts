@@ -1,4 +1,4 @@
-import { BaseController } from "~/common/core/Controller.base";
+import { BaseController } from "~/common/core/controller.base";
 import { CreatePostUseCase } from "./create-post.use-case";
 import { CreatePostBody, CreatePostFiles } from "./create-post.dto";
 import { CreatePostUseCaseErrors } from "./create-post.error";

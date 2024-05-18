@@ -1,6 +1,6 @@
-import { BaseController } from "~/common/core/Controller.base";
+import { BaseController } from "~/common/core/controller.base";
 import { Post } from "../../domain/post.agregate-root";
-import { IPresenterMapper } from "~/common/core/Mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
 import { GetAllPostUseCase } from "./delete-post.use-case";
 import { GetAllPostBody, GetAllPostQuery } from "./delete-post.dto";
 

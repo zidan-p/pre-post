@@ -1,9 +1,9 @@
-import { UseCase } from "~/common/core/UseCase";
-import { AppError } from "~/common/core/AppError";
+import { UseCase } from "~/common/core/use-case";
+import { AppError } from "~/common/core/app.error";
 import { IPostRepo } from "../../repository/post.repository.port";
 import { GetAllPostDTORequest, GetAllPostDTOResponse } from "./get-all-post.dto";
 import { query } from "express";
-import { Result, left, right } from "~/common/core/Result";
+import { Result, left, right } from "~/common/core/result";
 import { GetAllPostResponse } from "./get-all-post.response";
 
 

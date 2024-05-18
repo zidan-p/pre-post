@@ -1,5 +1,5 @@
-import { BaseController } from "./Controller.base";
-import { UseCase } from "./UseCase";
+import { BaseController } from "./controller.base";
+import { UseCase } from "./use-case";
 
 export interface IUseCaseManager{
 

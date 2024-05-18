@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { Guard } from "~/common/core/Guard";
-import { Result } from "~/common/core/Result";
+import { Guard } from "~/common/core/guard";
+import { Result } from "~/common/core/result";
 import { ValueObject } from "~/common/domain/Value-object";
 import { ZodValidationException } from "~/common/exceptions";
 

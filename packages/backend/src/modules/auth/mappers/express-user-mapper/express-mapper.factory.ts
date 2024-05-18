@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/Mapper";
+import { Mapper, IPresenterMapper } from "~/common/core/mapper";
 import { User } from "../../domain/user.agregate-root";
 import { IAuthMapperPersitenceFactory, IAuthMapperPresenterFactory } from "../auth-mapper.factory.interface";
 import { UserMap } from "./user.mapper";

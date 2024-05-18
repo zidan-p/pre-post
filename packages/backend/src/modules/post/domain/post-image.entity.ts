@@ -1,5 +1,5 @@
-import { Guard } from "~/common/core/Guard";
-import { Result } from "~/common/core/Result";
+import { Guard } from "~/common/core/guard";
+import { Result } from "~/common/core/result";
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
 import { Entity } from "~/common/domain/entity.base";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";

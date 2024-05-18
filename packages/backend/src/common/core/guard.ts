@@ -2,7 +2,7 @@
 export type GuardResponse = string;
 
 import { ArgumentInvalidException, ArgumentNotProvidedException, ArgumentOutOfRangeException } from "../exceptions";
-import { Result } from "./Result";
+import { Result } from "./result";
 
 export interface IGuardArgument {
   argument: any;
@@ -81,7 +81,7 @@ export class Guard {
   }
 
   public static allInRange (numbers: number[], min: number, max: number, argumentName: string) : Result<GuardResponse> {
-    let failingResult: Result<GuardResponse> = null;
+    let failingResult: Result<GuardResponse> | undefined;
 
     for(let num of numbers) {
       const numIsInRangeResult = this.inRange(num, min, max, argumentName);

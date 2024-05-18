@@ -1,4 +1,4 @@
-import { BaseController } from "~/common/core/Controller.base";
+import { BaseController } from "~/common/core/controller.base";
 import { LoginUseCase } from "./login.use-case";
 import { LoginDTO } from "./login.dto";
 import { LoginUseCaseErrors } from "./login.error";

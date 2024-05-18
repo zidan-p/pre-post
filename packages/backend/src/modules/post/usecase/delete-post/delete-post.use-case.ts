@@ -1,8 +1,8 @@
-import { UseCase } from "~/common/core/UseCase";
-import { AppError } from "~/common/core/AppError";
+import { UseCase } from "~/common/core/use-case";
+import { AppError } from "~/common/core/app.error";
 import { IPostRepo } from "../../repository/post.repository.port";
 import { query } from "express";
-import { Result, left, right } from "~/common/core/Result";
+import { Result, left, right } from "~/common/core/result";
 import { DeletePostResponse } from "./delete-post.response";
 import { DeletePostDTORequest } from "./delete-post.dto";
 import { DeletePostUseCaseErrors } from "./delete-post.error";

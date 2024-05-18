@@ -1,5 +1,5 @@
 
-import { Result } from "./Result";
+import { Result } from "./result";
 
 export interface WithChanges {
   changes: Changes;

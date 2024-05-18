@@ -4,7 +4,7 @@ import { UserName } from "../../domain/user-name.value-object";
 import { UserPassword } from "../../domain/user-password.value-object";
 import { User } from "../../domain/user.agregate-root";
 import { ParseException } from "~/common/exceptions";
-import { Mapper } from "~/common/core/Mapper";
+import { PersisterMapper } from "~/common/core/mapper";
 
 
 
@@ -21,7 +21,7 @@ export interface IUserRaw {
 
 
 
-export class SequelizeUserMap implements Mapper<User, IUserRaw | Promise<IUserRaw>>{
+export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promise<IUserRaw>>{
 
 
   toDomain(raw: IUserRaw): User {

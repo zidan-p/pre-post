@@ -1,6 +1,6 @@
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { z } from "zod";
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ValueObject } from "~/common/domain/Value-object";
 
 

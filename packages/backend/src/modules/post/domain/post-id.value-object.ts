@@ -1,5 +1,5 @@
-import { Guard } from "~/common/core/Guard";
-import { Result } from "~/common/core/Result";
+import { Guard } from "~/common/core/guard";
+import { Result } from "~/common/core/result";
 import { ValueObject } from "~/common/domain/Value-object";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { ArgumentNotProvidedException } from "~/common/exceptions";

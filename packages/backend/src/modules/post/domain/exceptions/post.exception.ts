@@ -1,4 +1,4 @@
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ConflictException, UnsavedEntityException } from "~/common/exceptions";
 
 

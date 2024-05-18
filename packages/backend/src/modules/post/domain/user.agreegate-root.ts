@@ -1,8 +1,8 @@
 import { AggregateRoot } from "~/common/domain/agregate-root.base";
 import { UserId } from "./user-id.value-object";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
-import { Result } from "~/common/core/Result";
-import { Guard } from "~/common/core/Guard";
+import { Result } from "~/common/core/result";
+import { Guard } from "~/common/core/guard";
 import { ValidationFailException } from "~/common/exceptions";
 
 interface UserProps {

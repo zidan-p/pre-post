@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { Guard } from "~/common/core/Guard";
-import { Result } from "~/common/core/Result";
+import { Guard } from "~/common/core/guard";
+import { Result } from "~/common/core/result";
 import { AggregateRoot } from "~/common/domain/agregate-root.base";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { ValidationFailException } from "~/common/exceptions";

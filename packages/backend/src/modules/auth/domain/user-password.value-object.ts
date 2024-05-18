@@ -1,7 +1,7 @@
 import { ValueObject } from "~/common/domain/Value-object";
 import bcrypt = require('bcrypt');
 import { z } from "zod";
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ArgumentInvalidException, ZodValidationException } from "~/common/exceptions";
 
 

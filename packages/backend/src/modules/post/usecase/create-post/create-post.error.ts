@@ -1,4 +1,4 @@
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { CreatePostDTOResponse } from "./create-post.dto";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
 import { UseCaseError } from "~/common/core/UseCaseError";

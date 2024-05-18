@@ -2,7 +2,7 @@ import { PostImageProps } from "~/modules/post/domain/post-image.entity";
 import { Entity } from "../entity.base";
 import { ICommonFile } from "./common-file.interface";
 import { UniqueEntityID } from "../unique-entitiy";
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 
 
 

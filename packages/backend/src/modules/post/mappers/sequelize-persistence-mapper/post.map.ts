@@ -1,4 +1,4 @@
-import { Mapper } from "~/common/core/Mapper";
+import { PersisterMapper } from "~/common/core/mapper";
 import { Entity } from "~/common/domain/entity.base";
 import { Post } from "../../domain/post.agregate-root";
 import { ISequelizePostImageRaw, PostImageMap } from "./post-image.map";
@@ -28,7 +28,7 @@ export interface ISequelizePostRaw {
 }
 
 
-export type SequelizePostMapper = Mapper<Post, ISequelizePostRaw>;
+export type SequelizePostMapper = PersisterMapper<Post, ISequelizePostRaw>;
 
 export class PostMap implements SequelizePostMapper {
 

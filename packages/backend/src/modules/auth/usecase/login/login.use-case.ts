@@ -1,16 +1,16 @@
-import { UseCase } from "~/common/core/UseCase";
+import { UseCase } from "~/common/core/use-case";
 import { LoginDTO, LoginDTOResponse } from "./login.dto";
 import { LoginResponse } from "./login.response";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IJWTService } from "../../service/jwt.service.interface";
 import { User } from "../../domain/user.agregate-root";
 import { UserPassword } from "../../domain/user-password.value-object";
-import { Result, left, right } from "~/common/core/Result";
+import { Result, left, right } from "~/common/core/result";
 import { UserEmail } from "../../domain/user-email.value-object";
 import { ArgumentInvalidException, ValidationFailException } from "~/common/exceptions";
 import { LoginUseCaseErrors } from "./login.error";
 import { JWTToken } from "../../domain/jwt.interface";
-import { AppError } from "~/common/core/AppError";
+import { AppError } from "~/common/core/app.error";
 
 
 

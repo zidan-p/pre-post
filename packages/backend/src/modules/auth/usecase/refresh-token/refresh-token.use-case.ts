@@ -1,8 +1,8 @@
-import { UseCase } from "~/common/core/UseCase";
+import { UseCase } from "~/common/core/use-case";
 import { RefreshTokenDTO, RefreshTokenResponseDTO } from "./refresh-token.dto";
 import { RefresTokenResponse } from "./refresh-token.response";
-import { AppError } from "~/common/core/AppError";
-import { Result, left, right } from "~/common/core/Result";
+import { AppError } from "~/common/core/app.error";
+import { Result, left, right } from "~/common/core/result";
 import { JWTClaims, JWTToken } from "../../domain/jwt.interface";
 import { IUserRepo } from "../../repository/user.repository.port";
 import { IJWTService } from "../../service/jwt.service.interface";

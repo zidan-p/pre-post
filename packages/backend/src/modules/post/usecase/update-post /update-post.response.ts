@@ -1,5 +1,5 @@
-import { AppError } from "~/common/core/AppError";
-import { Either, Result } from "~/common/core/Result";
+import { AppError } from "~/common/core/app.error";
+import { Either, Result } from "~/common/core/result";
 import { ExceptionBase } from "~/common/exceptions";
 import { PostDomainErrors } from "../../domain/exceptions/post.exception";
 import { UpdatePostUseCaseErrors } from "./update-post.error";

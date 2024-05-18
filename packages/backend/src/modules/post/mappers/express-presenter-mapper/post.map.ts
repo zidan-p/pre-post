@@ -1,4 +1,4 @@
-import { IPresenterMapper } from "~/common/core/Mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
 import { ExpressPostImageMap, IExpressPostImageRaw } from "./post-image.map";
 import { Post } from "../../domain/post.agregate-root";
 import { UserId } from "../../domain/user-id.value-object";

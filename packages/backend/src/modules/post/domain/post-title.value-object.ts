@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Result } from "~/common/core/Result";
+import { Result } from "~/common/core/result";
 import { ValueObject } from "~/common/domain/Value-object";
 import { ZodValidationException } from "~/common/exceptions";
 

@@ -1,4 +1,4 @@
-import { Mapper } from "~/common/core/Mapper";
+import { PersisterMapper } from "~/common/core/mapper";
 import { PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 
@@ -13,9 +13,9 @@ export interface ISequelizePostImageRaw {
 
 }
 
-export type SequelizePostImageMapper = Mapper<PostImage, ISequelizePostImageRaw>;
+export type SequelizePostImageMapper = PersisterMapper<PostImage, ISequelizePostImageRaw>;
 
-export class PostImageMap implements Mapper<PostImage, ISequelizePostImageRaw>{
+export class PostImageMap implements PersisterMapper<PostImage, ISequelizePostImageRaw>{
 
   public toDomain(raw: ISequelizePostImageRaw){
     const postImageOrError = PostImage.create({

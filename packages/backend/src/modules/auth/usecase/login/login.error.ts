@@ -1,4 +1,4 @@
-import { Result } from "~/common/core/Result"
+import { Result } from "~/common/core/result"
 import { UseCaseError } from "~/common/core/UseCaseError"
 import { ArgumentInvalidException} from "~/common/exceptions"
 

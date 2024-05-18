@@ -1,8 +1,8 @@
-import { BaseController } from "~/common/core/Controller.base";
+import { BaseController } from "~/common/core/controller.base";
 import { UpdatePostUseCase } from "./update-post.use-case";
 import { UpdatePostBody, UpdatePostFiles, UpdatePostParam } from "./update-post.dto";
 import { UpdatePostUseCaseErrors } from "./update-post.error";
-import { IPresenterMapper } from "~/common/core/Mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
 import { Post } from "../../domain/post.agregate-root";
 
 
