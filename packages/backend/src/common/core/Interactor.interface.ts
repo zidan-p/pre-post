@@ -1,5 +1,6 @@
 import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
+import { IUserAuth } from "./user.auth.interface";
 
 
 
@@ -24,6 +25,9 @@ export interface IInteractor {
   getQueryData(): Record<string, any> | null;
   getQueryData(field:string): string | null;
   getQueryData(field?:string): string | Record<string, any> | null;
+
+  // USER AUTH
+  getUser(): IUserAuth | undefined;
 
   // FILES
   getFilesRecord(field?:string) : Record<string, ICommonFile[]> | ICommonFile[] | null;

@@ -3,6 +3,7 @@ import { IInteractor } from "~/common/core/Interactor.interface";
 import { ExceptionBase } from "~/common/exceptions";
 import { PrePostResponse } from "../response/reponse.type";
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
+import { IUserAuth } from "~/common/core/user.auth.interface";
 
 
 
@@ -132,6 +133,10 @@ export class ExpressInteractor implements IInteractor {
     }else {
       return null;
     }
+  }
+
+  getUser(): IUserAuth | undefined {
+    return this.request.user;
   }
 
   ok<T>(args: T, message: string){

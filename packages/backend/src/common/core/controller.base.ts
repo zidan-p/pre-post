@@ -1,6 +1,7 @@
 import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
 import { IInteractor } from "./Interactor.interface";
+import { IUserAuth } from "./user.auth.interface";
 
 
 export abstract class BaseController{
@@ -74,6 +75,15 @@ export abstract class BaseController{
     if(field) return this.interactor.getQueryData(field);
     return this.interactor.getQueryData();
 
+  }
+
+  getUser(): IUserAuth | null{
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return null;
+    }
+
+    return this.interactor.getUser() ?? null;
   }
 
   /**
