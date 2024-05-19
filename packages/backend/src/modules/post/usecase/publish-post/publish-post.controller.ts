@@ -1,6 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { PublishPostUseCase } from "./publish-post.use-case";
 import { PublishPostParams } from "./publish-post.dto";
+import { PublishPostUseCaseErrors } from "./publish-post.error";
 
 
 
@@ -29,6 +30,12 @@ export class PublishPostController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
+
+          case exception instanceof PublishPostUseCaseErrors.PostNotFound:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>)
+
+          case exception instanceof PublishPostUseCaseErrors.ForbiddenUser:
+            return this.notFound(exception.message)
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);

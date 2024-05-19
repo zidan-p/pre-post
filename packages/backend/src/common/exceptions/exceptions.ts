@@ -65,8 +65,8 @@ export class ConflictException extends ExceptionBase {
 export class NotFoundException extends ExceptionBase {
   static readonly message = 'Not found';
 
-  constructor(message = NotFoundException.message, cause?: Error) {
-    super(message, cause);
+  constructor(message = NotFoundException.message, cause?: Error, metadata?: Record<any, any>) {
+    super(message, cause, metadata);
   }
 
   readonly code = NOT_FOUND;

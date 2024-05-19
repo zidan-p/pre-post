@@ -9,7 +9,7 @@ export namespace PublishPostUseCaseErrors {
   export class PostNotFound extends Result<UseCaseError, NotFoundException>{
     constructor(id: string | number){
       const message = "Post With id [ " + id + " ] nto found ";
-      super(false, new NotFoundException(message));
+      super(false, new NotFoundException(message, undefined, {postId: id}));
     }
   }
 
