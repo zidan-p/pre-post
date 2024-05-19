@@ -1,5 +1,5 @@
 
-import { IPostFactory } from "../../post-creator.interface";
+import { IPostRepositoryFactory } from "../../post-creator.interface";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
 import { SequelizePostRepository } from "./post.repository-impl";
 import { SequelizeUserRepository } from "./user.repository-impl";
@@ -12,7 +12,7 @@ import { UserModelImplementation } from "~/common/infra/database/sequelize/model
 
 
 
-export class SequelizePostRepoFactory implements IPostFactory{
+export class SequelizePostRepoFactory implements IPostRepositoryFactory{
 
   constructor(
     private readonly postMapperFactory: IPostMapperFactory,

@@ -1,7 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { UseCase } from "~/common/core/use-case";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
-import { IPostFactory } from "../../repository/post-creator.interface";
+import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
 import { CreatePostController } from "./create-post.controller";
 import { CreatePostUseCase } from "./create-post.use-case";
 
@@ -11,9 +11,9 @@ export class CreatePostManager implements IUseCaseManager{
 
   private controller: CreatePostController;
   private useCase: CreatePostUseCase;
-  private postRepoFactory: IPostFactory
+  private postRepoFactory: IPostRepositoryFactory
 
-  constructor(postRepoFactory: IPostFactory){
+  constructor(postRepoFactory: IPostRepositoryFactory){
 
     this.useCase = new CreatePostUseCase(
       postRepoFactory.createPostImageRepo(),

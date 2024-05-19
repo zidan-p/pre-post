@@ -1,7 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { UseCase } from "~/common/core/use-case";
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
-import { IPostFactory } from "../../repository/post-creator.interface";
+import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
 import { GetAllPostController } from "./get-all-post.controller";
 import { GetAllPostUseCase } from "./get-all-post.use-case";
 import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
@@ -12,10 +12,10 @@ export class GetAllManager implements IUseCaseManager{
 
   private controller: GetAllPostController;
   private useCase: GetAllPostUseCase;
-  private postRepoFactory: IPostFactory
+  private postRepoFactory: IPostRepositoryFactory
   private postMapperPresenterFactory: IPostMapperPresenterFactory;
 
-  constructor(postRepoFactory: IPostFactory, postMapperPresenterFactory: IPostMapperPresenterFactory){
+  constructor(postRepoFactory: IPostRepositoryFactory, postMapperPresenterFactory: IPostMapperPresenterFactory){
     this.postRepoFactory = postRepoFactory;
     this.postMapperPresenterFactory = postMapperPresenterFactory;
 

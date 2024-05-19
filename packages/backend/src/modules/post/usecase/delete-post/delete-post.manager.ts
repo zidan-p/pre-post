@@ -1,7 +1,7 @@
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { DeletePostController } from "./delete-post.controller";
 import { DeletePostUseCase } from "./delete-post.use-case";
-import { IPostFactory } from "../../repository/post-creator.interface";
+import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
 
 
 export class __usecase_PascalCase__Manager implements IUseCaseManager{
@@ -10,7 +10,7 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
   private useCase: DeletePostUseCase;
 
   constructor(
-    private readonly postRepoFactory: IPostFactory
+    private readonly postRepoFactory: IPostRepositoryFactory
   ){
 
     this.useCase = new DeletePostUseCase( this.postRepoFactory.createPostRepo());

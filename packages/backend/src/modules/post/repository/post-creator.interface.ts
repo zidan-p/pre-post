@@ -8,7 +8,7 @@ import { IUserRepo } from "./user.repository.port";
 
 
 
-export interface IPostFactory{
+export interface IPostRepositoryFactory{
 
 
   createPostImageRepo: () => IPostImageRepo;

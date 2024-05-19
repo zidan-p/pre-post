@@ -1,5 +1,5 @@
 
-import { IPostFactory } from "../../post-creator.interface";
+import { IPostRepositoryFactory } from "../../post-creator.interface";
 import { SequelizePostImageRepository } from "./post-image.repository-impl";
 import { SequelizePostRepository } from "./post.repository-impl";
 import { SequelizeUserRepository } from "./user.repository-impl";
@@ -13,7 +13,7 @@ import { IUserRepo } from "../../user.repository.port";
 
 
 
-export class SequelizePostRepoFactory implements IPostFactory{
+export class SequelizePostRepoFactory implements IPostRepositoryFactory{
 
   private postImageRepo: SequelizePostImageRepository;
   private postRepo: SequelizePostRepository;
