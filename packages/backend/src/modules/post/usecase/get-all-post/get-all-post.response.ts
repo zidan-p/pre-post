@@ -7,7 +7,8 @@ import { GetAllPostDTOResponse } from "./get-all-post.dto";
 
 
 export type GetAllPostResponse = Either<
-  GetAllPostUseCaseErrors.FailBuildingPost<any> |
+  // GetAllPostUseCaseErrors.InvalidProperties |
+  // GetAllPostUseCaseErrors.FailBuildingPost<any> |
   AppError.UnexpectedError,
   // Result<any> |
   Result<GetAllPostDTOResponse>

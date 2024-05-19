@@ -1,5 +1,6 @@
-import { IPaginateReponse } from "~/common/types/paginate";
+import { IPaginate, IPaginateReponse } from "~/common/types/paginate";
 import { Post } from "../../domain/post.agregate-root";
+import { IUserAuth } from "~/common/core/user.auth.interface";
 
 export interface GetPostsByCurrentUserFiles{}
 
@@ -7,11 +8,16 @@ export interface GetPostsByCurrentUserBody{}
 
 export interface GetPostsByCurrentUserParams{}
 
+export interface GetPostsByCurrentUserQuery extends IPaginate{}
+
 export interface GetPostsByCurrentUserUser{}
 
-export interface GetPostsByCurrentUserDTORequest {}
+export interface GetPostsByCurrentUserDTORequest {
+  user: IUserAuth;
+  query?: GetPostsByCurrentUserQuery;
+}
 
 export interface GetPostsByCurrentUserDTOResponse{
-  post: Post[];
+  posts: Post[];
   paginate: IPaginateReponse
 }

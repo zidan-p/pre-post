@@ -1,7 +1,7 @@
 import { Result } from "~/common/core/result";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
-import { UseCaseError } from "~/common/core/UseCaseError";
 import { BaseError } from "sequelize";
+import { UseCaseError } from "~/common/core/use-case.error.base";
 
 
 
@@ -13,8 +13,8 @@ export namespace GetAllPostUseCaseErrors {
     }
   }
 
-  export class FailBuildingPost<TError extends ExceptionBase> extends Result<UseCaseError, TError>{
-    constructor(cause: TError){
+  export class FailBuildingPost extends Result<UseCaseError, ExceptionBase>{
+    constructor(cause: ExceptionBase){
       super(false, cause);
     }
   }

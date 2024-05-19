@@ -12,10 +12,11 @@ export interface IPostRepo{
   
   findById(postId: string | PostId): Promise<Post | null>;
 
+  // note, always place the priority first line
+  find(payload: WhereConfig<PostProps>,config?: FilterConfig<PostProps>): Promise<Post[]>;
   find(payload: {}, config?: FilterConfig<PostProps>): Promise<Post[]>;
-  find(payload?: WhereConfig<PostProps>,config?: FilterConfig<PostProps>): Promise<Post[]>;
 
-  getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse>;
+  getPaginate(payload: WhereConfig<PostProps>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
 
   /**
    * note, this method may not apply the data existence checking. so always try to check it first before delete it

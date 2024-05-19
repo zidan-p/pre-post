@@ -42,6 +42,8 @@ export class PublishPostController extends BaseController {
           
         }
       }
+
+      
       return this.ok();
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
