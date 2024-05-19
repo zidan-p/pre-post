@@ -43,7 +43,10 @@ export class GetPostsByCurrentUserController extends BaseController {
           
         }
       }
-      return this.ok();
+      const value = result.value.getValue();
+      const posts = value.posts;
+      const paginate = value.paginate;
+      return this.ok({posts, paginate});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
