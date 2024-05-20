@@ -35,7 +35,8 @@ export class PublishPostController extends BaseController {
             return this.notFound(exception.message, exception.metadata as Record<string, any>)
 
           case exception instanceof PublishPostUseCaseErrors.ForbiddenUser:
-            return this.notFound(exception.message)
+            return this.notFound(exception.message);
+
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);
@@ -43,8 +44,9 @@ export class PublishPostController extends BaseController {
         }
       }
 
-      
-      return this.ok();
+      const value = result.value.getValue();
+      const post = value.post;
+      return this.ok({post});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

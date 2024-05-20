@@ -5,6 +5,9 @@ export interface WithChanges {
   changes: Changes;
 }
 
+/**
+ * useful when working with list of data
+ */
 export class Changes {
   private changes: Result<any>[];
 
