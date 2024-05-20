@@ -4,7 +4,8 @@ import { UserName } from "../../domain/user-name.value-object";
 import { UserPassword } from "../../domain/user-password.value-object";
 import { User } from "../../domain/user.agregate-root";
 import { ParseException } from "~/common/exceptions";
-import { Mapper, IPresenterMapper } from "~/common/core/mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
+import { RoleValue } from "~/common/core/role.const";
 
 
 
@@ -15,6 +16,7 @@ export interface IUserRaw {
   email: string;
   username: string;
   is_admin: boolean;
+  role: RoleValue;
 }
 
 export interface IUserRawOutput {
@@ -23,6 +25,7 @@ export interface IUserRawOutput {
   email: string;
   username: string;
   is_admin: boolean;
+  role: RoleValue;
 }
 
 interface PresenterConfig {
@@ -53,7 +56,8 @@ export class UserMap implements IPresenterMapper<User, IUserRaw | Promise<IUserR
       email: user.email.value,
       username: user.username.value,
       password: password ?? undefined,
-      is_admin: user.isAdminUser
+      is_admin: user.isAdminUser,
+      role: user.role
     }
   }
 
@@ -68,6 +72,7 @@ export class UserMap implements IPresenterMapper<User, IUserRaw | Promise<IUserR
       password: userPasswordOrError.getValue(),
       username: usernameOrError.getValue(),
       isAdminUser: raw.is_admin,
+      role: raw.role
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){

@@ -5,6 +5,7 @@ import { UserPassword } from "../../domain/user-password.value-object";
 import { User } from "../../domain/user.agregate-root";
 import { ParseException } from "~/common/exceptions";
 import { PersisterMapper } from "~/common/core/mapper";
+import { RoleValue } from "~/common/core/role.const";
 
 
 
@@ -15,6 +16,7 @@ export interface IUserRaw {
   email: string;
   username: string;
   is_admin: boolean;
+  role: RoleValue;
 }
 
 
@@ -33,6 +35,7 @@ export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promis
       email: userEmailOrError.getValue(),
       password: userPasswordOrError.getValue(),
       username: usernameOrError.getValue(),
+      role: raw.role,
       isAdminUser: raw.is_admin,
     }, new UniqueEntityID(raw.id));
 
@@ -61,7 +64,8 @@ export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promis
       email: user.email.value,
       username: user.username.value,
       password: password,
-      is_admin: user.isAdminUser
+      is_admin: user.isAdminUser,
+      role: user.role
     }
   }
 }

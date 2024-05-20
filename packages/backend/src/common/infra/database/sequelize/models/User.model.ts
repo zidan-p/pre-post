@@ -1,8 +1,3 @@
-
-
-
-
-
 import {
   Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin,
@@ -11,6 +6,7 @@ import {
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey,
 } from 'sequelize';
 import { Post } from './Post.model';
+import { Role, RoleValue } from '~/common/core/role.const';
 
 // order of InferAttributes & InferCreationAttributes is important.
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -22,6 +18,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare email: string;
   declare username: string;
   declare is_admin: boolean;
+  declare role: RoleValue;
 
     // timestamps!
   // createdAt can be undefined during creation
@@ -81,6 +78,9 @@ export function initUser(sequelize: Sequelize){
         type: DataTypes.STRING(250),
         allowNull: false,
         unique: true
+      },
+      role: {
+        type: DataTypes.ENUM(Role.ADMIN, Role.USER)
       },
       is_admin: {
         type: DataTypes.BOOLEAN

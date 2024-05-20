@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { Guard } from "~/common/core/guard";
 import { Result } from "~/common/core/result";
+import { RoleValue } from "~/common/core/role.const";
 import { AggregateRoot } from "~/common/domain/agregate-root.base";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { ValidationFailException } from "~/common/exceptions";
@@ -14,8 +15,9 @@ interface UserProps {
   email: UserEmail;
   username: UserName;
   password: UserPassword;
-  isEmailVerified?: boolean;
+  role: RoleValue;
   isAdminUser?: boolean;
+  isEmailVerified?: boolean;
   accessToken?: JWTToken;
   refreshToken?: RefreshToken;
   isDeleted?: boolean;
@@ -53,6 +55,10 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.isEmailVerified ?? false;
   }
 
+  get role(){
+    return this.props.role;
+  }
+
   get isAdminUser (): boolean {
     return this.props.isAdminUser ?? false;
   }
@@ -63,6 +69,10 @@ export class User extends AggregateRoot<UserProps> {
 
   get refreshToken (): RefreshToken | null {
     return this.props.refreshToken ?? null;
+  }
+
+  set role(value: RoleValue){
+    this.props.role = value;
   }
 
   public isLoggedIn (): boolean {
