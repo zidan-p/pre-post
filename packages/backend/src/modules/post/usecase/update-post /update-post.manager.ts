@@ -8,7 +8,7 @@ import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.i
 
 
 
-export class UpdatePostManager implements IUseCaseManager{
+export class UpdatePostManager<TPostOutputDto extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
   private controller: UpdatePostController;
   private useCase: UpdatePostUseCase;
@@ -23,7 +23,7 @@ export class UpdatePostManager implements IUseCaseManager{
       postRepoFactory.createPostRepo(),
     )
 
-    this.controller = new UpdatePostController(
+    this.controller = new UpdatePostController<TPostOutputDto>(
       this.useCase,
       this.postMapperPresenterFactory.createPostMapper()
     );
@@ -41,7 +41,7 @@ export class UpdatePostManager implements IUseCaseManager{
   }
 
   createController(){
-    return new UpdatePostController(
+    return new UpdatePostController<TPostOutputDto>(
       this.useCase,
       this.postMapperPresenterFactory.createPostMapper()
     );

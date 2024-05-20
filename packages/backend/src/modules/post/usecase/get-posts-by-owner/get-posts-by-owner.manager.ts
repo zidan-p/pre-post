@@ -5,7 +5,7 @@ import { IPostRepositoryFactory } from "../../repository/post-creator.interface"
 import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
-export class __usecase_PascalCase__Manager implements IUseCaseManager{
+export class GetPostsByOwnerManager<PostOutputDto extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
   private controller: GetPostsByOwnerController;
   private useCase: GetPostsByOwnerUseCase;
@@ -20,7 +20,7 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
       postReposFactory.createUserRepo()
     )
 
-    this.controller = new GetPostsByOwnerController(
+    this.controller = new GetPostsByOwnerController<PostOutputDto>(
       this.useCase,
       postMapperPresenterFactory.createPostMapper()
     );
@@ -37,7 +37,7 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
   }
 
   createController(){
-    return new GetPostsByOwnerController(
+    return new GetPostsByOwnerController<PostOutputDto>(
       this.useCase,
       this.postMapperPresenterFactory.createPostMapper()
     );

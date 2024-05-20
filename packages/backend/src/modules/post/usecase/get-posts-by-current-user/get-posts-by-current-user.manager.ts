@@ -5,7 +5,7 @@ import { IPostRepositoryFactory } from "../../repository/post-creator.interface"
 import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
-export class GetPostsByCurrentUserManager<PostOutputDto = any> implements IUseCaseManager{
+export class GetPostsByCurrentUserManager<PostOutputDto extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
   private controller: GetPostsByCurrentUserController;
   private useCase: GetPostsByCurrentUserUseCase;

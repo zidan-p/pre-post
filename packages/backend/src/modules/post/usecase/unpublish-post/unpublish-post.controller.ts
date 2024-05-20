@@ -7,13 +7,13 @@ import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class UnpublishPostController<TPostRaw = any> extends BaseController {
+export class UnpublishPostController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
 
   private useCase: UnpublishPostUseCase;
   
   constructor(
     useCase: UnpublishPostUseCase,
-    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
   ){
     super();
     this.useCase = useCase;

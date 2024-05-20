@@ -8,11 +8,14 @@ import { GetAllPostResponse } from "./get-all-post.response";
 
 
 
-export class GetAllPostController extends BaseController {
+export class GetAllPostController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
 
   private useCase: GetAllPostUseCase;
   
-  constructor(useCase: GetAllPostUseCase, private readonly postMapper: IPresenterMapper<Post, any>){
+  constructor(
+    useCase: GetAllPostUseCase, 
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
+  ){
     super();
     this.useCase = useCase;
   }

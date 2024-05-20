@@ -27,7 +27,7 @@ export class PublishPostUseCase implements UseCase<PublishPostDTORequest, Promis
       if(post.ownerId.getStringValue() !== user.id)
         return left(new PublishPostUseCaseErrors.ForbiddenUser(user.id));
 
-
+      
       return right(Result.ok());
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));

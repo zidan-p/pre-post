@@ -7,13 +7,13 @@ import { Post } from "../../domain/post.agregate-root";
 
 
 
-export class GetPostsByCurrentUserController<TPostRaw =  any> extends BaseController {
+export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
 
   private useCase: GetPostsByCurrentUserUseCase;
   
   constructor(
     useCase: GetPostsByCurrentUserUseCase,
-    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
   ){
     super();
     this.useCase = useCase;

@@ -5,7 +5,7 @@ import { IPostRepositoryFactory } from "../../repository/post-creator.interface"
 import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
-export class UnpublishPostManager<PostOutputDto = any> implements IUseCaseManager{
+export class UnpublishPostManager<TPostOutputDto extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
   private controller: UnpublishPostController;
   private useCase: UnpublishPostUseCase;
@@ -20,7 +20,7 @@ export class UnpublishPostManager<PostOutputDto = any> implements IUseCaseManage
       this.postRepositoryFactory.createUserRepo(),
     )
 
-    this.controller = new UnpublishPostController(
+    this.controller = new UnpublishPostController<TPostOutputDto>(
       this.useCase,
       this.postMapperPresenterFactory.createPostMapper()
     );
@@ -37,7 +37,7 @@ export class UnpublishPostManager<PostOutputDto = any> implements IUseCaseManage
   }
 
   createController(){
-    return new UnpublishPostController(
+    return new UnpublishPostController<TPostOutputDto>(
       this.useCase,
       this.postMapperPresenterFactory.createPostMapper()
     );

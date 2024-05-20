@@ -7,12 +7,12 @@ import { Post } from "../../domain/post.agregate-root";
 
 
 
-export class UpdatePostController extends BaseController {
+export class UpdatePostController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
 
   private useCase: UpdatePostUseCase;
-  private postPresenterMapper: IPresenterMapper<Post, any>;
+  private postPresenterMapper: IPresenterMapper<Post, TPostRaw>;
   
-  constructor(useCase: UpdatePostUseCase, postMapper: IPresenterMapper<Post, any>){
+  constructor(useCase: UpdatePostUseCase, postMapper: IPresenterMapper<Post, TPostRaw>){
     super();
     this.useCase = useCase;
     this.postPresenterMapper = postMapper;
