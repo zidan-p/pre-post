@@ -2,14 +2,19 @@ import { BaseController } from "~/common/core/controller.base";
 import { UnpublishPostUseCase } from "./unpublish-post.use-case";
 import { UnpublishPostParams } from "./unpublish-post.dto";
 import { UnpublishPostUseCaseErrors } from "./unpublish-post.error";
+import { Post } from "../../domain/post.agregate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class UnpublishPostController extends BaseController {
+export class UnpublishPostController<TPostRaw = any> extends BaseController {
 
   private useCase: UnpublishPostUseCase;
   
-  constructor(useCase: UnpublishPostUseCase){
+  constructor(
+    useCase: UnpublishPostUseCase,
+    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+  ){
     super();
     this.useCase = useCase;
   }
@@ -45,7 +50,7 @@ export class UnpublishPostController extends BaseController {
         }
       }
       const value = result.value.getValue();
-      const post = value.post;
+      const post = this.postMapper.toPresentation(value.post);
       return this.ok({post});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);

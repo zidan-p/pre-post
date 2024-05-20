@@ -2,14 +2,19 @@ import { BaseController } from "~/common/core/controller.base";
 import { GetPostsByCurrentUserUseCase } from "./get-posts-by-current-user.use-case";
 import { GetPostsByCurrentUserUseCaseErrors } from "./get-posts-by-current-user.error";
 import { GetPostsByCurrentUserQuery } from "./get-posts-by-current-user.dto";
+import { IPresenterMapper } from "~/common/core/mapper";
+import { Post } from "../../domain/post.agregate-root";
 
 
 
-export class GetPostsByCurrentUserController extends BaseController {
+export class GetPostsByCurrentUserController<TPostRaw =  any> extends BaseController {
 
   private useCase: GetPostsByCurrentUserUseCase;
   
-  constructor(useCase: GetPostsByCurrentUserUseCase){
+  constructor(
+    useCase: GetPostsByCurrentUserUseCase,
+    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+  ){
     super();
     this.useCase = useCase;
   }
@@ -45,6 +50,7 @@ export class GetPostsByCurrentUserController extends BaseController {
       }
       const value = result.value.getValue();
       const posts = value.posts;
+      const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
       const paginate = value.paginate;
       return this.ok({posts, paginate});
     } catch (error) {

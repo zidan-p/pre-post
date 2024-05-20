@@ -2,15 +2,17 @@ import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { GetPostsByCurrentUserController } from "./get-posts-by-current-user.controller";
 import { GetPostsByCurrentUserUseCase } from "./get-posts-by-current-user.use-case";
 import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
+import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
-export class __usecase_PascalCase__Manager implements IUseCaseManager{
+export class GetPostsByCurrentUserManager<PostOutputDto = any> implements IUseCaseManager{
 
   private controller: GetPostsByCurrentUserController;
   private useCase: GetPostsByCurrentUserUseCase;
 
   constructor(
     private readonly postRepoFactory: IPostRepositoryFactory,
+    private readonly postMapperPresenterFactory: IPostMapperPresenterFactory
   ){
 
     this.useCase = new GetPostsByCurrentUserUseCase(
@@ -18,7 +20,10 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
       postRepoFactory.createUserRepo()
     );
 
-    this.controller = new GetPostsByCurrentUserController(this.useCase);
+    this.controller = new GetPostsByCurrentUserController<PostOutputDto>(
+      this.useCase,
+      postMapperPresenterFactory.createPostMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -32,7 +37,10 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
   }
 
   createController(){
-    return new GetPostsByCurrentUserController(this.useCase);
+    return new GetPostsByCurrentUserController<PostOutputDto>(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
 }

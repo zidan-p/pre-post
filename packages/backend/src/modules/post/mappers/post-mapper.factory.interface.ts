@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/mapper";
+import { PersisterMapper, IPresenterMapper } from "~/common/core/mapper";
 import { Entity } from "~/common/domain/entity.base";
 import { Post } from "../domain/post.agregate-root";
 import { PostImage } from "../domain/post-image.entity";

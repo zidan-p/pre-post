@@ -3,7 +3,7 @@ import { __usecase__PascalCase__Controller } from "./__usecase__(kebabCase).cont
 import { __usecase__PascalCase__UseCase } from "./__usecase__(kebabCase).use-case";
 
 
-export class __usecase_PascalCase__Manager implements IUseCaseManager{
+export class __usecase__PascalCase__Manager implements IUseCaseManager{
 
   private controller: __usecase__PascalCase__Controller;
   private useCase: __usecase__PascalCase__UseCase;

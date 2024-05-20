@@ -2,20 +2,25 @@ import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { PublishPostController } from "./publish-post.controller";
 import { PublishPostUseCase } from "./publish-post.use-case";
 import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
+import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.interface";
 
 
-export class __usecase_PascalCase__Manager implements IUseCaseManager{
+export class PublishPostManager<PostOutputDto = any> implements IUseCaseManager{
 
   private controller: PublishPostController;
   private useCase: PublishPostUseCase;
 
   constructor(
-    private readonly postRepositoryFactory: IPostRepositoryFactory
+    private readonly postRepositoryFactory: IPostRepositoryFactory,
+    private readonly postMapperPresenterFactory: IPostMapperPresenterFactory
   ){
 
     this.useCase = new PublishPostUseCase(postRepositoryFactory.createPostRepo())
 
-    this.controller = new PublishPostController(this.useCase);
+    this.controller = new PublishPostController<PostOutputDto>(
+      this.useCase,
+      postMapperPresenterFactory.createPostMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -26,7 +31,10 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
   }
 
   createController(){
-    return new PublishPostController(this.useCase);
+    return new PublishPostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
 }

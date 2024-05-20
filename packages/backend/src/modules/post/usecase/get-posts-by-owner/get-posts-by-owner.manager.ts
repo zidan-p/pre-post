@@ -20,7 +20,10 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
       postReposFactory.createUserRepo()
     )
 
-    this.controller = new GetPostsByOwnerController(this.useCase);
+    this.controller = new GetPostsByOwnerController(
+      this.useCase,
+      postMapperPresenterFactory.createPostMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -34,7 +37,10 @@ export class __usecase_PascalCase__Manager implements IUseCaseManager{
   }
 
   createController(){
-    return new GetPostsByOwnerController(this.useCase);
+    return new GetPostsByOwnerController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
 }

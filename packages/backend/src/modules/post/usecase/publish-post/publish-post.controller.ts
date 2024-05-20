@@ -2,14 +2,19 @@ import { BaseController } from "~/common/core/controller.base";
 import { PublishPostUseCase } from "./publish-post.use-case";
 import { PublishPostParams } from "./publish-post.dto";
 import { PublishPostUseCaseErrors } from "./publish-post.error";
+import { Post } from "../../domain/post.agregate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class PublishPostController extends BaseController {
+export class PublishPostController<TPostRaw = any> extends BaseController {
 
   private useCase: PublishPostUseCase;
   
-  constructor(useCase: PublishPostUseCase){
+  constructor(
+    useCase: PublishPostUseCase,
+    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+  ){
     super();
     this.useCase = useCase;
   }
@@ -45,7 +50,7 @@ export class PublishPostController extends BaseController {
       }
 
       const value = result.value.getValue();
-      const post = value.post;
+      const post = this.postMapper.toPresentation(value.post);
       return this.ok({post});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);

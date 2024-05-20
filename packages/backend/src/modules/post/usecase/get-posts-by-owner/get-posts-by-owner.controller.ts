@@ -2,14 +2,19 @@ import { BaseController } from "~/common/core/controller.base";
 import { GetPostsByOwnerUseCase } from "./get-posts-by-owner.use-case";
 import { GetPostsByOwnerParams, GetPostsByOwnerQuery } from "./get-posts-by-owner.dto";
 import { GetPostsByOwnerUseCaseErrors } from "./get-posts-by-owner.error";
+import { Post } from "../../domain/post.agregate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class GetPostsByOwnerController extends BaseController {
+export class GetPostsByOwnerController<TPostRaw = any> extends BaseController {
 
   private useCase: GetPostsByOwnerUseCase;
   
-  constructor(useCase: GetPostsByOwnerUseCase){
+  constructor(
+    useCase: GetPostsByOwnerUseCase,
+    private readonly postMapper: IPresenterMapper<Post, Record<string, TPostRaw>>
+  ){
     super();
     this.useCase = useCase;
   }
