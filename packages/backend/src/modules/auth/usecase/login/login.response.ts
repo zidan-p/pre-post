@@ -8,6 +8,6 @@ import { LoginDTOResponse } from "./login.dto";
 export type LoginResponse = Either<
   LoginUseCaseErrors.EmailOrPasswordError |
   LoginUseCaseErrors.LoginValidationError,
-  Result<any> |
+  // Result<any> |
   Result<LoginDTOResponse>
 >

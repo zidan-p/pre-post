@@ -1,5 +1,5 @@
 import { Result } from "~/common/core/result"
-import { UseCaseError } from "~/common/core/UseCaseError"
+import { UseCaseError } from "~/common/core/use-case.error.base";
 import { ArgumentInvalidException} from "~/common/exceptions"
 
 export namespace LoginUseCaseErrors {

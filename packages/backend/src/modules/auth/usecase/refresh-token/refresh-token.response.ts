@@ -12,6 +12,6 @@ export type RefresTokenResponse = Either<
   RefresTokenUseCaseError.MalformedToken |
   RefresTokenUseCaseError.UserNotFound |
   AppError.UnexpectedError,
-  Result<any> |
+  // Result<any> |
   Result<RefreshTokenResponseDTO>
 >

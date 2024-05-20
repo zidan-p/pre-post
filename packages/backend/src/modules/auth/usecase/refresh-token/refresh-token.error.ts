@@ -1,5 +1,5 @@
 import { Result } from "~/common/core/result";
-import { UseCaseError } from "~/common/core/UseCaseError";
+import { UseCaseError } from "~/common/core/use-case.error.base";
 import { ArgumentInvalidException, ExpiredException, NotFoundException } from "~/common/exceptions";
 
 

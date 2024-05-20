@@ -25,10 +25,7 @@ export class LoginController extends BaseController {
         const exception = error.getErrorValue();
         switch (true) {
           case error instanceof LoginUseCaseErrors.LoginValidationError:
-            return this.clientError(
-              exception.message, 
-              exception.cause
-            );
+            return this.clientError(exception.message, exception.cause);
           case error instanceof LoginUseCaseErrors.EmailOrPasswordError:
             return this.notFound(exception.message, exception.metadata as Record<string, any>);
 
