@@ -7,14 +7,14 @@ import { PostContent } from "../../domain/post-content.value-object";
 import { PostTitle } from "../../domain/post-title.value-object";
 import { SingleImageManager } from "~/common/domain/common/single-image-manager.domain";
 import { PostImage } from "../../domain/post-image.entity";
-import { ArgumentInvalidException, ParseException } from "~/common/exceptions";
+import { ParseException } from "~/common/exceptions";
 
 
-export interface IExpressPostRaw {
+export interface IExpressPostWihtImageUrlRaw {
   id?: string;
   title: string;
   content: string;
-  image: IExpressPostImageRaw | null;
+  image:  null | string;
 
   /** hold new image value when you want to update it */
   // postImage?: PostImage;
@@ -26,19 +26,17 @@ export interface IExpressPostRaw {
   dateTimePosted?: Date; 
 }
 
+export type ExpressWithImageUrlPostMapper = IPresenterMapper<Post, IExpressPostWihtImageUrlRaw>;
 
-export interface ImagePresenterConfig{
-  imageUrlGetter?: string,
-  useImageUrlGetter: boolean
-}
-
-export type ExpressPostMapper = IPresenterMapper<Post, IExpressPostRaw>;
-
-export class ExpressPostMap implements ExpressPostMapper {
+export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper {
 
   private readonly postImageMap = new ExpressPostImageMap();
 
-  public toDomain(raw: IExpressPostRaw){
+  constructor(
+    private readonly imageUrlGetter: URL
+  ){}
+
+  public toDomain(raw: IExpressPostWihtImageUrlRaw){
 
     // NOTE, the tranfrom from express raw to domain in the image field cannot be a string.
     // the string type is only for image getter for presenter.
@@ -62,19 +60,30 @@ export class ExpressPostMap implements ExpressPostMapper {
     if(postOrError.isFailure){
       const error = postOrError.getErrorValue()
       console.error(error);
-      throw new ParseException(["IExpressPostRaw", "Post"], error);
+      throw new ParseException(["IExpressPostWihtImageUrlRaw", "Post"], error);
     }
     
     return postOrError.getValue();
   } 
 
 
-  public toPresentation(entity: Post): IExpressPostRaw{
+  public toPresentation(entity: Post): IExpressPostWihtImageUrlRaw{
+
+    let image: PostImage | string | undefined = entity.imageManager.getImage;
+    let imagePresenter : string | undefined;
+
+    if(image){
+      imagePresenter = this.imageUrlGetter.pathname
+      // imagePresenter = this.imageUrlGetter  + "/post/" + entity.id.toString() + "/banner";
+    }
+
+
+    
 
     return{
       title: entity.postTitle.value,
       content: entity.postContent.value,
-      image: entity.postImage ? this.postImageMap.toPresentation(entity.postImage) : null,
+      image: imagePresenter ?? null,
       ownerId: entity.ownerId.getStringValue(),
       isPublished: entity.isPublished,
       dateTimeCreated: entity.dateTimeCreated,

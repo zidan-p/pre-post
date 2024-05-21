@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
-import { Mapper, IPresenterMapper } from "~/common/core/mapper";
+import { PersisterMapper, IPresenterMapper } from "~/common/core/mapper";
 import { ParseException } from "~/common/exceptions";
 
 

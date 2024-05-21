@@ -4,7 +4,7 @@ import { User as UserModel} from "~/common/infra/database/sequelize/models/User.
 import { SequelizeMapperFactory } from "../../mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
 import { SequelizePostRepoFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
 import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
-import { ExpressMapperFactory } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
+import { ExpressMapperFactory, ExpressMapperFactoryWithResourceUrlSerializer } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
 import { UPDATE_POST, UpdatePostManager } from "../../usecase/update-post ";
 import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
 
@@ -15,6 +15,7 @@ import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory();
+const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer("http://localhost:8000")
 
 const postRepositoryFactory = new SequelizePostRepoFactory(
   postPersistenceMapperFactory,
