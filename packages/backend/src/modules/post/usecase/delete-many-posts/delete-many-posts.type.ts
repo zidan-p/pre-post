@@ -1,0 +1,1 @@
+export const DELETE_MANY_POSTS = "delete-many-posts";

@@ -13,7 +13,7 @@ export interface IPostRepo{
   findById(postId: string | PostId): Promise<Post | null>;
 
   // note, always place the priority first line
-  find(payload: WhereConfig<PostProps>,config?: FilterConfig<PostProps>): Promise<Post[]>;
+find(payload: WhereConfig<PostProps>,config?: FilterConfig<PostProps>): Promise<Post[]>;
   find(payload: {}, config?: FilterConfig<PostProps>): Promise<Post[]>;
 
   getPaginate(payload: WhereConfig<PostProps>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;

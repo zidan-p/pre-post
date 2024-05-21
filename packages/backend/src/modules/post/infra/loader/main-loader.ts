@@ -10,6 +10,12 @@ import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
 import { DELETE_POST } from "../../usecase/delete-post/delete-post.type";
 import { DeletePostManager } from "../../usecase/delete-post/delete-post.manager";
 import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get-all-post";
+import { GET_NEWEST_POST, GetNewestPostManager } from "../../usecase/get-newest-post";
+import { GET_POSTS_BY_CURRENT_USER, GetPostsByCurrentUserManager } from "../../usecase/get-posts-by-current-user";
+import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get-posts-by-owner";
+import { PUBLISH_POST } from "../../usecase/publish-post";
+import { UNPUBLISH_POST } from "../../usecase/unpublish-post/unpublish-post.type";
+import { UnpublishPostManager } from "../../usecase/unpublish-post/unpublish-post.manager";
 
 
 
@@ -46,4 +52,27 @@ postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(
 ))
 
 // get newest post
+postUseCaseManagerFactory.addUseCaseManager(GET_NEWEST_POST, new GetNewestPostManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+))
 
+postUseCaseManagerFactory.addUseCaseManager(GET_POSTS_BY_CURRENT_USER, new GetPostsByCurrentUserManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+));
+
+postUseCaseManagerFactory.addUseCaseManager(GET_POSTS_BY_OWNER, new GetPostsByOwnerManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+));
+
+postUseCaseManagerFactory.addUseCaseManager(PUBLISH_POST, new GetPostsByOwnerManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+));
+
+postUseCaseManagerFactory.addUseCaseManager(UNPUBLISH_POST, new UnpublishPostManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+));
