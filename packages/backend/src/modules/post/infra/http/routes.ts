@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { postUseCaseManagerFactory } from "../loader/main-loader";
-import { CREATE_POST } from "../../usecase/create-post/create-post.type";
-import { UPDATE_POST } from "../../usecase/update-post ";
+import { CREATE_POST } from "../../usecase/create/create-post/create-post.type";
+import { UPDATE_POST } from "../../usecase/update/update-post ";
 
 
 

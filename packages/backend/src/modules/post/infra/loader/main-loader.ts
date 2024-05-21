@@ -5,17 +5,17 @@ import { SequelizeMapperFactory } from "../../mappers/sequelize-persistence-mapp
 import { SequelizePostRepoFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
 import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
 import { ExpressMapperFactory, ExpressMapperFactoryWithResourceUrlSerializer } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
-import { UPDATE_POST, UpdatePostManager } from "../../usecase/update-post ";
-import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
-import { DELETE_POST } from "../../usecase/delete-post/delete-post.type";
-import { DeletePostManager } from "../../usecase/delete-post/delete-post.manager";
-import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get-all-post";
-import { GET_NEWEST_POST, GetNewestPostManager } from "../../usecase/get-newest-post";
-import { GET_POSTS_BY_CURRENT_USER, GetPostsByCurrentUserManager } from "../../usecase/get-posts-by-current-user";
-import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get-posts-by-owner";
-import { PUBLISH_POST } from "../../usecase/publish-post";
-import { UNPUBLISH_POST } from "../../usecase/unpublish-post/unpublish-post.type";
-import { UnpublishPostManager } from "../../usecase/unpublish-post/unpublish-post.manager";
+import { UPDATE_POST, UpdatePostManager } from "../../usecase/update/update-post ";
+import { CREATE_POST, CreatePostManager } from "../../usecase/create/create-post";
+import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
+import { DeletePostManager } from "../../usecase/delete/delete-post/delete-post.manager";
+import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get/get-all-post";
+import { GET_NEWEST_POST, GetNewestPostManager } from "../../usecase/get/get-newest-post";
+import { GET_POSTS_BY_CURRENT_USER, GetPostsByCurrentUserManager } from "../../usecase/get/get-posts-by-current-user";
+import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get/get-posts-by-owner";
+import { PUBLISH_POST } from "../../usecase/publish/publish-post";
+import { UNPUBLISH_POST } from "../../usecase/publish/unpublish-post/unpublish-post.type";
+import { UnpublishPostManager } from "../../usecase/publish/unpublish-post/unpublish-post.manager";
 
 
 
