@@ -16,7 +16,6 @@ interface UserProps {
   username: UserName;
   password: UserPassword;
   role: RoleValue;
-  isAdminUser?: boolean;
   isEmailVerified?: boolean;
   accessToken?: JWTToken;
   refreshToken?: RefreshToken;
@@ -57,10 +56,6 @@ export class User extends AggregateRoot<UserProps> {
 
   get role(){
     return this.props.role;
-  }
-
-  get isAdminUser (): boolean {
-    return this.props.isAdminUser ?? false;
   }
 
   get lastLogin (): Date | null {
@@ -112,8 +107,7 @@ export class User extends AggregateRoot<UserProps> {
     const user = new User({
       ...props,
       isDeleted: props.isDeleted ? props.isDeleted : false,
-      isEmailVerified: props.isEmailVerified ? props.isEmailVerified : false,
-      isAdminUser: props.isAdminUser ? props.isAdminUser : false
+      isEmailVerified: props.isEmailVerified ? props.isEmailVerified : false
     }, id);
 
     // if (isNewUser) {

@@ -15,7 +15,6 @@ export interface IUserRaw {
   password: string;
   email: string;
   username: string;
-  is_admin: boolean;
   role: RoleValue;
 }
 
@@ -36,7 +35,6 @@ export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promis
       password: userPasswordOrError.getValue(),
       username: usernameOrError.getValue(),
       role: raw.role,
-      isAdminUser: raw.is_admin,
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){
@@ -64,7 +62,6 @@ export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promis
       email: user.email.value,
       username: user.username.value,
       password: password,
-      is_admin: user.isAdminUser,
       role: user.role
     }
   }

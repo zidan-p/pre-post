@@ -17,7 +17,6 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare password: string;
   declare email: string;
   declare username: string;
-  declare is_admin: boolean;
   declare role: RoleValue;
 
     // timestamps!
@@ -81,9 +80,6 @@ export function initUser(sequelize: Sequelize){
       },
       role: {
         type: DataTypes.ENUM(Role.ADMIN, Role.USER)
-      },
-      is_admin: {
-        type: DataTypes.BOOLEAN
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

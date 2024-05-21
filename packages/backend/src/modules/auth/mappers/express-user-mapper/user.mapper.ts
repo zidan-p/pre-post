@@ -15,7 +15,6 @@ export interface IUserRaw {
   password: string;
   email: string;
   username: string;
-  is_admin: boolean;
   role: RoleValue;
 }
 
@@ -24,7 +23,6 @@ export interface IUserRawOutput {
   password?: string;
   email: string;
   username: string;
-  is_admin: boolean;
   role: RoleValue;
 }
 
@@ -56,7 +54,6 @@ export class UserMap implements IPresenterMapper<User, IUserRaw | Promise<IUserR
       email: user.email.value,
       username: user.username.value,
       password: password ?? undefined,
-      is_admin: user.isAdminUser,
       role: user.role
     }
   }
@@ -71,7 +68,6 @@ export class UserMap implements IPresenterMapper<User, IUserRaw | Promise<IUserR
       email: userEmailOrError.getValue(),
       password: userPasswordOrError.getValue(),
       username: usernameOrError.getValue(),
-      isAdminUser: raw.is_admin,
       role: raw.role
     }, new UniqueEntityID(raw.id));
 
