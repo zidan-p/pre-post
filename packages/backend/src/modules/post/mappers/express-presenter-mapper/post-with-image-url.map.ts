@@ -73,8 +73,9 @@ export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper
     let imagePresenter : string | undefined;
 
     if(image){
-      imagePresenter = this.imageUrlGetter.pathname
-      // imagePresenter = this.imageUrlGetter  + "/post/" + entity.id.toString() + "/banner";
+      const imageUrl = new URL(this.imageUrlGetter.href);
+      imageUrl.pathname = "/post/" + entity.id.toString() + "/banner";
+      imagePresenter = imageUrl.href;
     }
 
 

@@ -7,15 +7,18 @@ import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/exp
 import { ExpressMapperFactory, ExpressMapperFactoryWithResourceUrlSerializer } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
 import { UPDATE_POST, UpdatePostManager } from "../../usecase/update-post ";
 import { CREATE_POST, CreatePostManager } from "../../usecase/create-post";
+import { DELETE_POST } from "../../usecase/delete-post/delete-post.type";
+import { DeletePostManager } from "../../usecase/delete-post/delete-post.manager";
+import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get-all-post";
 
 
 
 
-
+const resourceUrl = new URL("http://localhost:8000");
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory();
-const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer("http://localhost:8000")
+const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
 
 const postRepositoryFactory = new SequelizePostRepoFactory(
   postPersistenceMapperFactory,
@@ -24,5 +27,23 @@ const postRepositoryFactory = new SequelizePostRepoFactory(
 
 export const postUseCaseManagerFactory = new ExpressUseCaseManagerFactory();
 
+// create post
 postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(postRepositoryFactory));
-postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(postRepositoryFactory));
+
+// update post
+postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
+  postRepositoryFactory, 
+  postPresenterMapperFactoryWithResourceUrlSerializer
+))
+
+// delete post
+postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(postRepositoryFactory));
+
+// get all post
+postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+))
+
+// get newest post
+

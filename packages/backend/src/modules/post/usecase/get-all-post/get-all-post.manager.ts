@@ -8,7 +8,7 @@ import { IPostMapperPresenterFactory } from "../../mappers/post-mapper.factory.i
 
 
 
-export class GetAllManagerL<TPostOutput extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
+export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
   private controller: GetAllPostController;
   private useCase: GetAllPostUseCase;

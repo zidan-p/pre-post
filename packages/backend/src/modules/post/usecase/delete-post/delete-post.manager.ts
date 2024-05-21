@@ -4,7 +4,7 @@ import { DeletePostUseCase } from "./delete-post.use-case";
 import { IPostRepositoryFactory } from "../../repository/post-creator.interface";
 
 
-export class __usecase_PascalCase__Manager implements IUseCaseManager{
+export class DeletePostManager implements IUseCaseManager{
 
   private controller: DeletePostController;
   private useCase: DeletePostUseCase;
