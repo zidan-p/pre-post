@@ -1,7 +1,7 @@
 import { Guard } from "~/common/core/guard";
 import { Result } from "~/common/core/result";
-import { ValueObject } from "~/common/domain/Value-object";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
+import { ValueObject } from "~/common/domain/value-object";
 import { ArgumentNotProvidedException } from "~/common/exceptions";
 
 

@@ -27,6 +27,10 @@ export interface PostProps{
   dateTimePosted?: Date; // when user or admin publish it's own post
 }
 
+export interface PostPropsWithId extends PostProps {
+  postId: PostId
+}
+
 export class Post extends AggregateRoot<PostProps>{
 
   private constructor (props: PostProps, id?: UniqueEntityID) {

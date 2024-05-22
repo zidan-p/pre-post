@@ -77,6 +77,10 @@ export abstract class BaseController{
 
   }
 
+  /**
+   * get current user of request
+   * @returns 
+   */
   getUser(): IUserAuth | null{
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
@@ -85,6 +89,7 @@ export abstract class BaseController{
 
     return this.interactor.getUser() ?? null;
   }
+
 
   /**
    * get file from interactor. 

@@ -46,11 +46,24 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
     return new Result<U>(false, error);
   }
 
-  public static combine (results: Result<any>[]) : Result<any> {
+  public static combine <T>(results: Result<T>[]) : Result<T> {
     for (let result of results) {
       if (result.isFailure) return result;
     }
     return Result.ok();
+  }
+
+  /**
+   * make sure to check it with combine before get its value
+   * @param results 
+   * @returns 
+   */
+  public static getCombinedValue <T>(results: Result<T>[]) : T[] {
+    let values: T[] = []
+    for (let result of results) {
+      values.push(result.getValue())
+    }
+    return values;
   }
 }
 
