@@ -1,0 +1,1 @@
+export const DELETE_MANY_OWNED_POSTS = "delete-many-owned-posts";

@@ -12,7 +12,6 @@ export interface DeleteManyPostsQuery{}
 
 export interface DeleteManyPostsDTORequest{
   body: DeleteManyPostsBody;
-  user: IUserAuth
 }
 
 export interface DeleteManyPostsDTOResponse{

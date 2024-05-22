@@ -16,12 +16,10 @@ export class DeleteManyPostsController extends BaseController {
 
 
   async executeImpl(){
-    const user = this.getUser();
-    if(!user) return this.unauthorized("no authorized user found");
 
     const body = this.getBody() as DeleteManyPostsBody;
     try {
-      const result = await this.useCase.execute({body, user});
+      const result = await this.useCase.execute({body});
       
       if(result.isLeft()){
         const error = result.value;
