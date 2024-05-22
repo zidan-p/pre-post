@@ -5,9 +5,9 @@ import { __usecase__PascalCase__UseCase } from "./__usecase__(kebabCase).use-cas
 
 export class __usecase__PascalCase__Controller extends BaseController {
 
-  private useCase: __usecase__PascalCase__UseCase;
-  
-  constructor(useCase: __usecase__PascalCase__UseCase){
+  constructor(
+    private useCase: __usecase__PascalCase__UseCase
+  ){
     super();
     this.useCase = useCase;
   }

@@ -8,7 +8,7 @@ import { GetAllPostResponse } from "./get-all-post.response";
 
 
 
-export class GetAllPostController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
+export class GetAllPostController<TPostRaw extends Record<string, any>> extends BaseController {
 
   private useCase: GetAllPostUseCase;
   

@@ -26,7 +26,7 @@ export class GetPostsByOwnerUseCase implements UseCase<GetPostsByOwnerDTORequest
       if(!owner)
         return left(new GetPostsByOwnerUseCaseErrors.OwnerNotFound(ownerId));
 
-      const posts = await this.postRepo.find({ownerId}, {paginate: pagiateQuery});
+      const posts = await this.postRepo.find({ownerId: owner.userId}, {paginate: pagiateQuery});
       const paginate = await this.postRepo.getPaginate({ownerId: owner.userId}, pagiateQuery);
 
       return right(Result.ok({paginate, posts}));

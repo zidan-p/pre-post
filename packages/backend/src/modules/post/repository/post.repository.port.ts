@@ -21,7 +21,7 @@ export interface IPostRepo{
 
   // note, always place the priority first line
   find(payload: WhereConfig<PostPropsWithId>,config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
-  find(payload: {}, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
+  // find(payload: {}, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
 
   getPaginate(payload: WhereConfig<PostPropsWithId>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
 

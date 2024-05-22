@@ -10,7 +10,7 @@ import { IPostMapperPresenterFactory } from "../../../mappers/post-mapper.factor
 
 export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
 
-  private controller: GetAllPostController;
+  private controller: GetAllPostController<TPostOutput>;
   private useCase: GetAllPostUseCase;
   private postRepoFactory: IPostRepositoryFactory
   private postMapperPresenterFactory: IPostMapperPresenterFactory;
