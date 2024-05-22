@@ -1,0 +1,1 @@
+export const PUBLISH_MANY_OWNED_POSTS = "publish-many-owned-posts";
