@@ -1,0 +1,1 @@
+export const GET_ALL_PUBLISHED_POSTS = "get-all-published-posts";

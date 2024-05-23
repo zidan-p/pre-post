@@ -10,3 +10,5 @@ export interface __usecase__PascalCase__Query{}
 export interface __usecase__PascalCase__DTORequest {}
 
 export interface __usecase__PascalCase__DTOResponse{}
+
+export interface __usecase__PascalCase__DTOEnd{}

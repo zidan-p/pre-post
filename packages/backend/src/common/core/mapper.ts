@@ -25,11 +25,11 @@ export interface IPresenterMapper<
   /** 
    * the primary or main output or input raw 
    * */
-  TRaw1 extends Record<string, any> = Record<string, any>,
+  TRaw1 = any,
   /** 
    * the secondary input or output, when there are more output that can be used 
    * */
-  TRaw2 extends Record<string, any> = TRaw1,
+  TRaw2 = TRaw1,
 >{
   toDomain: (raw: TRaw1 | TRaw2) => TEntity;
   toPresentation: (entity: TEntity) => TRaw1 | TRaw2;

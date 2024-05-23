@@ -1,1 +1,0 @@
-export const GET_PUBLISHED_POSTS = "get-published-posts";

@@ -4,9 +4,9 @@ import { IInteractor } from "./Interactor.interface";
 import { IUserAuth } from "./user.auth.interface";
 
 
-export abstract class BaseController{
+export abstract class BaseController<TEndDto = any>{
 
-  abstract executeImpl(...args: any[]): Promise<any>;
+  abstract executeImpl(...args: any[]): Promise<IInteractor["ok"]>;
   
   private interactor: IInteractor | undefined;
 
@@ -138,8 +138,8 @@ export abstract class BaseController{
     return this.interactor.getSingleFile();
   }
 
-  ok<T> (args?: T, message?: string);
-  ok<T> (args: T, message?: string){
+  ok<T extends TEndDto> (args?: T, message?: string);
+  ok<T extends TEndDto> (args: T, message?: string){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
       return;

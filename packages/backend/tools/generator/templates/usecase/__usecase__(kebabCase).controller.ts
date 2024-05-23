@@ -1,15 +1,15 @@
 import { BaseController } from "~/common/core/controller.base";
 import { __usecase__PascalCase__UseCase } from "./__usecase__(kebabCase).use-case";
+import { __usecase__PascalCase__DTOEnd } from "./__usecase__(kebabCase).dto";
 
 
 
-export class __usecase__PascalCase__Controller extends BaseController {
+export class __usecase__PascalCase__Controller extends BaseController<__usecase__PascalCase__DTOEnd> {
 
   constructor(
     private useCase: __usecase__PascalCase__UseCase
   ){
     super();
-    this.useCase = useCase;
   }
 
 
