@@ -10,11 +10,27 @@ export interface IPostRepo{
 
   exists(postId: string): Promise<boolean>;
 
-  isInSearch(payload: WhereInConfig<PostPropsWithId>): Promise<Post[]>;
-  countIsInSearch(payload: WhereInConfig<PostPropsWithId>): Promise<number>;
+  isInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
+  countIsInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId>): Promise<number>;
+  paginateIsInSearch(payload: WhereInConfig<PostPropsWithId>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
 
-  isInSearchWhere(payloadInQuery: WhereInConfig<PostPropsWithId>, payloadWhereQuery: WhereConfig<PostPropsWithId>): Promise<Post[]>;
-  countIsInSearchWhere(payloadInQuery: WhereInConfig<PostPropsWithId>, payloadWhereQuery: WhereConfig<PostPropsWithId>): Promise<number>;
+  isInSearchWhere(
+    payloadInQuery: WhereInConfig<PostPropsWithId>, 
+    payloadWhereQuery: WhereConfig<PostPropsWithId>, 
+    config?: FilterConfig<PostPropsWithId>
+  ): Promise<Post[]>;
+
+  countIsInSearchWhere(
+    payloadInQuery: WhereInConfig<PostPropsWithId>, 
+    payloadWhereQuery: WhereConfig<PostPropsWithId>, 
+    config?: FilterConfig<PostPropsWithId>
+  ): Promise<number>;
+
+  paginateIsInSearchWhere(
+    payloadInQuery: WhereInConfig<PostPropsWithId>, 
+    payloadWhereQuery: WhereConfig<PostPropsWithId>, 
+    paginate?: Required<IPaginate>
+  ): Promise<number>;
 
   
   findById(postId: string | PostId): Promise<Post | null>;

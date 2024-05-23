@@ -3,6 +3,7 @@ import { GetNewestPublishedPostController } from "./get-newest-published-post.co
 import { GetNewestPublishedPostUseCase } from "./get-newest-published-post.use-case";
 import { IPostRepositoryFactory } from "~/modules/post/repository/post-creator.interface";
 import { IPostMapperPresenterFactory } from "~/modules/post/mappers/post-mapper.factory.interface";
+import { PostAndPaginateManagerBase } from "~/modules/post/base/post-and-paginate/post-and-paginate.manager.base";
 
 
 export class GetNewestPublishedPostManager<TPostRaw extends any> implements IUseCaseManager{
