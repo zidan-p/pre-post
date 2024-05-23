@@ -17,10 +17,10 @@ export class GetNewestPostUseCase implements UseCase<GetNewestPostDTORequest, Pr
       const paginate = request.query;
 
       // get posts that ordered by time it's created.
-      const posts = await this.postRepo.find( {isPublised: true}, {orderBy: [["dateTimeCreated", "DESC"]],paginate: paginate});
+      const posts = await this.postRepo.find( {}, {orderBy: [["dateTimeCreated", "DESC"]],paginate: paginate});
 
       // get pagination for above query
-      const paginateData = await this.postRepo.getPaginate( {isPublised: true}, paginate);
+      const paginateData = await this.postRepo.getPaginate( {}, paginate);
 
       return right(Result.ok({paginate: paginateData, posts}));
     } catch (error) {

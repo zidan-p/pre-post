@@ -6,7 +6,7 @@ import { IUserAuth } from "./user.auth.interface";
 
 
 
-export interface IInteractor {
+export interface IInteractor<R = any> {
 
   // REQUEST PARAM
   getRequestParams(name: string): string | null;
@@ -34,7 +34,8 @@ export interface IInteractor {
   getSingleArrayFiles(): ICommonFile[] | null; 
   getSingleFile(): ICommonFile | null;
 
-  ok<T> (args: T, message?:string): any;
+  // RESPONSE
+  ok<T> (args: T, message?:string): R;
   created (message: string, metadata?: Record<string, any>):any ;
   clientError (message: string, metadata?: Record<string, any>): any; 
   unauthorized (message: string, metadata?: Record<string, any>): any; 

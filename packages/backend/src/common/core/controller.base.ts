@@ -4,11 +4,11 @@ import { IInteractor } from "./Interactor.interface";
 import { IUserAuth } from "./user.auth.interface";
 
 
-export abstract class BaseController<TEndDto = any>{
+export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
 
   abstract executeImpl(...args: any[]): Promise<IInteractor["ok"]>;
   
-  private interactor: IInteractor | undefined;
+  private interactor: IInteractor<TControllerOkResult> | undefined;
 
   // let interactor dynamic and can be null 
   //so it's not needed to create the object controller every request
@@ -144,7 +144,7 @@ export abstract class BaseController<TEndDto = any>{
       console.error("interactor hasn't been initialized");
       return;
     }
-    return this.interactor.ok(args, message);
+    return this.interactor.ok<T>(args, message);
   };
 
   created (message: string, metadata?: Record<string, any>){

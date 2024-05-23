@@ -1,0 +1,1 @@
+export const GET_NEWEST_PUBLISHED_POST = "get-newest-published-post";

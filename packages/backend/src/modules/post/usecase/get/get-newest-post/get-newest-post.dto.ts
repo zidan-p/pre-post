@@ -13,7 +13,7 @@ export interface GetNewestPostDTORequest {
   query: GetNewestPostQuery;
 }
 
-export interface GetNewestPostDTOResponse{
-  posts: Post[];
+export interface GetNewestPostDTOResponse<TPostPresenter = any>{
+  posts: TPostPresenter[];
   paginate: IPaginateReponse
 }
