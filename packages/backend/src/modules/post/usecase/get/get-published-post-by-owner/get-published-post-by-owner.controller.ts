@@ -1,13 +1,13 @@
 import { BaseController } from "~/common/core/controller.base";
 import { GetPublishedPostByOwnerUseCase } from "./get-published-post-by-owner.use-case";
-import { GetPublishedPostByOwnerParams, GetPublishedPostByOwnerQuery } from "./get-published-post-by-owner.dto";
+import { GetPublishedPostByOwnerDTOEnd, GetPublishedPostByOwnerParams, GetPublishedPostByOwnerQuery } from "./get-published-post-by-owner.dto";
 import { GetPublishedPostByOwnerUseCaseErrors } from "./get-published-post-by-owner.error";
 import { IPresenterMapper } from "~/common/core/mapper";
 import { Post } from "~/modules/post/domain/post.agregate-root";
 
 
 
-export class GetPublishedPostByOwnerController<TPostRaw extends Record<string, any>> extends BaseController {
+export class GetPublishedPostByOwnerController<TPostRaw extends Record<string, any>> extends BaseController<GetPublishedPostByOwnerDTOEnd<TPostRaw>> {
 
   
   constructor(

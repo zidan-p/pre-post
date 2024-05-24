@@ -20,3 +20,9 @@ export interface GetPublishedPostByOwnerDTOResponse{
   posts: Post[],
   paginate: IPaginateReponse
 }
+
+
+export interface GetPublishedPostByOwnerDTOEnd<TPostPresenter>{
+  posts: TPostPresenter[],
+  paginate: IPaginateReponse
+}

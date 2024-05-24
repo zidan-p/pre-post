@@ -52,7 +52,7 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
       const posts = value.posts;
       const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
       const paginate = value.paginate;
-      return this.ok({posts, paginate});
+      return this.ok({posts: postsRaw, paginate});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
