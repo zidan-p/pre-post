@@ -4,11 +4,11 @@ import { Result, left, right } from "~/common/core/result";
 import { UnpublishManyOwnedPostsDTORequest } from "./unpublish-many-owned-posts.dto";
 import { UnpublishManyOwnedPostsResponse } from "./unpublish-many-owned-posts.response";
 import { IPostRepo } from "~/modules/post/repository/post.repository.port";
-import { IUserRepo } from "~/modules/auth/repository/user.repository.port";
 import { UnpublishManyOwnedPostsUseCaseErrors } from "./unpublish-many-owned-posts.error";
 import { PostId } from "~/modules/post/domain/post-id.value-object";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { PostOwnershipService } from "~/modules/post/domain/service/post-ownership.service";
+import { IUserRepo } from "~/modules/post/repository/user.repository.port";
 
 
 export class UnpublishManyOwnedPostsUseCase implements UseCase<UnpublishManyOwnedPostsDTORequest, Promise<UnpublishManyOwnedPostsResponse>>{
