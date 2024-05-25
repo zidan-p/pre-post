@@ -1,0 +1,1 @@
+export const DELETE_OWNED_POST = "delete-owned-post";

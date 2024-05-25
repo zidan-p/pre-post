@@ -10,7 +10,6 @@ export interface DeletePostParam{
 
 export interface DeletePostDTORequest {
   param: DeletePostParam;
-  user: IUserAuth
 }
 
 export interface DeletePostDTOResponse{}

@@ -80,6 +80,13 @@ export class Post extends AggregateRoot<PostProps>{
     return Result.ok<void>();
   }
 
+  public isOwnedBy(userId: UserId){
+    // if(this.ownerId.equals()) // i am using direct string coparison 
+    if(this.ownerId.getStringValue() === userId.getStringValue())
+      return true;
+    return false;
+  }
+
   public static validation(payload: PostProps){
     // do validation later
     return Result.ok<void>();

@@ -9,7 +9,9 @@ import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { IPostRepo } from "~/modules/post/repository/post.repository.port";
 import { UserId } from "~/modules/post/domain/user-id.value-object";
 
-
+/**
+ * @todo make checking on what possibly that make count difference error.
+ */
 export class DeleteManyOwnedPostsUseCase implements UseCase<DeleteManyOwnedPostsDTORequest, Promise<DeleteManyOwnedPostsResponse>>{
 
   constructor(
@@ -44,7 +46,7 @@ export class DeleteManyOwnedPostsUseCase implements UseCase<DeleteManyOwnedPosts
 
       // when the lenght of id count and row count from database not match, that's mean there are some miss id.
       // wheter beacause it's missing or because it's owned by another user
-      // TODO: make checking what possibility that make this error fired.
+      // TODO: make checking on what possibly that make this error fired.
       if(existsCount !== postIdCollection.length){
         return left(new DeleteManyOwnedPostsUseCaseErrors.ForbiddenAccess(user.id));
       }

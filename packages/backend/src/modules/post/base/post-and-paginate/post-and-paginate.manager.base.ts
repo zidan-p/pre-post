@@ -20,7 +20,13 @@ type ControllerClass<TController, TUseCase> = new (useCase: TUseCase, mapper: Po
 type UsecaseClass<TUseCase> = new (postRepo: IPostRepo) => TUseCase;
 
 
-export abstract class PostAndPaginateManagerBase<TController extends BaseController<any, any>, TUsecase extends UseCase<any, any>> implements IUseCaseManager{
+export abstract class PostAndPaginateManagerBase
+  <
+    TController extends BaseController<any, any>, 
+    TUsecase extends UseCase<any, any>
+  > 
+  implements IUseCaseManager
+{
 
 
   controller: TController;
