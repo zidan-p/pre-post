@@ -1,12 +1,16 @@
 
 export interface PublishManyPostsFiles{}
 
-export interface PublishManyPostsBody{}
+export interface PublishManyPostsBody{
+  postIds: string[]
+}
 
 export interface PublishManyPostsParams{}
 
 export interface PublishManyPostsQuery{}
 
-export interface PublishManyPostsDTORequest {}
+export interface PublishManyPostsDTORequest {
+  body: PublishManyPostsBody;
+}
 
 export interface PublishManyPostsDTOResponse{}
