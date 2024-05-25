@@ -39,19 +39,23 @@ export class PublishManyOwnedPostsUseCase implements UseCase<PublishManyOwnedPos
       // i use count to check, beacause the id is assumed will not same among all records
       const ownerId = user.userId;
       const existsCountWithThisOwnership = await this.postRepo.countIsInSearchWhere({postId: postIdCollection},{ownerId: ownerId});
-      const existsCount = await this.postRepo.countIsInSearch({postId: postIdCollection});
+      const posts = await this.postRepo.isInSearch({postId: postIdCollection});
 
       // when only there some post that not found
-      if(existsCount < postIdCollection.length){
+      if(posts.length < postIdCollection.length){
         return left(new PublishManyOwnedPostsUseCaseErrors.SomePostNotFound(idCollection));
       }
 
       // when the founded exists count wiith ownershipp less than that actually exists
       // the count already filtered so in this code always reach post id collection length that match exists count
-      if(existsCountWithThisOwnership < existsCount)
+      if(existsCountWithThisOwnership < posts.length)
         return left(new PublishManyOwnedPostsUseCaseErrors.ForbiddenAccess(userRequest.id));
 
-
+      posts.forEach(async (post) => {
+        post.publishPost();
+        await this.postRepo.save(post);
+      })
+      
       return right(Result.ok());
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
