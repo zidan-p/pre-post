@@ -1,6 +1,7 @@
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { PublishManyOwnedPostsController } from "./publish-many-owned-posts.controller";
 import { PublishManyOwnedPostsUseCase } from "./publish-many-owned-posts.use-case";
+import { IPostRepositoryFactory } from "~/modules/post/repository/post-creator.interface";
 
 
 export class PublishManyOwnedPostsManager implements IUseCaseManager{
@@ -8,9 +9,14 @@ export class PublishManyOwnedPostsManager implements IUseCaseManager{
   private controller: PublishManyOwnedPostsController;
   private useCase: PublishManyOwnedPostsUseCase;
 
-  constructor(){
+  constructor(
+    private readonly postRepoFactory: IPostRepositoryFactory,
+  ){
 
-    this.useCase = new PublishManyOwnedPostsUseCase()
+    this.useCase = new PublishManyOwnedPostsUseCase(
+      this.postRepoFactory.createPostRepo(),
+      this.postRepoFactory.createUserRepo(),
+    )
 
     this.controller = new PublishManyOwnedPostsController(this.useCase);
   }
@@ -19,7 +25,10 @@ export class PublishManyOwnedPostsManager implements IUseCaseManager{
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new PublishManyOwnedPostsUseCase()
+    return new PublishManyOwnedPostsUseCase(
+      this.postRepoFactory.createPostRepo(),
+      this.postRepoFactory.createUserRepo(),
+    )
   }
 
   createController(){

@@ -29,7 +29,7 @@ export class __usecase__PascalCase__Controller extends BaseController<__usecase_
           
         }
       }
-      return this.ok();
+      return this.ok(null, "Success __usecase__sentenceCase__");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

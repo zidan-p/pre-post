@@ -22,15 +22,15 @@ export class DeleteOwnedPostUseCase implements UseCase<DeleteOwnedPostDTORequest
 
       // check user / owner exintence
       const owner = await this.userRepo.getUserByUserId(userRequest.id);
-      if(!owner) throw new DeleteOwnedPostUseCaseErrors.UserNotFound(userRequest.id);
+      if(!owner) return left(new DeleteOwnedPostUseCaseErrors.UserNotFound(userRequest.id));
 
       // check post existence
       const post = await this.postRepo.findById(postId);
-      if(!post) throw new DeleteOwnedPostUseCaseErrors.PostNotFound(postId);
+      if(!post) return left(new DeleteOwnedPostUseCaseErrors.PostNotFound(postId));
 
 
       // check if current user own the post
-      if(!post.isOwnedBy(owner.userId)) throw new DeleteOwnedPostUseCaseErrors.ForbiddenUser(owner.userId.getStringValue());
+      if(!post.isOwnedBy(owner.userId)) return left(new DeleteOwnedPostUseCaseErrors.ForbiddenUser(owner.userId.getStringValue()));
 
       await this.postRepo.delete(post.postId);
 
