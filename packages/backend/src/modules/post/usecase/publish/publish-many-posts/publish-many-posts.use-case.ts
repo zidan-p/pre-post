@@ -27,12 +27,18 @@ export class PublishManyPostsUseCase implements UseCase<PublishManyPostsDTOReque
 
       const postIdCollection = Result.getCombinedValue(postIdCollectionOrError);
 
-      const existsCount = await this.postRepo.countIsInSearch({postId: postIdCollection});
+      const posts = await this.postRepo.isInSearch({postId: postIdCollection});
 
       // when only there some post that not found
-      if(existsCount < postIdCollection.length){
+      if(posts.length < postIdCollection.length){
         return left(new PublishManyPostsUseCaseErrors.SomePostNotFound(idCollection));
       }
+
+      // loop for publishing
+      posts.forEach(async ( post ) => {
+        post.publishPost();
+        await this.postRepo.save(post);
+      })
 
       return right(Result.ok());
     } catch (error) {

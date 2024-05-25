@@ -47,4 +47,26 @@ generateTemplateFiles([
       console.log(`results`, results);
     },
   },
+  {
+    option: 'Generate Resource usecase',
+    entry: {
+      folderPath: path.join(process.cwd(), '/tools/generator/templates/resource-usecase/'),
+    },
+    stringReplacers: [
+      {
+        slot: "__usecase__",
+        question: "Insert your usecase name, in this case your main domain.."
+      },
+      {
+        slot: "__module__",
+        question: "Insert your modules name"
+      }
+    ],
+    output: {
+      path: './src/modules/__module__(kebabCase)/usecase/',
+    },
+    onComplete: (results) => {
+      console.log(`results`, results);
+    },
+  },
 ]);

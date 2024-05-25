@@ -1,0 +1,1 @@
+export const DELETE_MANY___usecase__ConstantCase__ = "delete-many-__usecase__KebabCase__";

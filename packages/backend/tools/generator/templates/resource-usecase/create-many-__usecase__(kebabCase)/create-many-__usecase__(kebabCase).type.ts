@@ -1,0 +1,1 @@
+export const CREATE_MANY___usecase__ConstantCase__ = "create-many-__usecase__KebabCase__";
