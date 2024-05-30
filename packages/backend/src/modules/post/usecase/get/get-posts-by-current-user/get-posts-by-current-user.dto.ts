@@ -8,7 +8,9 @@ export interface GetPostsByCurrentUserBody{}
 
 export interface GetPostsByCurrentUserParams{}
 
-export interface GetPostsByCurrentUserQuery extends IPaginate{}
+export interface GetPostsByCurrentUserQuery {
+  paginate: IPaginate;
+}
 
 export interface GetPostsByCurrentUserUser{}
 

@@ -14,7 +14,7 @@ export class GetNewestPublishedPostUseCase implements UseCase<GetNewestPublished
 
   async execute(request: GetNewestPublishedPostDTORequest): Promise<GetNewestPublishedPostResponse> {
     try{
-      const paginate = request.query;
+      const paginate = request.query.paginate;
 
       // get posts that ordered by time it's created.
       const posts = await this.postRepo.find( {isPublised: true}, {orderBy: [["dateTimeCreated", "DESC"]],paginate: paginate});

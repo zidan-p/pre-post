@@ -34,3 +34,7 @@ export interface IPresenterMapper<
   toDomain: (raw: TRaw1 | TRaw2) => TEntity;
   toPresentation: (entity: TEntity) => TRaw1 | TRaw2;
 }
+
+export interface IGeneralPresenterMapper<TIn, TPresentation>{
+  toPresentation: (args:TIn) => TPresentation;
+}

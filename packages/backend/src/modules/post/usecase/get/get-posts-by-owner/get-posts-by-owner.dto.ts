@@ -9,7 +9,9 @@ export interface GetPostsByOwnerParams{
   ownerId: string;
 }
 
-export interface GetPostsByOwnerQuery extends IPaginate{}
+export interface GetPostsByOwnerQuery{
+  paginate: IPaginate;
+}
 
 export interface GetPostsByOwnerDTORequest {
   query: GetPostsByOwnerQuery,

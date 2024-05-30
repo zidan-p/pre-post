@@ -19,7 +19,7 @@ export class GetPublishedPostByOwnerUseCase implements UseCase<GetPublishedPostB
     try{
       
       const ownerId = request.param.ownerId;
-      const pagiateQuery = request.query;
+      const pagiateQuery = request.query.paginate;
 
       const owner = await this.userRepo.getUserByUserId(ownerId);
 

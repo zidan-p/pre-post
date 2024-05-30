@@ -9,7 +9,9 @@ export interface GetPublishedPostByOwnerParams{
   ownerId: string;
 }
 
-export interface GetPublishedPostByOwnerQuery extends IPaginate{}
+export interface GetPublishedPostByOwnerQuery {
+  paginate: IPaginate;
+}
 
 export interface GetPublishedPostByOwnerDTORequest {
   query: GetPublishedPostByOwnerQuery,

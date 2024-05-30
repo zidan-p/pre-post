@@ -13,6 +13,8 @@ export interface IPaginate {
 export interface IPaginateReponse extends IPaginate {
   dataTotal: number;
   pageTotal: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
 }
 
 

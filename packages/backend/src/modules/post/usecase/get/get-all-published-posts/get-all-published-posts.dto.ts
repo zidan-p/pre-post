@@ -7,7 +7,9 @@ export interface GetAllPublishedPostsBody{}
 
 export interface GetAllPublishedPostsParams{}
 
-export interface GetAllPublishedPostsQuery extends IPaginate{}
+export interface GetAllPublishedPostsQuery {
+  paginate: IPaginate
+}
 
 export interface GetAllPublishedPostsDTORequest {
   query: GetAllPublishedPostsQuery;

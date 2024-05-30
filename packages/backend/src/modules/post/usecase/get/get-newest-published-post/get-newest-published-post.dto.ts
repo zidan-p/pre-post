@@ -8,7 +8,9 @@ export interface GetNewestPublishedPostBody{}
 
 export interface GetNewestPublishedPostParams{}
 
-export interface GetNewestPublishedPostQuery extends IPaginate{}
+export interface GetNewestPublishedPostQuery {
+  paginate: IPaginate
+}
 
 export interface GetNewestPublishedPostDTORequest {
   query: GetNewestPostQuery;

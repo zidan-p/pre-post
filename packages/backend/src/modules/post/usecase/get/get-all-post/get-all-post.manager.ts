@@ -8,7 +8,7 @@ import { IPostMapperPresenterFactory } from "../../../mappers/post-mapper.factor
 
 
 
-export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<string, any>> implements IUseCaseManager{
+export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<string, any>, TPaginate = any> implements IUseCaseManager{
 
   private controller: GetAllPostController<TPostOutput>;
   private useCase: GetAllPostUseCase;
@@ -23,7 +23,11 @@ export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<
       postRepoFactory.createPostRepo()
     )
 
-    this.controller = new GetAllPostController<TPostOutput>(this.useCase, this.postMapperPresenterFactory.createPostMapper());
+    this.controller = new GetAllPostController<TPostOutput>(
+      this.useCase, 
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper<TPaginate>()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -38,7 +42,8 @@ export class GetAllPostManager<TPostOutput extends Record<string, any> = Record<
   createController(){
     return new GetAllPostController<TPostOutput>(
       this.useCase,
-      this.postMapperPresenterFactory.createPostMapper()
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper<TPaginate>()
     );
 
   }

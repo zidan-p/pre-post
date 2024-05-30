@@ -1,10 +1,16 @@
 import { IPaginate, IPaginateReponse, ResultWithPagination } from "~/common/types/paginate";
 import { PostId } from "../domain/post-id.value-object";
 import { Post, PostProps, PostPropsWithId } from "../domain/post.agregate-root";
-import { FilterConfig, WhereConfig, WhereInConfig } from "~/common/types/filter-query";
+import { FilterConfig, OrderByCofig, WhereConfig, WhereInConfig } from "~/common/types/filter-query";
 import { SaveStatus } from "~/common/types/repository";
 
-
+export interface FindAdvanceProps {
+  where?: WhereConfig<PostPropsWithId>;
+  whereIncluded?: WhereInConfig<PostPropsWithId>;
+  whereExcluded?: WhereInConfig<PostPropsWithId>;
+  orderBy?: OrderByCofig<PostPropsWithId>;
+  paginate?: IPaginate;
+}
 
 export interface IPostRepo{
 
@@ -40,6 +46,10 @@ export interface IPostRepo{
   // find(payload: {}, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
 
   getPaginate(payload: WhereConfig<PostPropsWithId>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
+  
+  
+  findAdvance(agrs: FindAdvanceProps): Promise<Post[]>;
+  findAdvancePaginate(args: FindAdvanceProps): Promise<IPaginateReponse>;
 
   /**
    * note, this method may not apply the data existence checking. so always try to check it first before delete it

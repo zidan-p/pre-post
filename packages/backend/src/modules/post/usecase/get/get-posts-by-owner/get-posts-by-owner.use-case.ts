@@ -19,7 +19,7 @@ export class GetPostsByOwnerUseCase implements UseCase<GetPostsByOwnerDTORequest
     try{
       
       const ownerId = request.param.ownerId;
-      const pagiateQuery = request.query;
+      const pagiateQuery = request.query.paginate;
 
       const owner = await this.userRepo.getUserByUserId(ownerId);
 
