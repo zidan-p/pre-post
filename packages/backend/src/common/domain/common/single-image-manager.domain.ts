@@ -36,6 +36,7 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
       )
     }
 
+    // set current image to be deleted
     if(this.props.currentImage) this.props.currentImage.delete();
 
     this.props.newImage = image;

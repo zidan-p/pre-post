@@ -1,0 +1,1 @@
+export const UPDATE_MANY_POST = "update-many-post";
