@@ -1,1 +1,0 @@
-export const DELETE___usecase__ConstantCase__ = "delete-__usecase__KebabCase__";

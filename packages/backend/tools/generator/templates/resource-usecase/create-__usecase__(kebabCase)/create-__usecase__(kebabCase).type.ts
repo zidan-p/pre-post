@@ -1,1 +1,0 @@
-export const CREATE___usecase__ConstantCase__ = "create-__usecase__KebabCase__";

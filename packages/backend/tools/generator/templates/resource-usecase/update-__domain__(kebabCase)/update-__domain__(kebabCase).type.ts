@@ -1,0 +1,1 @@
+export const UPDATE___domain__ConstantCase__ = "update-__domain__KebabCase__";

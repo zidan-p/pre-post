@@ -1,1 +1,0 @@
-export const UPDATE_MANY__usecase__ConstantCase__ = "update-many-__usecase__KebabCase__";

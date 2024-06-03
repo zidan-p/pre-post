@@ -1,0 +1,1 @@
+export const GET_MANY___domain__ConstantCase__ = "get-many-__domain__KebabCase__";

@@ -1,0 +1,1 @@
+export const GET___domain__ConstantCase__ = "get-__domain__KebabCase__";

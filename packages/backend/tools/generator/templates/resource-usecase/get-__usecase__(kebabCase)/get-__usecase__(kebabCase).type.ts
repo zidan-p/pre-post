@@ -1,1 +1,0 @@
-export const GET___usecase__ConstantCase__ = "get-__usecase__KebabCase__";

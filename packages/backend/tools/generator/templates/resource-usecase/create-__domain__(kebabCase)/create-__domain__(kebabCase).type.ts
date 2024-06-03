@@ -1,0 +1,1 @@
+export const CREATE___domain__ConstantCase__ = "create-__domain__KebabCase__";
