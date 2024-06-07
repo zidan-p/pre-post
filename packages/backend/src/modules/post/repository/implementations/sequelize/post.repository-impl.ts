@@ -15,6 +15,7 @@ import { ObjectMapperConfig, ObjectWhereInConfig } from "./post.mapper.config";
 import { ArrayablePostSequelize, PostSequelize } from "./post.type";
 import { InferAttributes, Op, WhereOptions } from "sequelize";
 import { ConvertToPostSequelizeOrderByConfig } from "./post.util";
+import { PostSequelizeQueryCreator } from "./post.query-creator";
 
 
 
@@ -37,11 +38,61 @@ export class SequelizePostRepository implements IPostRepo {
 
 
 
-  isInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId> | undefined): Promise<Post[]> {
-    throw new Error("Method not implemented.");
+  async isInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId> | undefined): Promise<Post[]> {
+    const whereIncluded = payload;
+    const orderBy = config?.orderBy;
+    const paginate = config?.paginate;
+
+    const whereIncludedSequelize = whereIncluded 
+      ? objectAdvanceMap(whereIncluded, this.objectArrayableMapperConfig) as ArrayablePostSequelize 
+      : undefined;
+
+    
+    let sequelizeOrderBy:  OrderByCofig<PostSequelize> | undefined;
+    if(orderBy) sequelizeOrderBy = ConvertToPostSequelizeOrderByConfig(orderBy);
+
+    // hack for absention of query builder in sequelize
+    let sequelizeWhereQuery: WhereOptions<InferAttributes<PostModel>> = {}
+
+    for( const key in whereIncludedSequelize) sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
+
+    // build paginate
+    const limit = paginate?.dataPerPage ? paginate?.dataPerPage : 10;
+    const offset = paginate?.page ? limit * (paginate.page - 1) : 0;
+
+    // query the post
+    const posts = await this.postModel.findAll({where: sequelizeWhereQuery, order: sequelizeOrderBy, limit, offset})
+
+    return posts.map(post => this.postMapper.toDomain(post));
   }
-  countIsInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId> | undefined): Promise<number> {
-    throw new Error("Method not implemented.");
+
+
+  async countIsInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId> | undefined): Promise<number> {
+    const whereIncluded = payload;
+    const orderBy = config?.orderBy;
+    const paginate = config?.paginate;
+
+    const whereIncludedSequelize = whereIncluded 
+      ? objectAdvanceMap(whereIncluded, this.objectArrayableMapperConfig) as ArrayablePostSequelize 
+      : undefined;
+
+    
+    let sequelizeOrderBy:  OrderByCofig<PostSequelize> | undefined;
+    if(orderBy) sequelizeOrderBy = ConvertToPostSequelizeOrderByConfig(orderBy);
+
+    // hack for absention of query builder in sequelize
+    let sequelizeWhereQuery: WhereOptions<InferAttributes<PostModel>> = {}
+
+    for( const key in whereIncludedSequelize) sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
+
+    // build paginate
+    const limit = paginate?.dataPerPage ? paginate?.dataPerPage : 10;
+    const offset = paginate?.page ? limit * (paginate.page - 1) : 0;
+
+    // query the post
+    const numPost = await this.postModel.count({where: sequelizeWhereQuery, order: sequelizeOrderBy, limit, offset})
+
+    return numPost;
   }
   paginateIsInSearch(payload: WhereInConfig<PostPropsWithId>, paginate?: Required<IPaginate> | undefined): Promise<IPaginateReponse> {
     throw new Error("Method not implemented.");
@@ -61,70 +112,35 @@ export class SequelizePostRepository implements IPostRepo {
 
   async findAdvance(agrs: FindAdvanceProps): Promise<Post[]> {
 
-    const where =  agrs.where;
-    const whereIncluded = agrs.whereIncluded;
-    const whereExcluded = agrs.whereExcluded;
-    const orderBy = agrs.orderBy;
-    const paginate = agrs.paginate;
-
-    const whereSequelize = where ? objectAdvanceMap(where, this.objectMapperConfig) as PostSequelize : undefined;
-
-    const whereIncludedSequelize = whereIncluded 
-      ? objectAdvanceMap(whereIncluded, this.objectArrayableMapperConfig) as ArrayablePostSequelize 
-      : undefined;
-
-    const whereExcludedSequelize = whereExcluded 
-      ? objectAdvanceMap(whereExcluded, this.objectArrayableMapperConfig) as ArrayablePostSequelize 
-      : undefined;
-
-    let sequelizeOrderBy:  OrderByCofig<PostSequelize> | undefined;
-    if(orderBy) sequelizeOrderBy = ConvertToPostSequelizeOrderByConfig(orderBy);
-      
-    // hack for absention of query builder in sequelize
-    let sequelizeWhereQuery: WhereOptions<InferAttributes<PostModel>> = {}
-
-    // actually, for in in js still work even when the value is undefined, and of course it will not run it.
-    // build query for where equal
-    for( const key in whereSequelize) sequelizeWhereQuery[key][Op.eq] = whereSequelize[key];
-    
-    // build query for inckuded
-    for( const key in whereIncludedSequelize) sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
-
-    // build query for in excluded
-    for( const key in whereExcludedSequelize) sequelizeWhereQuery[key][Op.notIn] = whereExcludedSequelize[key];
-
+    const queryCreator = new PostSequelizeQueryCreator(agrs);
+    const query = queryCreator.getBaseQuery()
 
     // query the post
-    const posts = await this.postModel.findAll({where: sequelizeWhereQuery, order: sequelizeOrderBy})
+    const posts = await this.postModel.findAll(query)
 
     return posts.map(post => this.postMapper.toDomain(post));
     
   }
 
-  findAdvancePaginate(args: FindAdvanceProps): Promise<IPaginateReponse> {
-    throw new Error("Method not implemented.");
+  async findAdvancePaginate(args: FindAdvanceProps): Promise<IPaginateReponse> {
+    const queryCreator = new PostSequelizeQueryCreator(args);
+    const query = queryCreator.getBaseQuery()
+
+    const total = await this.postModel.count(query);
+
+    const paginate = queryCreator.getPaginate(total);
+
+    return paginate;
+
   }
 
   async getPaginate(payload: WhereConfig<PostProps>, paginate: Required<IPaginate>): Promise<IPaginateReponse> {
 
-    const dataPerPage = paginate?.dataPerPage;
-    const page = paginate?.page;
+    const queryCreator = new PostSequelizeQueryCreator({where: payload, paginate});
+    const query = queryCreator.getBaseQuery();
 
-    const dataTotal = await this.postModel.count({where: payload});
-    let pageTotal = 0;
-
-    if(dataTotal !== 0){
-      // a fraction of data per page can be considered 1 page
-      pageTotal = Math.ceil(dataTotal / dataPerPage); 
-    }
-
-    let hasPreviousPage = false;
-    let hasNextPage = false;
-
-    if (page > 0) hasPreviousPage = true;
-    if (page < pageTotal) hasNextPage = true; 
-
-    return { dataPerPage, dataTotal, page, pageTotal, hasNextPage, hasPreviousPage}
+    const total = await this.postModel.count(query);
+    return queryCreator.getPaginate(total);
   }
 
 
