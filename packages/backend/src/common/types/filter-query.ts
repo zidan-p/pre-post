@@ -6,7 +6,7 @@ export type WhereInConfig<T extends Object> = {[K in keyof T] ?: T[K][]};
 
 export type OrderConfig = "ASC" | "DESC";
 
-export type OrderByCofig<T extends Object> = [keyof T, OrderConfig?][];
+export type OrderByCofig<T extends Object> = [keyof T, OrderConfig][];
 
 
 export interface FilterConfig<TProps extends Object>{

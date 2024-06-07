@@ -60,6 +60,10 @@ generateTemplateFiles([
       {
         slot: "__module__",
         question: "Insert your modules name"
+      },
+      {
+        slot: "__domain__",
+        question: "Insert your target domain here"
       }
     ],
     output: {
