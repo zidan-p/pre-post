@@ -36,7 +36,7 @@ export interface IPostRepo{
     payloadInQuery: WhereInConfig<PostPropsWithId>, 
     payloadWhereQuery: WhereConfig<PostPropsWithId>, 
     paginate?: Required<IPaginate>
-  ): Promise<number>;
+  ): Promise<IPaginateReponse>;
 
   
   findById(postId: string | PostId): Promise<Post | null>;
