@@ -4,7 +4,6 @@ import { Role } from "./role.const";
 
 
 
-
 export interface IUserAuth{
   id: string;
   email: string;

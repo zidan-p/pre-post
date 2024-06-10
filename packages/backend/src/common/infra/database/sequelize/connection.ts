@@ -11,18 +11,15 @@ const {
   DB_PASSWORD,
 } = process.env;
 
-
-export const sequelizeConnection = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
-  port: Number(DB_PORT),
-  host: DB_HOST,
-  dialect: "mysql"
-});
-
-
-export const models = initModel(sequelizeConnection);
-
-async function syncDatabase(){
+export async function loadSequelizeOrm(){
+  const sequelizeConnection = new Sequelize(DB_DATABASE as string, DB_USERNAME as string, DB_PASSWORD, {
+    port: Number(DB_PORT),
+    host: DB_HOST,
+    dialect: "mysql"
+  });
+  
+  const models = initModel(sequelizeConnection);
+  
   await sequelizeConnection.sync();
-}
 
-syncDatabase();
+}

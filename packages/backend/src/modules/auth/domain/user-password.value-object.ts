@@ -1,4 +1,4 @@
-import { ValueObject } from "~/common/domain/Value-object";
+import { ValueObject } from "~/common/domain/value-object";
 import bcrypt = require('bcrypt');
 import { z } from "zod";
 import { Result } from "~/common/core/result";

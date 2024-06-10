@@ -1,8 +1,8 @@
 import { Result } from "~/common/core/result";
 import { CreatePostDTOResponse } from "./create-post.dto";
 import { ArgumentInvalidException, ExceptionBase, NotFoundException } from "~/common/exceptions";
-import { UseCaseError } from "~/common/core/UseCaseError";
 import { BaseError } from "sequelize";
+import { UseCaseError } from "~/common/core/use-case.error.base";
 
 
 

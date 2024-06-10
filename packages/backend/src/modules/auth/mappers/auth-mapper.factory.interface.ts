@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/mapper";
+import { IPresenterMapper, PersisterMapper } from "~/common/core/mapper";
 import { User } from "../domain/user.agregate-root";
 
 

@@ -1,7 +1,7 @@
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { z } from "zod";
 import { Result } from "~/common/core/result";
-import { ValueObject } from "~/common/domain/Value-object";
+import { ValueObject } from "~/common/domain/value-object";
 
 
 export interface UserEmailProps{

@@ -1,4 +1,5 @@
 import winston, { addColors, createLogger, format, transports } from "winston";
+import { ConsoleTransportInstance } from "winston/lib/winston/transports";
 const { combine, timestamp, printf, colorize, errors, json} = format;
 import { IPrePostLogger } from "~/common/core/logger.interface";
 
@@ -119,7 +120,7 @@ export class WinstonPrePostLoggger implements IPrePostLogger {
   constructor(name: string){
     this.name = name;
 
-    const transportWinston = [];
+    const transportWinston: ConsoleTransportInstance[] = [];
     transportWinston.push( new transports.Console({ format: consoleFormat}));
     
     this.logger = <NestCustomLevels>createLogger({
@@ -143,7 +144,7 @@ export class WinstonPrePostLoggger implements IPrePostLogger {
     this.logger.info(message, {context, name: this.name, dataArr: optionalParams});
   }
 
-  error(message: any, stackOrObject: string | Record<string, any>, ...optionalParams: any[]) {
+  error(message: any, stackOrObject?: string | Record<string, any>, ...optionalParams: any[]) {
     const context = optionalParams.pop();
     if(typeof stackOrObject === "string"){
       this.logger.error(message, {context, name: this.name, stack: stackOrObject, dataArr: optionalParams});

@@ -8,24 +8,21 @@ const origin = {
   origin: "*"
 }
 
-const app = express();
-
-const arouter = express.Router();
-
-// arouter.get("/this", (req, res) => res.json({hello: "hai"}));
-
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors({origin: "*"}));
-
-app.use(v1);
-// app.use("/",arouter);
-app.get("/", (req, res) => res.json({msg: "hallooo"}));
-
-
-app.listen(3006, () => {
-  console.log("app listening in http://localhost:3006");
-})
-
-export {app}
+export function loadExpressServer(){
+  const app = express();
+  
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(cors({origin: "*"}));
+  
+  app.use(v1);
+  // app.use("/",arouter);
+  app.get("/", (req, res) => res.json({msg: "hallooo"}));
+  
+  
+  app.listen(3006, () => {
+    console.log("app listening in http://localhost:3006");
+  })
+  
+  return app
+}

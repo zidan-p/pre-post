@@ -41,11 +41,11 @@ export class RefreshTokenUseCase implements UseCase<RefreshTokenDTO, Promise<Ref
       user = userOrNotFound;
 
       const accessToken: JWTToken = this.authService.signJWT({
-        adminUser: user.isAdminUser,
         email: user.email.value,
         id: user.id.toString(),
         isEmailVerified: user.isEmailVerified,
-        username: user.username.value
+        username: user.username.value,
+        role: user.role
       });
 
       return right(Result.ok<RefreshTokenResponseDTO>({accessToken}))
