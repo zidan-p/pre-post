@@ -24,7 +24,7 @@ import { DELETE_OWNED_POST } from "../../usecase/delete/delete-owned-post";
 
 
 export const postRouter = Router();
-export const userRouter = Router();
+export const userPostRouter = Router();
 
 postRouter.get("/", (req,res) => {
   switch(req.user?.role){
@@ -83,7 +83,7 @@ postRouter.delete("/:postId", (req,res) => {
 })
 
 // ----------- user Router -----------
-userRouter.get(":userId/posts/", (req, res) => {
+userPostRouter.get(":userId/posts/", (req, res) => {
   switch (req.user?.role) {
     case "ADMIN": return postUseCaseManagerFactory.getController(GET_POSTS_BY_OWNER)(req,res);
     case "USER" : return postUseCaseManagerFactory.getController(GET_PUBLISHED_POST_BY_OWNER)(req,res);
