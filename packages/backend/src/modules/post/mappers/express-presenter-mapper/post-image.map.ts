@@ -1,4 +1,4 @@
-import { Mapper, IPresenterMapper } from "~/common/core/mapper";
+import { IPresenterMapper } from "~/common/core/mapper";
 import { PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 import { Entity } from "~/common/domain/entity.base";

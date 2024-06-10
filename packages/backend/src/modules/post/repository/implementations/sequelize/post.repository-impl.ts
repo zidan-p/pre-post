@@ -1,20 +1,14 @@
 import { Post, PostProps, PostPropsWithId } from "~/modules/post/domain/post.agregate-root";
 import { FindAdvanceProps, IPostRepo } from "../../post.repository.port";
-import { PostModelImplementation, Post as PostModel } from "~/common/infra/database/sequelize/models/Post.model";
-import { SequelizePostImageRepository } from "./post-image.repository-impl";
+import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
 import { PostImage as PostImageModel} from "~/common/infra/database/sequelize/models/PostImage.model";
-import { PostImage } from "~/modules/post/domain/post-image.entity";
 import { SequelizeMapperFactory } from "~/modules/post/mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
 import { PostMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
-import { PostImageMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
 import { PostId } from "~/modules/post/domain/post-id.value-object";
-import { FilterConfig, OrderByCofig, WhereConfig, WhereInConfig } from "~/common/types/filter-query";
+import { FilterConfig, WhereConfig, WhereInConfig } from "~/common/types/filter-query";
 import { IPaginate, IPaginateReponse } from "~/common/types/paginate";
 import { AdvaceObjectMapperConfig, isEmpty, objectAdvanceMap } from "~/common/utils/object";
 import { ObjectMapperConfig, ObjectWhereInConfig } from "./post.mapper.config";
-import { ArrayablePostSequelize, PostSequelize } from "./post.type";
-import { InferAttributes, Op, WhereOptions } from "sequelize";
-import { ConvertToPostSequelizeOrderByConfig } from "./post.util";
 import { PostSequelizeQueryCreator } from "./post.query-creator";
 
 
@@ -158,7 +152,7 @@ export class SequelizePostRepository implements IPostRepo {
   async findAdvance(agrs: FindAdvanceProps): Promise<Post[]> {
 
     const queryCreator = new PostSequelizeQueryCreator(agrs);
-    const query = queryCreator.getBaseQuery()
+    const query = queryCreator.getBaseQuery();
 
     // query the post
     const posts = await this.postModel.findAll(query)

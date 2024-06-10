@@ -18,6 +18,14 @@ export class ExpressUseCaseManagerFactory extends UseCaseManagerFactory{
 
       return useCaseManager.getController().executeRequest(new ExpressInteractor(req, res));
     }
-    
   }
+
+  getController(name: string){
+    const useCaseManager = this.getUseCaseManager(name);
+    if(!useCaseManager){
+      throw new InternalServerErrorException("Use case [ " + name + " ] not found.");
+    }
+    return (req: Request, res: Response, next?: NextFunction) => useCaseManager.getController().executeRequest(new ExpressInteractor(req, res));
+  }
+
 }

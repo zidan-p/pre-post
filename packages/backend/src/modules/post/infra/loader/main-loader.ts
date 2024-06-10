@@ -19,11 +19,12 @@ import { UnpublishPostManager } from "../../usecase/publish/unpublish-post/unpub
 
 
 
+const APP_URL = process.env.APP_URL;
+const resourceUrl = new URL(String(APP_URL));
 
-const resourceUrl = new URL("http://localhost:8000");
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
-const postPresenterMapperFactory = new ExpressMapperFactory();
+const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
 const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
 
 const postRepositoryFactory = new SequelizePostRepoFactory(
