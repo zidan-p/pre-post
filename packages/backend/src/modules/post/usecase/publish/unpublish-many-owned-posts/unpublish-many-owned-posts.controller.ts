@@ -29,25 +29,25 @@ export class UnpublishManyOwnedPostsController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof UnpublishManyOwnedPostsUseCaseErrors.FailBuilUser:
+          case error  instanceof UnpublishManyOwnedPostsUseCaseErrors.FailBuilUser:
             return this.fail(exception.message, exception)
             break
-          case exception instanceof UnpublishManyOwnedPostsUseCaseErrors.ForbiddenAccess:
+          case error  instanceof UnpublishManyOwnedPostsUseCaseErrors.ForbiddenAccess:
             return this.forbidden(exception.message, exception.metadata as Record<string, any>)
             break
-          case exception instanceof UnpublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding:
+          case error  instanceof UnpublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message, exception)
             break
-          case exception instanceof UnpublishManyOwnedPostsUseCaseErrors.SomePostNotFound:
+          case error  instanceof UnpublishManyOwnedPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>)
             break
-          case exception instanceof UnpublishManyOwnedPostsUseCaseErrors.UserNotFound:
+          case error  instanceof UnpublishManyOwnedPostsUseCaseErrors.UserNotFound:
             return this.forbidden(exception.message, exception.metadata as Record<string, any>)
             break
-          case exception instanceof PostOwnershipServiceErrors.NotOwnedByUser:
+          case error  instanceof PostOwnershipServiceErrors.NotOwnedByUser:
             return this.unauthorized(exception.message, exception.metadata as Record<string, any>)
             break
-          case exception instanceof PostOwnershipServiceErrors.SomePostNotFound:
+          case error  instanceof PostOwnershipServiceErrors.SomePostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>)
             break
           default:

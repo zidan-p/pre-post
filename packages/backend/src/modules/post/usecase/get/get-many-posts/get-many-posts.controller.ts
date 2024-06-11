@@ -29,10 +29,10 @@ export class GetManyPostsController<TPostPresenter = any> extends BaseController
 
         switch(true){
 
-          case exception instanceof GetManyPostsUseCaseErrors.IssueWhenBuilding:
+          case error  instanceof GetManyPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message);
 
-          case exception instanceof GetManyPostsUseCaseErrors.SomePostNotFound:
+          case error  instanceof GetManyPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message);
           default:
             console.log(exception);

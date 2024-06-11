@@ -36,10 +36,10 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
 
         switch(true){
 
-          case exception instanceof GetPostsByCurrentUserUseCaseErrors.PostNotFound:
+          case error  instanceof GetPostsByCurrentUserUseCaseErrors.PostNotFound:
             return this.notFound(exception.message);
           
-          case exception instanceof GetPostsByCurrentUserUseCaseErrors.UserNotFound:
+          case error  instanceof GetPostsByCurrentUserUseCaseErrors.UserNotFound:
             return this.forbidden(exception.message, exception.metadata as Record<any, any>);
 
           default:

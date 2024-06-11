@@ -34,13 +34,13 @@ export class UnpublishPostController<TPostRaw extends Record<string, any> = Reco
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof UnpublishPostUseCaseErrors.PostNotFound:
+          case error  instanceof UnpublishPostUseCaseErrors.PostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>)
 
-          case exception instanceof UnpublishPostUseCaseErrors.ForbiddenUser:
+          case error  instanceof UnpublishPostUseCaseErrors.ForbiddenUser:
             return this.notFound(exception.message);
 
-          case exception instanceof UnpublishPostUseCaseErrors.NotFoundUser:
+          case error  instanceof UnpublishPostUseCaseErrors.NotFoundUser:
             return this.notFound(exception.message, exception.metadata as Record<string, any>);
 
           default:

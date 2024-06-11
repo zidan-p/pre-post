@@ -8,7 +8,7 @@ import { postRouter, userPostRouter } from '~/modules/post/infra/http/routes';
 const v1 = express.Router();
 
 v1.use("/auth", authRouter);
-v1.use("/post", postRouter);
-v1.use("/user", userPostRouter);
+v1.use("/posts", postRouter);
+v1.use("/users", userPostRouter);
 
 export {v1}

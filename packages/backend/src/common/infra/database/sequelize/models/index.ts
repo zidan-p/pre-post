@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import { initPost } from "./Post.model";
-import { initUser } from "./User.model";
-import { initPostImage } from "./PostImage.model";
+import { associatePost, initPost } from "./Post.model";
+import { associateUser, initUser } from "./User.model";
+import { associatePostImage, initPostImage } from "./PostImage.model";
 
 
 
@@ -15,9 +15,14 @@ export function isModelLoaded(): boolean{
 export const initModel = (sequelize: Sequelize) => {
   if (modelsLoaded) return models;
 
-  const post = initPost(sequelize);
   const user = initUser(sequelize);
+  const post = initPost(sequelize);
   const postImage = initPostImage(sequelize);
+  
+  // -- associate all model--
+  associatePost();
+  associatePostImage();
+  associateUser();
 
   models.Post = post;
   models.User = user;

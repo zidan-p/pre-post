@@ -25,10 +25,10 @@ export class UnpublishManyPostsController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof UnpublishManyPostsUseCaseErrors.IssueWhenBuilding:
+          case error  instanceof UnpublishManyPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message, exception);
             break
-          case exception instanceof UnpublishManyPostsUseCaseErrors.SomePostNotFound:
+          case error  instanceof UnpublishManyPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>);
             break
           default:

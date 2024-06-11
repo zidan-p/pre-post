@@ -14,15 +14,18 @@ export class GetAllPublishedPostsUseCase implements UseCase<GetAllPublishedPosts
 
   async execute(request: GetAllPublishedPostsDTORequest): Promise<GetAllPublishedPostsResponse> {
     try{
-      let page = request.query.paginate.page;
-      let dataPerPage = request.query.paginate.dataPerPage;
+
+      // TODO: make paginate accept undefined value and move default value there
+      let page = request?.query?.paginate?.page ?? 1;
+      let dataPerPage = request?.query?.paginate?.dataPerPage ?? 10;
 
       const posts = await this.postRepository.find({isPublised: true}, {paginate: {dataPerPage, page}});
       const paginate = await this.postRepository.getPaginate({isPublised: true}, {dataPerPage, page});
 
       return right(Result.ok({posts, paginate}));
     } catch (error) {
-      return left(new AppError.UnexpectedError(error.toString()));
+      console.log(error)
+      return left(new AppError.UnexpectedError(error));
     }
   }
   

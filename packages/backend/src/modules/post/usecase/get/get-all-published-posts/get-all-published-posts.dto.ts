@@ -8,7 +8,7 @@ export interface GetAllPublishedPostsBody{}
 export interface GetAllPublishedPostsParams{}
 
 export interface GetAllPublishedPostsQuery {
-  paginate: IPaginate
+  paginate?: IPaginate
 }
 
 export interface GetAllPublishedPostsDTORequest {
@@ -20,7 +20,7 @@ export interface GetAllPublishedPostsDTOResponse{
   paginate: IPaginateReponse
 }
 
-export interface GetAllPublishedPostsDTOEnd<TPostPresenter>{
+export interface GetAllPublishedPostsDTOEnd<TPostPresenter, TPaginate = any>{
   posts: TPostPresenter[],
-  paginate: IPaginateReponse
+  paginate: TPaginate
 }

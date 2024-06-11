@@ -21,7 +21,8 @@ export class GetAllPublishedPostsManager<TPostRaw extends Record<string, any>> i
 
     this.controller = new GetAllPublishedPostsController(
       this.useCase,
-      this.postMapperPresenterFactory.createPostMapper()
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper()
     );
   }
 
@@ -35,7 +36,9 @@ export class GetAllPublishedPostsManager<TPostRaw extends Record<string, any>> i
   createController(){
     return new GetAllPublishedPostsController(      
       this.useCase,
-      this.postMapperPresenterFactory.createPostMapper());
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper()
+      );
   }
 
 }

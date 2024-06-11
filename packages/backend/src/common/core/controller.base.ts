@@ -8,7 +8,7 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
 
   abstract executeImpl(...args: any[]): Promise<IInteractor["ok"]>;
   
-  private interactor: IInteractor<TControllerOkResult> | undefined;
+  protected interactor: IInteractor<TControllerOkResult> | undefined;
 
   // let interactor dynamic and can be null 
   //so it's not needed to create the object controller every request

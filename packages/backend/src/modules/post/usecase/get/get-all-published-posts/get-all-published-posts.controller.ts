@@ -2,15 +2,17 @@ import { BaseController } from "~/common/core/controller.base";
 import { GetAllPublishedPostsUseCase } from "./get-all-published-posts.use-case";
 import { GetAllPublishedPostsDTOEnd, GetAllPublishedPostsQuery } from "./get-all-published-posts.dto";
 import { Post } from "~/modules/post/domain/post.agregate-root";
-import { IPresenterMapper } from "~/common/core/mapper";
+import { IGeneralPresenterMapper, IPresenterMapper } from "~/common/core/mapper";
+import { IPaginateReponse } from "~/common/types/paginate";
 
 
 
-export class GetAllPublishedPostsController<TPostRaw> extends BaseController<GetAllPublishedPostsDTOEnd<TPostRaw>> {
+export class GetAllPublishedPostsController<TPostRaw, TPaginateRaw = any> extends BaseController<GetAllPublishedPostsDTOEnd<TPostRaw>> {
 
   constructor(
     private useCase: GetAllPublishedPostsUseCase,
-    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>,
+    private readonly pageMapper: IGeneralPresenterMapper<IPaginateReponse, TPaginateRaw>
   ){
     super();
   }
@@ -37,7 +39,7 @@ export class GetAllPublishedPostsController<TPostRaw> extends BaseController<Get
       const dto = result.value;
       const posts = dto.getValue().posts;
       const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
-      const paginate = dto.getValue().paginate;
+      const paginate = this.pageMapper.toPresentation(dto.getValue().paginate);;
       return this.ok({posts: postsRaw, paginate});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);

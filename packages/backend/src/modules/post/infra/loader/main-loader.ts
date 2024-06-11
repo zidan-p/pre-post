@@ -16,6 +16,8 @@ import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get/ge
 import { PUBLISH_POST } from "../../usecase/publish/publish-post";
 import { UNPUBLISH_POST } from "../../usecase/publish/unpublish-post/unpublish-post.type";
 import { UnpublishPostManager } from "../../usecase/publish/unpublish-post/unpublish-post.manager";
+import { GET_ALL_PUBLISHED_POSTS, GetAllPublishedPostsManager } from "../../usecase/get/get-all-published-posts";
+import { GET_PUBLISHED_POST_BY_OWNER, GetPublishedPostByOwnerManager } from "../../usecase/get/get-published-post-by-owner";
 
 
 
@@ -52,21 +54,34 @@ postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ))
 
+// get all published
+postUseCaseManagerFactory.addUseCaseManager(GET_ALL_PUBLISHED_POSTS, new GetAllPublishedPostsManager(
+  postRepositoryFactory, 
+  postPresenterMapperFactoryWithResourceUrlSerializer
+))
+
 // get newest post
 postUseCaseManagerFactory.addUseCaseManager(GET_NEWEST_POST, new GetNewestPostManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ))
 
+// get posts by current user
 postUseCaseManagerFactory.addUseCaseManager(GET_POSTS_BY_CURRENT_USER, new GetPostsByCurrentUserManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));
 
+// get all posts by owner
 postUseCaseManagerFactory.addUseCaseManager(GET_POSTS_BY_OWNER, new GetPostsByOwnerManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));
+
+postUseCaseManagerFactory.addUseCaseManager(GET_PUBLISHED_POST_BY_OWNER, new GetPublishedPostByOwnerManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+))
 
 postUseCaseManagerFactory.addUseCaseManager(PUBLISH_POST, new GetPostsByOwnerManager(
   postRepositoryFactory,

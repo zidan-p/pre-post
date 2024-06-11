@@ -34,18 +34,18 @@ export function initPostImage(sequelize: Sequelize){
   PostImage.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
       },
-      post_id: {
-        type: DataTypes.UUIDV4,
-        references: {
-          model: Post
-        }
-      },
+      // post_id: {
+      //   type: DataTypes.UUIDV4,
+      //   references: {
+      //     model: Post
+      //   }
+      // },
       name: DataTypes.STRING,
-      size: DataTypes.NUMBER,
+      size: DataTypes.INTEGER,
       file_type: DataTypes.STRING,
       image_type: DataTypes.STRING,
       group: DataTypes.STRING,
@@ -57,7 +57,9 @@ export function initPostImage(sequelize: Sequelize){
     }
   )
 
-  PostImage.hasOne(Post, {as : "post", foreignKey: "image_id"})
-
   return PostImage;
+}
+
+export function associatePostImage(){
+  PostImage.hasOne(Post, {as : "post", foreignKey: "image_id"})
 }

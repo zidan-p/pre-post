@@ -26,16 +26,16 @@ export class DeleteManyPostsController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof DeleteManyPostsUseCaseErrors.FailBuilUser:
+          case error  instanceof DeleteManyPostsUseCaseErrors.FailBuilUser:
             return this.fail(exception.message);
 
-          case exception instanceof DeleteManyPostsUseCaseErrors.ForbiddenAccess:
+          case error  instanceof DeleteManyPostsUseCaseErrors.ForbiddenAccess:
             return this.forbidden(exception.message);
 
-          case exception instanceof DeleteManyPostsUseCaseErrors.IssueWhenBuilding:
+          case error  instanceof DeleteManyPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message);
 
-          case exception instanceof DeleteManyPostsUseCaseErrors.SomePostNotFound:
+          case error  instanceof DeleteManyPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message);
 
 

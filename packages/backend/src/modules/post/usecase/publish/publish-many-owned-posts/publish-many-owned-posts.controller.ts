@@ -30,19 +30,19 @@ export class PublishManyOwnedPostsController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof PublishManyOwnedPostsUseCaseErrors.FailBuilUser:
+          case error  instanceof PublishManyOwnedPostsUseCaseErrors.FailBuilUser:
             return this.fail(exception.message, exception);
             break
-          case exception instanceof PublishManyOwnedPostsUseCaseErrors.ForbiddenAccess:
+          case error  instanceof PublishManyOwnedPostsUseCaseErrors.ForbiddenAccess:
             return this.forbidden(exception.message, exception.metadata as Record<string, any>);
             break
-          case exception instanceof PublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding:
+          case error  instanceof PublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message, exception);
             break
-          case exception instanceof PublishManyOwnedPostsUseCaseErrors.SomePostNotFound:
+          case error  instanceof PublishManyOwnedPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>);
             break
-          case exception instanceof PublishManyOwnedPostsUseCaseErrors.UserNotFound:
+          case error  instanceof PublishManyOwnedPostsUseCaseErrors.UserNotFound:
             return this.forbidden(exception.message, exception.metadata as Record<string, any>);
             break
           default:

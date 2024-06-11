@@ -36,10 +36,10 @@ export class PublishPostController<TPostRaw extends Record<string, any> = Record
 
         switch(true){
 
-          case exception instanceof PublishPostUseCaseErrors.PostNotFound:
+          case error  instanceof PublishPostUseCaseErrors.PostNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>)
 
-          case exception instanceof PublishPostUseCaseErrors.ForbiddenUser:
+          case error  instanceof PublishPostUseCaseErrors.ForbiddenUser:
             return this.notFound(exception.message);
 
           default:

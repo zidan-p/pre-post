@@ -26,19 +26,19 @@ import { DELETE_OWNED_POST } from "../../usecase/delete/delete-owned-post";
 export const postRouter = Router();
 export const userPostRouter = Router();
 
-postRouter.get("/", (req,res) => {
-  switch(req.user?.role){
-    case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
-    case "USER" : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
-    default: return res.status(403).json({message: "forbidden credential"});
-  }
-})
+// postRouter.get("/", (req,res) => {
+//   switch(req.user?.role){
+//     case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
+//     case "USER" : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
+//     default: return res.status(403).json({message: "forbidden credential"});
+//   }
+// }) 
 
 postRouter.get("/", (req,res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
-    case "USER" : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
-    default: return res.status(403).json({message: "forbidden credential"})
+    default : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
+    // default: return res.status(403).json({message: "forbidden credential"})
   }
 })
 
@@ -83,10 +83,10 @@ postRouter.delete("/:postId", (req,res) => {
 })
 
 // ----------- user Router -----------
-userPostRouter.get(":userId/posts/", (req, res) => {
+userPostRouter.get("/:userId/posts/", (req, res) => {
   switch (req.user?.role) {
     case "ADMIN": return postUseCaseManagerFactory.getController(GET_POSTS_BY_OWNER)(req,res);
-    case "USER" : return postUseCaseManagerFactory.getController(GET_PUBLISHED_POST_BY_OWNER)(req,res);
-    default: return res.status(403).json({message: "forbidden credential"});
+    default : return postUseCaseManagerFactory.getController(GET_PUBLISHED_POST_BY_OWNER)(req,res);
+    // default: return res.status(403).json({message: "forbidden credential"});
   }
 })

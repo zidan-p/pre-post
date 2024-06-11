@@ -1,11 +1,13 @@
 import { join } from "path";
-import { AppMainInfra } from "./common/infra/main";
-
+// register alias
+require("module-alias")(join(__dirname, ".."));
 // register env
 import "./config/env-config";
 
-// register alias
-require("module-alias")(join(__dirname, ".."));
+
+import { AppMainInfra } from "./common/infra/main";
+
+
 
 const app = new AppMainInfra();
 app.load();

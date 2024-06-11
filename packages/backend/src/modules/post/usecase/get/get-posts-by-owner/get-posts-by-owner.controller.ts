@@ -33,8 +33,8 @@ export class GetPostsByOwnerController<TPostRaw extends Record<string, any> = Re
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof GetPostsByOwnerUseCaseErrors.OwnerNotFound:
-            this.notFound(exception.message, exception.metadata as Record<string, any>);
+          case error  instanceof GetPostsByOwnerUseCaseErrors.OwnerNotFound:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>);
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);

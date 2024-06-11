@@ -23,6 +23,10 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     private query: FindAdvanceProps
   ){}
 
+  /**
+   * 
+   * @returns the tranformed query to be consumed by sequelize
+   */
   getBaseQuery(){
     const where =  this.query.where;
     const whereIncluded = this.query.whereIncluded;
@@ -48,14 +52,26 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     let sequelizeWhereQuery: WhereOptions<InferAttributes<PostModel>> = {}
 
     // actually, for in in js still work even when the value is undefined, and of course it will not run it.
+
+    // NO, it's wont.. it must be checked first
+
     // build query for where equal
-    for( const key in whereSequelize) sequelizeWhereQuery[key][Op.eq] = whereSequelize[key];
+    for( const key in whereSequelize) {
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
+      sequelizeWhereQuery[key][Op.eq] = whereSequelize[key]
+    };
     
     // build query for inckuded
-    for( const key in whereIncludedSequelize) sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
+    for( const key in whereIncludedSequelize) {
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
+      sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
+    }
 
     // build query for in excluded
-    for( const key in whereExcludedSequelize) sequelizeWhereQuery[key][Op.notIn] = whereExcludedSequelize[key];
+    for( const key in whereExcludedSequelize) {
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
+      sequelizeWhereQuery[key][Op.notIn] = whereExcludedSequelize[key];
+    }
 
     // build paginate
     const limit = dataPerPage;
@@ -85,8 +101,11 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     let hasPreviousPage = false;
     let hasNextPage = false;
 
-    if (page > 0) hasPreviousPage = true;
-    if (page < pageTotal) hasNextPage = true; 
+    // when the data is zero, that's mean the total page is also zero.
+    // because the minimum of current page is 1, i want to make sure it considered valid value.
+    if (page > 0 && pageTotal > 0) hasPreviousPage = true;
+
+    if (page < pageTotal ) hasNextPage = true; 
 
     return { dataPerPage, dataTotal, page, pageTotal, hasNextPage, hasPreviousPage}
   }

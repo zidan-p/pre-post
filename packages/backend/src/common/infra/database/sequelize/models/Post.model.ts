@@ -38,29 +38,30 @@ export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<P
 export type PostModelImplementation = typeof Post;
 
 export function initPost(sequelize: Sequelize){
+
   Post.init(
     {
       id: {
-        type: DataTypes.UUIDV4,
-        autoIncrement: true,
-        primaryKey: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
       },
-      owner_id: {
-        type: DataTypes.UUIDV4,
-        allowNull: false,
-        references: {
-          model: User,
-          key: "id"
-        }
-      },
-      image_id: {
-        type: DataTypes.UUIDV4,
-        allowNull: true,
-        references: {
-          model: PostImage,
-          key: "id"
-        }
-      },
+      // owner_id: {
+      //   type: DataTypes.UUIDV4,
+      //   allowNull: false,
+      //   references: {
+      //     model: User,
+      //     key: "id"
+      //   }
+      // },
+      // image_id: {
+      //   type: DataTypes.UUIDV4,
+      //   allowNull: true,
+      //   references: {
+      //     model: PostImage,
+      //     key: "id"
+      //   }
+      // },
       title: {
         type: DataTypes.STRING(250),
         allowNull: false,
@@ -79,12 +80,15 @@ export function initPost(sequelize: Sequelize){
     }
   )
 
+  return Post;
+}
+
+
+export function associatePost(){
   Post.belongsTo(User,{
     as: "owner",
+    foreignKey: "owner_id"
   });
 
-  Post.hasOne(PostImage, {as: "image", sourceKey: "image_id"})
-
-
-  return Post;
+  Post.hasOne(PostImage, {as: "image", foreignKey: "post_id"})
 }

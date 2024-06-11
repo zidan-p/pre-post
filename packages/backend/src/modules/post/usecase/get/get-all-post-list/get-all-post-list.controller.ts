@@ -30,9 +30,9 @@ export class GetAllPostListController<TPostRaw = any, TPaginateRaw = any> extend
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof GetAllPostListUseCaseErrors.FailBuildingPost:
+          case error  instanceof GetAllPostListUseCaseErrors.FailBuildingPost:
             return this.fail(exception.message);
-          case exception instanceof GetAllPostListUseCaseErrors.InvalidProperties:
+          case error  instanceof GetAllPostListUseCaseErrors.InvalidProperties:
             return this.clientError(exception.message, exception?.metadata as Record<string, any>);
           default:
             console.log(exception);

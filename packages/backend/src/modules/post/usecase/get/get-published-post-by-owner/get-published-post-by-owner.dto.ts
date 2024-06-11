@@ -6,11 +6,11 @@ export interface GetPublishedPostByOwnerFiles{}
 export interface GetPublishedPostByOwnerBody{}
 
 export interface GetPublishedPostByOwnerParams{
-  ownerId: string;
+  userId: string;
 }
 
 export interface GetPublishedPostByOwnerQuery {
-  paginate: IPaginate;
+  paginate?: IPaginate;
 }
 
 export interface GetPublishedPostByOwnerDTORequest {

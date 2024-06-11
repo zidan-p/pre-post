@@ -55,9 +55,10 @@ export function initUser(sequelize: Sequelize){
   const definedUser = User.init(
     {
       id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING(250),
@@ -89,13 +90,15 @@ export function initUser(sequelize: Sequelize){
     }
   )
 
+  return definedUser;
+}
+
+export function associateUser(){
   User.hasMany(Post, {
-    sourceKey: "id",
+    // sourceKey: "id",
     foreignKey: "owner_id",
     as: "posts",
     onDelete: 'cascade',
     onUpdate: 'cascade',
   })
-
-  return definedUser;
 }

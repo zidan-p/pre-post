@@ -29,12 +29,10 @@ export class GetPublishedPostByOwnerController<TPostRaw extends Record<string, a
       if(result.isLeft()){
         const error = result.value;
         const exception = error.getErrorValue();
-
         switch(true){
-          case exception instanceof GetPublishedPostByOwnerUseCaseErrors.OwnerNotFound:
-            this.notFound(exception.message, exception.metadata as Record<string, any>);
+          case error instanceof GetPublishedPostByOwnerUseCaseErrors.OwnerNotFound:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>);
           default:
-            console.log(exception);
             return this.fail("unexpected error", exception);
           
         }

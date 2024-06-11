@@ -17,14 +17,14 @@ export class GetPublishedPostByOwnerUseCase implements UseCase<GetPublishedPostB
 
   async execute(request: GetPublishedPostByOwnerDTORequest): Promise<GetPublishedPostByOwnerResponse> {
     try{
-      
-      const ownerId = request.param.ownerId;
-      const pagiateQuery = request.query.paginate;
+      console.log(request);
+      const userId = request.param?.userId;
+      const pagiateQuery = request.query?.paginate;
 
-      const owner = await this.userRepo.getUserByUserId(ownerId);
+      const owner = await this.userRepo.getUserByUserId(userId);
 
       if(!owner)
-        return left(new GetPublishedPostByOwnerUseCaseErrors.OwnerNotFound(ownerId));
+        return left(new GetPublishedPostByOwnerUseCaseErrors.OwnerNotFound(userId));
 
       const posts = await this.postRepo.find({ownerId: owner.userId, isPublised: true}, {paginate: pagiateQuery});
       const paginate = await this.postRepo.getPaginate({ownerId: owner.userId}, pagiateQuery);

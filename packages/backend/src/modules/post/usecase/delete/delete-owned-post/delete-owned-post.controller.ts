@@ -27,13 +27,13 @@ export class DeleteOwnedPostController extends BaseController<DeleteOwnedPostDTO
         const exception = error.getErrorValue();
 
         switch(true){
-          case exception instanceof DeleteOwnedPostUseCaseErrors.ForbiddenUser:
+          case error  instanceof DeleteOwnedPostUseCaseErrors.ForbiddenUser:
             this.forbidden(exception.message, exception?.metadata as Record<string, any>)
             break;
-          case exception instanceof DeleteOwnedPostUseCaseErrors.PostNotFound:
+          case error  instanceof DeleteOwnedPostUseCaseErrors.PostNotFound:
             this.notFound(exception.message, exception?.metadata as Record<string, any>)
             break;
-          case exception instanceof DeleteOwnedPostUseCaseErrors.UserNotFound:
+          case error  instanceof DeleteOwnedPostUseCaseErrors.UserNotFound:
             this.notFound(exception.message, exception?.metadata as Record<string, any>)
             break;
           default:
