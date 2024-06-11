@@ -226,7 +226,7 @@ export class SequelizePostRepository implements IPostRepo {
 
   async save(post: Post) {
     
-    const exist = this.exists(post.postId.getStringValue());
+    const exist = await this.exists(post.postId.getStringValue());
     const {image, ...postraw} = this.postMapper.toPersistence(post);
 
     if(!exist){ // is new

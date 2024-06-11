@@ -39,8 +39,10 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       const files = request.files;
       const body = request.body;
 
+      console.log(body);
+
       // if there are image uploaded
-      if(files.postImage){
+      if(files?.postImage){
         
         const unValidatedFile = files.postImage;
 
@@ -99,9 +101,9 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
         postTitle,
         ownerId : userId,
         postContent,
-        isPublised : false,
+        isPublised : body.isPublished ?? false,
         postImageManager,
-        dateTimeCreated: new Date()
+        dateTimeCreated: body.dateTimeCreate ?? new Date()
       })
 
       if(postOrError.isFailure){
@@ -115,6 +117,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       return right(Result.ok({postId: post.id.toString() }));
 
     } catch (error) {
+      console.log(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }

@@ -19,6 +19,7 @@ import { DELETE_MANY_POSTS } from "../../usecase/delete/delete-many-posts";
 import { DELETE_MANY_OWNED_POSTS } from "../../usecase/delete/delete-many-owned-posts";
 import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
 import { DELETE_OWNED_POST } from "../../usecase/delete/delete-owned-post";
+import { uploadImagePost } from "./storage.config";
 
 
 
@@ -45,7 +46,7 @@ postRouter.get("/", (req,res) => {
 postRouter.get("/many", postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
 postRouter.get("/me", postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
 
-postRouter.post("/", postUseCaseManagerFactory.executeRequest(CREATE_POST));
+postRouter.post("/",uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 
 postRouter.put("/:postId", postUseCaseManagerFactory.executeRequest(UPDATE_POST));
 postRouter.put("/", postUseCaseManagerFactory.executeRequest(UPDATE_MANY_POST));

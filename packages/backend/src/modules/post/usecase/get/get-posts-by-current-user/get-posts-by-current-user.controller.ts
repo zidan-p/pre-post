@@ -23,6 +23,7 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
   async executeImpl(){
 
     const user = this.getUser();
+    console.log(user);
     if(!user) return this.forbidden("No auth user to get post");
 
     const query = this.getQueryData() as GetPostsByCurrentUserQuery;

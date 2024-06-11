@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { Result } from "~/common/core/result";
 import { ValueObject } from "~/common/domain/value-object";
-import { ZodValidationException } from "~/common/exceptions";
+import { ValidationFailException, ZodValidationException } from "~/common/exceptions";
 
 
 
@@ -33,7 +33,9 @@ export class PostTitle extends ValueObject<PostTitleProps>{
   public static create(props: PostTitleProps): Result<PostTitle>{
     const parseResult = this.postTitleSchema.safeParse(props.value);
     if(parseResult.success === false){
-      return Result.fail<PostTitle>(new ZodValidationException("error when validating post title", parseResult.error));
+      console.log(parseResult.error);
+      // return Result.fail<PostTitle>(new ZodValidationException("error when validating post title", parseResult.error));
+      return Result.fail<PostTitle>(new ValidationFailException(parseResult.error.message, parseResult.error));
     }
 
     return Result.ok<PostTitle>(new PostTitle(props));

@@ -9,8 +9,8 @@ export interface CreatePostBody{
   ownerId: string | number;
   title: string;
   content: string;
-  isPublished: boolean;
-  dateTimeCreate: Date;
+  isPublished?:boolean;
+  dateTimeCreate?: Date;
 }
 
 export interface CreatePostDTORequest {
