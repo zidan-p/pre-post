@@ -143,13 +143,13 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
   async validatePostImage(unValidatedFile: ICommonFile): Promise<ValidatePostImageResponse>{
 
-    if(unValidatedFile.group !== "post/image")
+    if(unValidatedFile.group !== "postImage")
       return left( new UpdateManyPostUseCaseErrors.InvalidImageProperties(
-        new ArgumentInvalidException("Files group should be post/image not [ " + unValidatedFile.group + " ]")
+        new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
       ));
 
     const postImageProps: PostImageProps = {
-      imageType: "post-image",
+      imageType: "post",
       fileType: unValidatedFile.fileType,
       group: unValidatedFile.group,
       name: unValidatedFile.name,

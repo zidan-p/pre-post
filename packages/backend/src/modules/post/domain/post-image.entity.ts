@@ -13,8 +13,8 @@ import { ArgumentInvalidException } from "~/common/exceptions";
 // fileType: string;
 
 export interface PostImageProps extends ICommonFile {
-  imageType: "post-image";
-  group: "post/image"
+  imageType: "post";
+  group: "postImage"
 
   isDeleted?: boolean;
   isSaved?: boolean; // is already saved in database
@@ -44,7 +44,7 @@ export class PostImage extends Entity<PostImageProps>{
   }
 
   private static validation(props: PostImageProps){
-    if(props.imageType !== "post-image") 
+    if(props.imageType !== "post") 
       return Result.fail<PostImage, ArgumentInvalidException>(
         new ArgumentInvalidException('the imageType should be "post-image", [ ' + props.imageType + " ] provided")
       );

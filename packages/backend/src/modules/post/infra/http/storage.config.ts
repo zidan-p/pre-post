@@ -4,7 +4,7 @@ import {extname} from "path"
 
 const postImagestorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/storage/post-image')
+    cb(null, 'storage/post-image')
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -14,4 +14,4 @@ const postImagestorage = multer.diskStorage({
   
 })
 
-export const uploadImagePost = multer({ storage: postImagestorage })
+export const uploadImagePost = multer({ storage: postImagestorage }) 

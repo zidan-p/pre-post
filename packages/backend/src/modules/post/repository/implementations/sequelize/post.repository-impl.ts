@@ -1,7 +1,7 @@
 import { Post, PostProps, PostPropsWithId } from "~/modules/post/domain/post.agregate-root";
 import { FindAdvanceProps, IPostRepo } from "../../post.repository.port";
 import { PostModelImplementation } from "~/common/infra/database/sequelize/models/Post.model";
-import { PostImage as PostImageModel} from "~/common/infra/database/sequelize/models/PostImage.model";
+import { PostImage as PostImageModel, PostImageModelImplementation} from "~/common/infra/database/sequelize/models/PostImage.model";
 import { SequelizeMapperFactory } from "~/modules/post/mappers/sequelize-persistence-mapper/sequelize-mapper.factory";
 import { PostMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post.map";
 import { PostId } from "~/modules/post/domain/post-id.value-object";
@@ -10,14 +10,13 @@ import { IPaginate, IPaginateReponse } from "~/common/types/paginate";
 import { AdvaceObjectMapperConfig, isEmpty, objectAdvanceMap } from "~/common/utils/object";
 import { ObjectMapperConfig, ObjectWhereInConfig } from "./post.mapper.config";
 import { PostSequelizeQueryCreator } from "./post.query-creator";
+import { PostImageMap } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
 
 
 
 export class SequelizePostRepository implements IPostRepo {
 
   private readonly postMapper: PostMap; 
-  private readonly objectMapperConfig: AdvaceObjectMapperConfig<PostPropsWithId> = ObjectMapperConfig;
-  private readonly objectArrayableMapperConfig: AdvaceObjectMapperConfig<WhereInConfig<PostPropsWithId>> = ObjectWhereInConfig;
 
   constructor (
 
@@ -25,6 +24,7 @@ export class SequelizePostRepository implements IPostRepo {
     // raw that can be compared by typescript.
     postAppMapper: SequelizeMapperFactory,
     private readonly postModel: PostModelImplementation,
+    private readonly postImageModel: PostImageModelImplementation
   ) {
     this.postMapper = postAppMapper.createPostMapper() as PostMap;
   }
@@ -229,14 +229,21 @@ export class SequelizePostRepository implements IPostRepo {
     const exist = await this.exists(post.postId.getStringValue());
     const {image, ...postraw} = this.postMapper.toPersistence(post);
 
+    const image_id = image?.id;
+
     if(!exist){ // is new
-      await this.postModel.create(postraw);
+      await this.postModel.create({...postraw, image_id});
+      if(image_id) await this.postImageModel.update({post_id: postraw.id}, {where: {id: image_id}});
+
       return 1;
         
     }else{
-      await this.postModel.update(postraw, {where: {id: post.postId.getStringValue()}});
+      await this.postModel.update({...postraw, image_id}, {where: {id: post.postId.getStringValue()}});
+      if(image_id) await this.postImageModel.update({post_id: postraw.id}, {where: {id: image_id}});
       return 0;
     }
+
+
   }
 
   

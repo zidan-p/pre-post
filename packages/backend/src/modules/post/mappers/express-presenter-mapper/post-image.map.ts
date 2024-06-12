@@ -35,8 +35,8 @@ export class ExpressPostImageMap implements IPresenterMapper<PostImage, IExpress
     const postImageOrError = PostImage.create({
       size: raw.size,
       fileType: raw.fileType,
-      group: raw.group as "post/image",
-      imageType: raw.imageType as "post-image",
+      group: raw.group as "postImage",
+      imageType: raw.imageType as "post",
       name: raw.name
     });
 

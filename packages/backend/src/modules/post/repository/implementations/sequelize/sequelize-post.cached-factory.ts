@@ -32,7 +32,8 @@ export class SequelizePostRepoFactory implements IPostRepositoryFactory{
 
     this.postRepo = new SequelizePostRepository(
       this.postMapperFactory,
-      this.postModel
+      this.postModel,
+      this.postImageModel
     );
 
     this.userRepo = new SequelizeUserRepository(

@@ -18,7 +18,7 @@ export class SequelizePostImageRepository implements IPostImageRepo{
   ){}
 
   async save(postImage: PostImage): Promise<SaveStatus> {
-    const exist = this.exists(postImage.id.toString());
+    const exist = await this.exists(postImage.id.toString());
     const postImageRaw = this.postImageMapper.toPersistence(postImage);
 
     if(!exist){ // is new

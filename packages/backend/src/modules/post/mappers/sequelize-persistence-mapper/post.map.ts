@@ -63,6 +63,7 @@ export class PostMap implements SequelizePostMapper {
     const image = entity.imageManager.getImage;
 
     return{
+      id: entity.id.toString(),
       title: entity.postTitle.value,
       content: entity.postContent.value,
       image: image ? this.postImageMap.toPersistence(image) : null,

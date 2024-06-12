@@ -18,10 +18,10 @@ export class CreatePostController extends BaseController {
   async executeImpl(){
     
     const payloadBody = this.getBody() as CreatePostBody;
-    const payloadFiles = this.getFiles() as CreatePostFiles;
+    const payloadFiles = this.getSingleFile();
 
     try {
-      const result = await this.useCase.execute({body: payloadBody, files: payloadFiles});
+      const result = await this.useCase.execute({body: payloadBody, files: {postImage: payloadFiles ?? undefined}});
       
       if(result.isLeft()){
         const error = result.value;

@@ -51,13 +51,13 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
         
         const unValidatedFile = files.postImage;
 
-        if(unValidatedFile.group !== "post/image")
+        if(unValidatedFile.group !== "postImage")
           return left( new UpdatePostUseCaseErrors.InvalidImageProperties(
-            new ArgumentInvalidException("Files group should be post/image not [ " + unValidatedFile.group + " ]")
+            new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
           ));
 
         const postImageProps: PostImageProps = {
-          imageType: "post-image",
+          imageType: "post",
           fileType: unValidatedFile.fileType,
           group: unValidatedFile.group,
           name: unValidatedFile.name,

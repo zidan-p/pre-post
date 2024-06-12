@@ -39,20 +39,18 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       const files = request.files;
       const body = request.body;
 
-      console.log(body);
-
       // if there are image uploaded
       if(files?.postImage){
         
         const unValidatedFile = files.postImage;
 
-        if(unValidatedFile.group !== "post/image")
+        if(unValidatedFile.group !== "postImage")
           return left( new CreatePostUseCaseErrors.InvalidImageProperties(
-            new ArgumentInvalidException("Files group should be post/image not [ " + unValidatedFile.group + " ]")
+            new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
           ));
 
         const postImageProps: PostImageProps = {
-          imageType: "post-image",
+          imageType: "post",
           fileType: unValidatedFile.fileType,
           group: unValidatedFile.group,
           name: unValidatedFile.name,
@@ -69,7 +67,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
         // save the image data to database
         
         postImage = postImageOrError.getValue();
-        this.postImageRepository.save(postImage);
+        await this.postImageRepository.save(postImage);
       }
 
       
@@ -112,7 +110,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
       post = postOrError.getValue();
 
-      this.postRepository.save(post);
+      await this.postRepository.save(post);
 
       return right(Result.ok({postId: post.id.toString() }));
 
