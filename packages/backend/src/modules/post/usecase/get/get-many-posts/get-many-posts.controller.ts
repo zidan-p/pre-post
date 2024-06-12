@@ -42,7 +42,8 @@ export class GetManyPostsController<TPostPresenter = any> extends BaseController
       }
       const postsValue = result.value.getValue().posts;
       const posts = postsValue.map(post => this.postMapper.toPresentation(post));
-      return this.ok({posts}, "Success Get many posts");
+      // return this.ok({posts}, "Success Get many posts");
+      return this.okBuild({data: posts})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

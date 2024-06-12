@@ -36,7 +36,8 @@ export class GetNewestPublishedPostController<TPostRaw> extends BaseController<G
       const data = result.value.getValue();
       const postPreseter = data.posts.map(post => this.postMapper.toPresentation(post));
       const paginate = data.paginate;
-      return this.ok({paginate, posts: postPreseter});
+      // return this.ok({paginate, posts: postPreseter});
+      return this.okBuild({data: postPreseter, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

@@ -41,7 +41,8 @@ export class GetNewestPostController<TPostRaw extends Record<string, any> = Reco
       const postPreseter = data.posts.map(post => this.postMapper.toPresentation(post));
       const paginate = data.paginate;
 
-      return this.ok({posts: postPreseter, paginate});
+      // return this.ok({posts: postPreseter, paginate});
+      return this.okBuild({data: postPreseter, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

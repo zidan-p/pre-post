@@ -1,9 +1,24 @@
 import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
+import { IPaginateReponse } from "../types/paginate";
 import { IUserAuth } from "./user.auth.interface";
 
 
+export interface OKBuilderResponse<T>{
+  data: T;
+  // pagination?: IPaginateReponse;
+  pagination?: any;
+  header?: {
+    name: string,
+    value: string
+  }[];
+  metadata?: Record<string, any>
+};
 
+export interface FailBuilderResponse{
+  errors: any;
+  metadata?: Record<string, any>
+}
 
 
 export interface IInteractor<R = any> {
@@ -36,6 +51,7 @@ export interface IInteractor<R = any> {
 
   // RESPONSE
   ok<T> (args: T, message?:string): R;
+  okBuild<T>(args: OKBuilderResponse<T>): R;
   created (message: string, metadata?: Record<string, any>):any ;
   clientError (message: string, metadata?: Record<string, any>): any; 
   unauthorized (message: string, metadata?: Record<string, any>): any; 
@@ -45,5 +61,6 @@ export interface IInteractor<R = any> {
   conflict (message: string, metadata?: Record<string, any>): any; 
   tooMany (message: string, metadata?: Record<string, any>): any; 
 
-  fail (message: string, error: ExceptionBase, metadata?: Record<string, any>) 
+  fail (message: string, error: ExceptionBase, metadata?: Record<string, any>);
+  failBuild(args: FailBuilderResponse): any;
 }

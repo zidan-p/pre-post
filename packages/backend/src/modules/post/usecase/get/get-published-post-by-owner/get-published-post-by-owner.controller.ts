@@ -41,7 +41,8 @@ export class GetPublishedPostByOwnerController<TPostRaw extends Record<string, a
       const posts = value.posts;
       const postPresenter = posts.map(post => this.postMapper.toPresentation(post));
       const paginate = value.paginate;
-      return this.ok({posts: postPresenter, paginate});
+      // return this.ok({posts: postPresenter, paginate});
+      return this.okBuild({data: postPresenter, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

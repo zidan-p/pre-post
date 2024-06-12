@@ -56,7 +56,7 @@ export class UpdatePostController<TPostRaw extends Record<string, any> = Record<
 
       const dto = result.value;
       const presenterPost = this.postPresenterMapper.toPresentation(dto.getValue().post);
-      return this.ok({post: presenterPost});
+      return this.ok(presenterPost);
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

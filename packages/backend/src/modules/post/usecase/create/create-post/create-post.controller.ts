@@ -50,7 +50,8 @@ export class CreatePostController extends BaseController {
       }
 
       const dto = result.value;
-      return this.ok({postId: dto.getValue().postId});
+      // return this.ok({postId: dto.getValue().postId});
+      return this.okBuild({data: {postId: dto.getValue().postId}})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

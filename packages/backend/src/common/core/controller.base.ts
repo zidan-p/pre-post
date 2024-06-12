@@ -1,6 +1,6 @@
 import { ICommonFile } from "../domain/common/common-file.interface";
 import { ExceptionBase } from "../exceptions";
-import { IInteractor } from "./Interactor.interface";
+import { IInteractor, OKBuilderResponse } from "./Interactor.interface";
 import { IUserAuth } from "./user.auth.interface";
 
 
@@ -147,6 +147,14 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
     return this.interactor.ok<T>(args, message);
   };
 
+  okBuild<T>(args: OKBuilderResponse<T>){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+    return this.interactor.okBuild(args);
+  }
+
   created (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
@@ -217,5 +225,16 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
       return;
     }
     return this.interactor.fail(message, error as ExceptionBase, metadata);
+  }
+
+  failBuild(errors: ExceptionBase, metadata?: Record<string, any>){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+
+    return this.interactor.failBuild({
+      errors, metadata
+    })
   }
 }

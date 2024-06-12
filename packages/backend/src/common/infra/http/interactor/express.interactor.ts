@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IInteractor } from "~/common/core/Interactor.interface";
+import { FailBuilderResponse, IInteractor, OKBuilderResponse } from "~/common/core/Interactor.interface";
 import { ExceptionBase } from "~/common/exceptions";
 import { PrePostResponse } from "../response/reponse.type";
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
@@ -145,6 +145,16 @@ export class ExpressInteractor implements IInteractor {
     this.jsonResponse(true, 200, message, args);
   }
 
+  okBuild<T>(args: OKBuilderResponse<T>) {
+    if(args?.header?.length) args.header.forEach(item => this.response.set(item.name, item.value));
+    this.response.status(200);
+    return this.response.json({
+      data: args.data,
+      pagination: args?.pagination,
+      metadata: args.metadata
+    });
+  }
+
   created(message: string, metadata: Record<string, any>) {
     this.jsonResponse(true, 201, message, metadata);
   }
@@ -176,5 +186,14 @@ export class ExpressInteractor implements IInteractor {
     // this.jsonResponse(false, 500, message, null, error ?? error?.toJSON ? error?.toJSON() : error);
     this.jsonResponse(false, 500, message, null, error?.toJSON ? error?.toJSON() : error);
   }
+
+  failBuild(args: FailBuilderResponse) {
+    this.response.status(500);
+    return this.response.json({
+      errors: args.errors,
+      metadata: args.metadata
+    });
+  }
+
   
 }

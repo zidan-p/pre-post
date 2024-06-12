@@ -46,7 +46,8 @@ export class GetAllPostListController<TPostRaw = any, TPaginateRaw = any> extend
       const posts = value.posts.map(post => this.postMapper.toPresentation(post));
       const paginate = this.pageMapper.toPresentation(value.paginate);
 
-      return this.ok({paginate, posts}, "Success get all post listsentenceCase__");
+      // return this.ok({paginate, posts}, "Success get all post listsentenceCase__");
+      return this.okBuild({data: posts, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

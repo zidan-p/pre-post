@@ -9,7 +9,7 @@ import { IPaginateReponse } from "~/common/types/paginate";
 
 
 
-export class GetAllPostController<TPostRaw extends Record<string, any>, TPaginateRaw = any> extends BaseController {
+export class GetAllPostController<TPostRaw extends Record<string, any>, TPaginateRaw = any > extends BaseController {
 
   private useCase: GetAllPostUseCase;
   
@@ -48,7 +48,8 @@ export class GetAllPostController<TPostRaw extends Record<string, any>, TPaginat
       const posts = dto.getValue().posts;
       const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
       const paginate = this.pageMapper.toPresentation(dto.getValue().paginate);
-      return this.ok({posts: postsRaw, paginate});
+      // return this.ok({posts: postsRaw, paginate});
+      return this.okBuild({data: postsRaw, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

@@ -40,7 +40,8 @@ export class GetAllPublishedPostsController<TPostRaw, TPaginateRaw = any> extend
       const posts = dto.getValue().posts;
       const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
       const paginate = this.pageMapper.toPresentation(dto.getValue().paginate);;
-      return this.ok({posts: postsRaw, paginate});
+      // return this.ok({posts: postsRaw, paginate});
+      return this.okBuild({data: postsRaw, pagination: paginate})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
