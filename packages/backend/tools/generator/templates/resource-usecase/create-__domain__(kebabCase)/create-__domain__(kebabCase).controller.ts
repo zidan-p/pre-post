@@ -29,7 +29,8 @@ export class Create__domain__PascalCase__Controller extends BaseController<Creat
           
         }
       }
-      return this.ok(null, "Success __domain__sentenceCase__");
+      // return this.ok(null, "Success __domain__sentenceCase__");
+      return this.okBuild();
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

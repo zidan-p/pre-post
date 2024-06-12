@@ -29,7 +29,8 @@ export class GetList__domain__PascalCase__Controller extends BaseController<GetL
           
         }
       }
-      return this.ok(null, "Success __domain__SentenceCase__");
+      // return this.ok(null, "Success __domain__SentenceCase__");
+      return this.okBuild();
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

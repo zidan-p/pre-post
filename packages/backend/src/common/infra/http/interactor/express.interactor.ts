@@ -145,13 +145,13 @@ export class ExpressInteractor implements IInteractor {
     this.jsonResponse(true, 200, message, args);
   }
 
-  okBuild<T>(args: OKBuilderResponse<T>) {
+  okBuild<T>(args?: OKBuilderResponse<T>) {
     if(args?.header?.length) args.header.forEach(item => this.response.set(item.name, item.value));
     this.response.status(200);
     return this.response.json({
-      data: args.data,
+      data: args?.data,
       pagination: args?.pagination,
-      metadata: args.metadata
+      metadata: args?.metadata
     });
   }
 

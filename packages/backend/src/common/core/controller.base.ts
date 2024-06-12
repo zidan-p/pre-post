@@ -147,7 +147,7 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
     return this.interactor.ok<T>(args, message);
   };
 
-  okBuild<T>(args: OKBuilderResponse<T>){
+  okBuild<T>(args?: OKBuilderResponse<T>){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
       return;
