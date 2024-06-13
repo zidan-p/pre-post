@@ -1,6 +1,7 @@
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import { Strategy as AnonymousStartegy } from "passport-anonymous";
 import passport from "passport";
+import { DecodedJWT } from "./auth.type";
 
 
 
@@ -12,11 +13,9 @@ export class AuthService {
     };
 
     passport.use(
-      new JWTStrategy(opts, async (payload, done) => {
+      new JWTStrategy(opts, async (payload: DecodedJWT, done) => {
         try {
-          console.log("payload jwt")
-          console.log(payload)
-          return done(null, payload);
+          return done(null, payload.context);
         } catch (error) {
           console.log(error);
           return done(error);

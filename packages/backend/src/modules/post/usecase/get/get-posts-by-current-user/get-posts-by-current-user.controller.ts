@@ -23,7 +23,6 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
   async executeImpl(){
 
     const user = this.getUser();
-    console.log(user);
     if(!user) return this.forbidden("No auth user to get post");
 
     const query = this.getQueryData() as GetPostsByCurrentUserQuery;
@@ -44,7 +43,7 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
             return this.forbidden(exception.message, exception.metadata as Record<any, any>);
 
           default:
-            console.log(exception);
+            console.error(exception);
             return this.fail("unexpected error", exception);
           
         }

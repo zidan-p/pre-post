@@ -137,7 +137,6 @@ export class ExpressInteractor implements IInteractor {
   }
 
   getUser(): IUserAuth | undefined {
-    console.log(this.request.user);
     return this.request.user;
   }
 
