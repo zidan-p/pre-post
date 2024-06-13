@@ -3,17 +3,19 @@ import { GetPostsByOwnerUseCase } from "./get-posts-by-owner.use-case";
 import { GetPostsByOwnerParams, GetPostsByOwnerQuery } from "./get-posts-by-owner.dto";
 import { GetPostsByOwnerUseCaseErrors } from "./get-posts-by-owner.error";
 import { Post } from "../../../domain/post.agregate-root";
-import { IPresenterMapper } from "~/common/core/mapper";
+import { IGeneralPresenterMapper, IPresenterMapper } from "~/common/core/mapper";
+import { IPaginate } from "~/common/types/paginate";
 
 
 
-export class GetPostsByOwnerController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
+export class GetPostsByOwnerController<TPostRaw extends Record<string, any> = Record<string, any>, TPaginate = any> extends BaseController {
 
   private useCase: GetPostsByOwnerUseCase;
   
   constructor(
     useCase: GetPostsByOwnerUseCase,
-    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>,
+    private readonly PaginateMapper: IGeneralPresenterMapper<IPaginate, TPaginate>
   ){
     super();
     this.useCase = useCase;
@@ -36,7 +38,7 @@ export class GetPostsByOwnerController<TPostRaw extends Record<string, any> = Re
           case error  instanceof GetPostsByOwnerUseCaseErrors.OwnerNotFound:
             return this.notFound(exception.message, exception.metadata as Record<string, any>);
           default:
-            console.log(exception);
+            console.error(exception);
             return this.fail("unexpected error", exception);
           
         }
@@ -44,7 +46,7 @@ export class GetPostsByOwnerController<TPostRaw extends Record<string, any> = Re
       const value = result.value.getValue();
       const posts = value.posts;
       const postPresenter = posts.map(post => this.postMapper.toPresentation(post));
-      const paginate = value.paginate;
+      const paginate = this.PaginateMapper.toPresentation(value.paginate);
       // return this.ok({posts : postPresenter, paginate});
       return this.okBuild({data: postPresenter, pagination: paginate})
     } catch (error) {

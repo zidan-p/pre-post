@@ -32,8 +32,8 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     const whereIncluded = this.query.whereIncluded;
     const whereExcluded = this.query.whereExcluded;
     const orderBy = this.query.orderBy;
-    const dataPerPage = this.query?.paginate?.dataPerPage ?? 10;
-    const page = this.query?.paginate?.page ?? 1;
+    const dataPerPage = this.query?.paginate?.dataPerPage ? Number(this.query?.paginate?.dataPerPage) : 10;
+    const page = this.query?.paginate?.page ? Number(this.query?.paginate?.page) : 1;
 
     const whereSequelize = where ? objectAdvanceMap(where, this.objectMapperConfig) as PostSequelize : undefined;
 
@@ -57,19 +57,19 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
 
     // build query for where equal
     for( const key in whereSequelize) {
-      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
-      sequelizeWhereQuery[key][Op.eq] = whereSequelize[key]
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {};
+      sequelizeWhereQuery[key][Op.eq] = whereSequelize[key];
     };
     
-    // build query for inckuded
+    // build query for included
     for( const key in whereIncludedSequelize) {
-      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {};
       sequelizeWhereQuery[key][Op.in] = whereIncludedSequelize[key];
     }
 
     // build query for in excluded
     for( const key in whereExcludedSequelize) {
-      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {}
+      if(!sequelizeWhereQuery[key]) sequelizeWhereQuery[key] = {};
       sequelizeWhereQuery[key][Op.notIn] = whereExcludedSequelize[key];
     }
 
@@ -77,7 +77,7 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     const limit = dataPerPage;
     const offset = limit * (page - 1);
 
-    return {where: sequelizeWhereQuery, order: sequelizeOrderBy, limit, offset}
+    return {where: sequelizeWhereQuery, order: sequelizeOrderBy, limit, offset};
   }
 
   /**
@@ -103,7 +103,7 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
 
     // when the data is zero, that's mean the total page is also zero.
     // because the minimum of current page is 1, i want to make sure it considered valid value.
-    if (page > 0 && pageTotal > 0) hasPreviousPage = true;
+    if (page > 1 && pageTotal > 0) hasPreviousPage = true;
 
     if (page < pageTotal ) hasNextPage = true; 
 

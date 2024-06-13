@@ -22,7 +22,8 @@ export class GetPostsByOwnerManager<PostOutputDto extends Record<string, any> = 
 
     this.controller = new GetPostsByOwnerController<PostOutputDto>(
       this.useCase,
-      postMapperPresenterFactory.createPostMapper()
+      postMapperPresenterFactory.createPostMapper(),
+      postMapperPresenterFactory.createPaginateMapper(),
     );
   }
 
@@ -39,7 +40,8 @@ export class GetPostsByOwnerManager<PostOutputDto extends Record<string, any> = 
   createController(){
     return new GetPostsByOwnerController<PostOutputDto>(
       this.useCase,
-      this.postMapperPresenterFactory.createPostMapper()
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper(),
     );
   }
 

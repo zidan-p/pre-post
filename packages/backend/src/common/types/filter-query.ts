@@ -10,7 +10,7 @@ export type OrderByCofig<T extends Object> = [keyof T, OrderConfig][];
 
 
 export interface FilterConfig<TProps extends Object>{
-  paginate?: IPaginate;
+  paginate?: Partial<IPaginate>;
   order?: OrderConfig;
   orderBy?: OrderByCofig<TProps>;
 };

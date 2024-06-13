@@ -23,11 +23,14 @@ import { GET_PUBLISHED_POST_BY_OWNER, GetPublishedPostByOwnerManager } from "../
 
 const APP_URL = process.env.APP_URL;
 const resourceUrl = new URL(String(APP_URL));
-
+resourceUrl.pathname = "/hello"
+console.log(resourceUrl);
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
 const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
+
+console.log(resourceUrl);
 
 const postRepositoryFactory = new SequelizePostRepoFactory(
   postPersistenceMapperFactory,

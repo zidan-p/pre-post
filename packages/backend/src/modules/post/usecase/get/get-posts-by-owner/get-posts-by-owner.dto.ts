@@ -6,15 +6,14 @@ export interface GetPostsByOwnerFiles{}
 export interface GetPostsByOwnerBody{}
 
 export interface GetPostsByOwnerParams{
-  ownerId: string;
+  userId: string;
 }
 
-export interface GetPostsByOwnerQuery{
-  paginate: IPaginate;
+export interface GetPostsByOwnerQuery extends Partial<IPaginate>{
 }
 
 export interface GetPostsByOwnerDTORequest {
-  query: GetPostsByOwnerQuery,
+  query?: GetPostsByOwnerQuery,
   param: GetPostsByOwnerParams
 }
 

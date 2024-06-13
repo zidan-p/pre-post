@@ -27,7 +27,7 @@ export class GetPublishedPostByOwnerUseCase implements UseCase<GetPublishedPostB
         return left(new GetPublishedPostByOwnerUseCaseErrors.OwnerNotFound(userId));
 
       const posts = await this.postRepo.find({ownerId: owner.userId, isPublised: true}, {paginate: pagiateQuery});
-      const paginate = await this.postRepo.getPaginate({ownerId: owner.userId}, pagiateQuery);
+      const paginate = await this.postRepo.getPaginate({ownerId: owner.userId, isPublised: true}, pagiateQuery);
 
       return right(Result.ok({paginate, posts}));
     } catch (error) {

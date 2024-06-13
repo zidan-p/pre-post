@@ -17,9 +17,9 @@ export class GetPostsByOwnerUseCase implements UseCase<GetPostsByOwnerDTORequest
 
   async execute(request: GetPostsByOwnerDTORequest): Promise<GetPostsByOwnerResponse> {
     try{
-      
-      const ownerId = request.param.ownerId;
-      const pagiateQuery = request.query.paginate;
+      console.log(JSON.stringify(request, null, 2));
+      const ownerId = request.param.userId;
+      const pagiateQuery = request?.query;
 
       const owner = await this.userRepo.getUserByUserId(ownerId);
 

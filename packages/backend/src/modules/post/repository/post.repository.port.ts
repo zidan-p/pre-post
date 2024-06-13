@@ -9,7 +9,7 @@ export interface FindAdvanceProps {
   whereIncluded?: WhereInConfig<PostPropsWithId>;
   whereExcluded?: WhereInConfig<PostPropsWithId>;
   orderBy?: OrderByCofig<PostPropsWithId>;
-  paginate?: IPaginate;
+  paginate?: Partial<IPaginate>;
 }
 
 export interface IPostRepo{
@@ -18,7 +18,7 @@ export interface IPostRepo{
 
   isInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
   countIsInSearch(payload: WhereInConfig<PostPropsWithId>, config?: FilterConfig<PostPropsWithId>): Promise<number>;
-  paginateIsInSearch(payload: WhereInConfig<PostPropsWithId>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
+  paginateIsInSearch(payload: WhereInConfig<PostPropsWithId>, paginate?: Partial<IPaginate>): Promise<IPaginateReponse>;
 
   isInSearchWhere(
     payloadInQuery: WhereInConfig<PostPropsWithId>, 
@@ -35,7 +35,7 @@ export interface IPostRepo{
   paginateIsInSearchWhere(
     payloadInQuery: WhereInConfig<PostPropsWithId>, 
     payloadWhereQuery: WhereConfig<PostPropsWithId>, 
-    paginate?: Required<IPaginate>
+    paginate?: Partial<IPaginate>
   ): Promise<IPaginateReponse>;
 
   
@@ -45,7 +45,7 @@ export interface IPostRepo{
   find(payload: WhereConfig<PostPropsWithId>,config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
   // find(payload: {}, config?: FilterConfig<PostPropsWithId>): Promise<Post[]>;
 
-  getPaginate(payload: WhereConfig<PostPropsWithId>, paginate?: Required<IPaginate>): Promise<IPaginateReponse>;
+  getPaginate(payload: WhereConfig<PostPropsWithId>, paginate?: Partial<IPaginate>): Promise<IPaginateReponse>;
   
   
   findAdvance(agrs: FindAdvanceProps): Promise<Post[]>;
