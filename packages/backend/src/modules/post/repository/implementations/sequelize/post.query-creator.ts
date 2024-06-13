@@ -7,8 +7,9 @@ import { ObjectMapperConfig, ObjectWhereInConfig } from "./post.mapper.config";
 import { ArrayablePostSequelize, PostSequelize } from "./post.type";
 import { ConvertToPostSequelizeOrderByConfig } from "./post.util";
 import { Post as PostModel } from "~/common/infra/database/sequelize/models/Post.model";
-import { InferAttributes, Op, WhereOptions } from "sequelize";
+import { Includeable, InferAttributes, Op, WhereOptions } from "sequelize";
 import { IPaginateReponse } from "~/common/types/paginate";
+import { PostImage } from "~/common/infra/database/sequelize/models/PostImage.model";
 
 
 
@@ -20,7 +21,7 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
   private readonly objectArrayableMapperConfig: AdvaceObjectMapperConfig<WhereInConfig<PostPropsWithId>> = ObjectWhereInConfig;
 
   constructor(
-    private query: FindAdvanceProps
+    private query: FindAdvanceProps & {includes?: ("PostImage")[]}
   ){}
 
   /**
@@ -34,6 +35,7 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
     const orderBy = this.query.orderBy;
     const dataPerPage = this.query?.paginate?.dataPerPage ? Number(this.query?.paginate?.dataPerPage) : 10;
     const page = this.query?.paginate?.page ? Number(this.query?.paginate?.page) : 1;
+    const includes = this.query?.includes ?? [];
 
     const whereSequelize = where ? objectAdvanceMap(where, this.objectMapperConfig) as PostSequelize : undefined;
 
@@ -73,11 +75,23 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
       sequelizeWhereQuery[key][Op.notIn] = whereExcludedSequelize[key];
     }
 
+    let sequelizeInclude: Includeable[] = [];
+    includes.forEach(item => {
+      switch (item) {
+        case "PostImage":
+          sequelizeInclude.push({
+            model: PostImage,
+            as: "image"
+          })
+          break;
+      }
+    })
+
     // build paginate
     const limit = dataPerPage;
     const offset = limit * (page - 1);
 
-    return {where: sequelizeWhereQuery, order: sequelizeOrderBy, limit, offset};
+    return {where: sequelizeWhereQuery, include: sequelizeInclude, order: sequelizeOrderBy, limit, offset, };
   }
 
   /**

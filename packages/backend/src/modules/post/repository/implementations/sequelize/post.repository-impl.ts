@@ -184,7 +184,7 @@ export class SequelizePostRepository implements IPostRepo {
 
 
   async find(payload: WhereConfig<PostProps>,config: FilterConfig<PostProps>): Promise<Post[]> {
-    const queryCreator = new PostSequelizeQueryCreator({where: payload, paginate: config?.paginate, orderBy: config?.orderBy});
+    const queryCreator = new PostSequelizeQueryCreator({where: payload, paginate: config?.paginate, orderBy: config?.orderBy, includes: ["PostImage"]});
     const query = queryCreator.getBaseQuery();
 
     const postDocument = await this.postModel.findAll(query);

@@ -30,8 +30,6 @@ const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
 const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
 
-console.log(resourceUrl);
-
 const postRepositoryFactory = new SequelizePostRepoFactory(
   postPersistenceMapperFactory,
   PostImageMode, PostModel, UserModel

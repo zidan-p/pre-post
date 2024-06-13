@@ -72,6 +72,7 @@ export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper
     let image: PostImage | string | undefined = entity.imageManager.getImage;
     let imagePresenter : string | undefined;
 
+    console.log(image);
     if(image){
       const imageUrl = new URL(this.imageUrlGetter.href);
       imageUrl.pathname = "/post/" + entity.id.toString() + "/banner";
@@ -82,6 +83,7 @@ export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper
     
 
     return{
+      id: entity.id.toString(),
       title: entity.postTitle.value,
       content: entity.postContent.value,
       image: imagePresenter ?? null,
