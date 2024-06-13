@@ -36,7 +36,7 @@ export const userPostRouter = Router();
 //   }
 // }) 
 
-postRouter.get("/", (req,res) => {
+postRouter.get("/", authService.jwtOptionalAuth(), (req,res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
     default : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
@@ -44,24 +44,24 @@ postRouter.get("/", (req,res) => {
   }
 })
 
-postRouter.get("/many", postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
-postRouter.get("/me",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
+postRouter.get("/many",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
+postRouter.get("/me", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
 
-postRouter.post("/",uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
+postRouter.post("/",authService.jwtAuth(), uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 
-postRouter.put("/:postId", postUseCaseManagerFactory.executeRequest(UPDATE_POST));
-postRouter.put("/", postUseCaseManagerFactory.executeRequest(UPDATE_MANY_POST));
+postRouter.put("/:postId",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_POST));
+postRouter.put("/", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_MANY_POST));
 
-postRouter.put("/:postId/publish", postUseCaseManagerFactory.executeRequest(PUBLISH_POST));
-postRouter.put("/:postId/unpublish", postUseCaseManagerFactory.executeRequest(UNPUBLISH_POST));
-postRouter.put("publish", (req, res) => {
+postRouter.put("/:postId/publish", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(PUBLISH_POST));
+postRouter.put("/:postId/unpublish",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UNPUBLISH_POST));
+postRouter.put("publish",authService.jwtAuth(), (req, res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(PUBLISH_MANY_POSTS)(req,res);
     case "USER" : return postUseCaseManagerFactory.getController(PUBLISH_MANY_OWNED_POSTS)(req,res);
     default: return res.status(403).json({message: "forbidden credential"});
   }
 });
-postRouter.put("unpublish", (req, res) => {
+postRouter.put("unpublish",authService.jwtAuth(), (req, res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(UNPUBLISH_MANY_POSTS)(req,res);
     case "USER" : return postUseCaseManagerFactory.getController(UNPUBLISH_MANY_OWNED_POSTS)(req,res);
@@ -69,14 +69,14 @@ postRouter.put("unpublish", (req, res) => {
   }
 });
 
-postRouter.delete("/", (req,res) => {
+postRouter.delete("/",authService.jwtAuth(), (req,res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(DELETE_MANY_POSTS)(req,res);
     case "USER" : return postUseCaseManagerFactory.getController(DELETE_MANY_OWNED_POSTS)(req,res);
     default: return res.status(403).json({message: "forbidden credential"});
   }
 })
-postRouter.delete("/:postId", (req,res) => {
+postRouter.delete("/:postId", authService.jwtAuth(), (req,res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(DELETE_POST)(req,res);
     case "USER" : return postUseCaseManagerFactory.getController(DELETE_OWNED_POST)(req,res);
@@ -85,7 +85,7 @@ postRouter.delete("/:postId", (req,res) => {
 })
 
 // ----------- user Router -----------
-userPostRouter.get("/:userId/posts/", (req, res) => {
+userPostRouter.get("/:userId/posts/", authService.jwtOptionalAuth(), (req, res) => {
   switch (req.user?.role) {
     case "ADMIN": return postUseCaseManagerFactory.getController(GET_POSTS_BY_OWNER)(req,res);
     default : return postUseCaseManagerFactory.getController(GET_PUBLISHED_POST_BY_OWNER)(req,res);
