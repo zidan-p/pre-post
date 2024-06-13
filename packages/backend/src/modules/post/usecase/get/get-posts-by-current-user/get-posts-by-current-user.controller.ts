@@ -2,18 +2,20 @@ import { BaseController } from "~/common/core/controller.base";
 import { GetPostsByCurrentUserUseCase } from "./get-posts-by-current-user.use-case";
 import { GetPostsByCurrentUserUseCaseErrors } from "./get-posts-by-current-user.error";
 import { GetPostsByCurrentUserQuery } from "./get-posts-by-current-user.dto";
-import { IPresenterMapper } from "~/common/core/mapper";
+import { IGeneralPresenterMapper, IPresenterMapper } from "~/common/core/mapper";
 import { Post } from "../../../domain/post.agregate-root";
+import { IPaginateReponse } from "~/common/types/paginate";
 
 
 
-export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any> = Record<string, any>> extends BaseController {
+export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any> = Record<string, any>, TPaginate = any> extends BaseController {
 
   private useCase: GetPostsByCurrentUserUseCase;
   
   constructor(
     useCase: GetPostsByCurrentUserUseCase,
-    private readonly postMapper: IPresenterMapper<Post, TPostRaw>
+    private readonly postMapper: IPresenterMapper<Post, TPostRaw>,
+    private readonly postPaginateMapper: IGeneralPresenterMapper<IPaginateReponse, TPaginate>
   ){
     super();
     this.useCase = useCase;
@@ -51,7 +53,7 @@ export class GetPostsByCurrentUserController<TPostRaw extends Record<string, any
       const value = result.value.getValue();
       const posts = value.posts;
       const postsRaw = posts.map(post => this.postMapper.toPresentation(post));
-      const paginate = value.paginate;
+      const paginate = this.postPaginateMapper.toPresentation(value.paginate);
       // return this.ok({posts: postsRaw, paginate});
       return this.okBuild({data: postsRaw, pagination: paginate})
     } catch (error) {

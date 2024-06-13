@@ -20,7 +20,7 @@ export class GetPostsByCurrentUserUseCase implements UseCase<GetPostsByCurrentUs
     try{
 
       const user = request.user;
-      const paginateQuery = request.query?.paginate;
+      const paginateQuery = request?.query?.paginate;
 
       const owner = await this.userRepository.getUserByUserId(user.id);
 

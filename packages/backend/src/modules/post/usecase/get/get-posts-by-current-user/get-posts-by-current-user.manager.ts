@@ -22,7 +22,8 @@ export class GetPostsByCurrentUserManager<PostOutputDto extends Record<string, a
 
     this.controller = new GetPostsByCurrentUserController<PostOutputDto>(
       this.useCase,
-      postMapperPresenterFactory.createPostMapper()
+      postMapperPresenterFactory.createPostMapper(),
+      postMapperPresenterFactory.createPaginateMapper(),
     );
   }
 
@@ -39,7 +40,8 @@ export class GetPostsByCurrentUserManager<PostOutputDto extends Record<string, a
   createController(){
     return new GetPostsByCurrentUserController<PostOutputDto>(
       this.useCase,
-      this.postMapperPresenterFactory.createPostMapper()
+      this.postMapperPresenterFactory.createPostMapper(),
+      this.postMapperPresenterFactory.createPaginateMapper(),
     );
   }
 

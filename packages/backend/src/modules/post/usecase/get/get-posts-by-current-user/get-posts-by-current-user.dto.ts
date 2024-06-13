@@ -9,7 +9,7 @@ export interface GetPostsByCurrentUserBody{}
 export interface GetPostsByCurrentUserParams{}
 
 export interface GetPostsByCurrentUserQuery {
-  paginate: IPaginate;
+  paginate?: IPaginate;
 }
 
 export interface GetPostsByCurrentUserUser{}
