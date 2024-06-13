@@ -6,24 +6,30 @@ import { ServiceError } from "~/common/core/service-error.base";
 import { JWTServiceErrors } from "../../exception/jwt-service.exception";
 
 
+interface DecodedJWT {
+  sub: string,
+  context: JWTClaims,
+  iat: number,
+  exp: number
+}
 
 
 export class JWTServiceImpl implements IJWTService{
   
   signJWT(props: JWTClaims): string {
-    const token = sign(props, authConfig.secret, {expiresIn: authConfig.tokenExpiryTime});
+    const token = sign({sub: props.id, context: props}, authConfig.secret, {expiresIn: authConfig.tokenExpiryTime});
     return token
   }
 
   signRefreshJWT(props: JWTClaims): string {
-    return sign(props, authConfig.refreshSecret, {expiresIn: authConfig.refreshTokenExpireTime});
+    return sign({sub: props.id, context: props}, authConfig.refreshSecret, {expiresIn: authConfig.refreshTokenExpireTime});
     
   }
   
   decodeJWT(token: string): Promise<JWTClaims> {
     return new Promise((resolve, reject) => {
-      verify(token, authConfig.secret, (err, decoded) => {
-        if (err){ 
+      verify(token, authConfig.secret, (err, decoded: DecodedJWT) => {
+        if (err){
           console.error(err);
 
           if(err?.name === "TokenExpiredError")
@@ -31,14 +37,14 @@ export class JWTServiceImpl implements IJWTService{
           // return resolve(null)
           return reject(new JWTServiceErrors.JSONIssue("Failed Decode JWT", err));
         }
-        return resolve(decoded);
+        return resolve(decoded.context);
       });
     })
   }
 
   decodeRefreshJWT(token: string): Promise<JWTClaims> {
     return new Promise((resolve, reject) => {
-      verify(token, authConfig.refreshSecret, (err, decoded) => {
+      verify(token, authConfig.refreshSecret, (err, decoded: DecodedJWT) => {
         if (err){ 
           console.error(err);
 
@@ -47,7 +53,7 @@ export class JWTServiceImpl implements IJWTService{
           // return resolve(null)
           return reject(new JWTServiceErrors.JSONIssue("Failed Decode JWT", err));
         }
-        return resolve(decoded);
+        return resolve(decoded.context);
       });
     })
   }

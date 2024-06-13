@@ -20,6 +20,7 @@ import { DELETE_MANY_OWNED_POSTS } from "../../usecase/delete/delete-many-owned-
 import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
 import { DELETE_OWNED_POST } from "../../usecase/delete/delete-owned-post";
 import { uploadImagePost } from "./storage.config";
+import { authService } from "~/common/infra/http/auth";
 
 
 
@@ -44,7 +45,7 @@ postRouter.get("/", (req,res) => {
 })
 
 postRouter.get("/many", postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
-postRouter.get("/me", postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
+postRouter.get("/me",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
 
 postRouter.post("/",uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 
