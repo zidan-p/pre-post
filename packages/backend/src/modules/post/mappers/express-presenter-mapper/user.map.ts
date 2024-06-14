@@ -2,6 +2,7 @@ import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
 import { PersisterMapper, IPresenterMapper } from "~/common/core/mapper";
 import { ParseException } from "~/common/exceptions";
+import { RoleValue } from "~/common/core/role.const";
 
 
 
@@ -15,7 +16,8 @@ export interface IExpressUserRaw {
   id: string | number;
   email: string;
   username: string;
-  isAdmin: boolean;
+  role: RoleValue;
+  // isAdmin: boolean;
 }
 
 
@@ -27,7 +29,8 @@ export class ExpressUserMap implements ExpressUserMapper {
     const userOrError = User.create({
       email: raw.email,
       username: raw.username,
-      isAdminUser: raw?.isAdmin
+      // isAdminUser: raw?.isAdmin
+      role: raw.role
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){
@@ -45,7 +48,8 @@ export class ExpressUserMap implements ExpressUserMapper {
     return {
       email: user.email,
       id: user.id.toString(),
-      isAdmin: user.isAdminUser,
+      // isAdmin: user.isAdminUser,
+      role: user.role,
       username: user.username
     }
   }

@@ -23,11 +23,11 @@ export class GetPostsByCurrentUserUseCase implements UseCase<GetPostsByCurrentUs
       const paginateQuery = request?.query?.paginate;
 
       const owner = await this.userRepository.getUserByUserId(user.id);
-
+      console.log(owner);
       if(!owner)
         return left(new GetPostsByCurrentUserUseCaseErrors.UserNotFound(user.id));
 
-      const posts = await this.postRepository.find({ownerId: owner.userId});
+      const posts = await this.postRepository.find({ownerId: owner.userId}, {paginate: paginateQuery});
       const paginate = await this.postRepository.getPaginate({ownerId: owner.userId}, paginateQuery);
 
 

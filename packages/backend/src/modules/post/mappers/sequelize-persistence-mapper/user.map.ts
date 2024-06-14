@@ -2,6 +2,7 @@ import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { User } from "../../domain/user.agreegate-root";
 import { PersisterMapper } from "~/common/core/mapper";
 import { ParseException } from "~/common/exceptions";
+import { RoleValue } from "~/common/core/role.const";
 
 
 
@@ -15,7 +16,8 @@ export interface ISequelizeUserRaw {
   id: string | number;
   email: string;
   username: string;
-  is_admin: boolean;
+  // is_admin: boolean;
+  role: RoleValue
 }
 
 
@@ -27,7 +29,8 @@ export class UserMap implements SequelizeUserMapper {
     const userOrError = User.create({
       email: raw.email,
       username: raw.username,
-      isAdminUser: raw?.is_admin
+      // isAdminUser: raw?.is_admin
+      role: raw.role
     }, new UniqueEntityID(raw.id));
 
     if(userOrError.isFailure){
@@ -45,7 +48,8 @@ export class UserMap implements SequelizeUserMapper {
     return {
       email: user.email,
       id: user.id.toString(),
-      is_admin: user.isAdminUser,
+      // is_admin: user.isAdminUser,
+      role: user.role,
       username: user.username
     }
   }

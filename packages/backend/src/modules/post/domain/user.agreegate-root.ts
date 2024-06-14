@@ -4,11 +4,13 @@ import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { Result } from "~/common/core/result";
 import { Guard } from "~/common/core/guard";
 import { ValidationFailException } from "~/common/exceptions";
+import { RoleValue } from "~/common/core/role.const";
 
 interface UserProps {
   email: string;
   username: string;
-  isAdminUser: boolean;
+  // isAdminUser: boolean;
+  role: RoleValue;
 }
 
 
@@ -25,7 +27,8 @@ export class User extends AggregateRoot<UserProps>{
 
   get email(): string { return this.props.email;}
   get username(): string { return this.props.username}
-  get isAdminUser(): boolean { return this.props.isAdminUser}
+  // get isAdminUser(): boolean { return this.props.isAdminUser}
+  get role(): RoleValue {return this.props.role}
 
   // new user not providing the id
   public static create (props: UserProps, id?: UniqueEntityID): Result<User> {

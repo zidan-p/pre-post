@@ -24,13 +24,15 @@ export class PublishPostUseCase implements UseCase<PublishPostDTORequest, Promis
       if(!post)
         return left(new PublishPostUseCaseErrors.PostNotFound(postId));
       
-      if(post.ownerId.getStringValue() !== user.id)
-        return left(new PublishPostUseCaseErrors.ForbiddenUser(user.id));
+      if(user.role === "USER"){
+        if(post.ownerId.getStringValue() !== user.id) 
+          return left(new PublishPostUseCaseErrors.ForbiddenUser(user.id));
+      }
 
       post.publishPost();
-      this.postRepo.save(post);
+      await this.postRepo.save(post);
       
-      return right(Result.ok());
+      return right(Result.ok({post}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
