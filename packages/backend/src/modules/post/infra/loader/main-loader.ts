@@ -13,7 +13,7 @@ import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get/get-all-post"
 import { GET_NEWEST_POST, GetNewestPostManager } from "../../usecase/get/get-newest-post";
 import { GET_POSTS_BY_CURRENT_USER, GetPostsByCurrentUserManager } from "../../usecase/get/get-posts-by-current-user";
 import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get/get-posts-by-owner";
-import { PUBLISH_POST } from "../../usecase/publish/publish-post";
+import { PUBLISH_POST, PublishPostManager } from "../../usecase/publish/publish-post";
 import { UNPUBLISH_POST } from "../../usecase/publish/unpublish-post/unpublish-post.type";
 import { UnpublishPostManager } from "../../usecase/publish/unpublish-post/unpublish-post.manager";
 import { GET_ALL_PUBLISHED_POSTS, GetAllPublishedPostsManager } from "../../usecase/get/get-all-published-posts";
@@ -84,7 +84,7 @@ postUseCaseManagerFactory.addUseCaseManager(GET_PUBLISHED_POST_BY_OWNER, new Get
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ))
 
-postUseCaseManagerFactory.addUseCaseManager(PUBLISH_POST, new GetPostsByOwnerManager(
+postUseCaseManagerFactory.addUseCaseManager(PUBLISH_POST, new PublishPostManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));

@@ -41,11 +41,13 @@ postRouter.get("/me", authService.jwtAuth(), postUseCaseManagerFactory.executeRe
 
 postRouter.post("/",authService.jwtAuth(), uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 
+postRouter.put("/:postId/publish", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(PUBLISH_POST));
+postRouter.put("/:postId/unpublish",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UNPUBLISH_POST));
+
 postRouter.put("/:postId",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_POST));
 postRouter.put("/", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_MANY_POST));
 
-postRouter.put("/:postId/publish", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(PUBLISH_POST));
-postRouter.put("/:postId/unpublish",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UNPUBLISH_POST));
+
 postRouter.put("publish",authService.jwtAuth(), (req, res) => {
   switch(req.user?.role){
     case "ADMIN" : return postUseCaseManagerFactory.getController(PUBLISH_MANY_POSTS)(req,res);

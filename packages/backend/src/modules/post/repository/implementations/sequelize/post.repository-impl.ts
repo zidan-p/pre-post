@@ -197,7 +197,7 @@ export class SequelizePostRepository implements IPostRepo {
   async findById(postId: string| PostId): Promise<Post | null> {
 
     const post = await this.postModel.findByPk(postId.toString(), {
-      include: PostImageModel
+      include: {model: PostImageModel, as: "image"}
     });
 
     if(!post) return null;
@@ -232,12 +232,14 @@ export class SequelizePostRepository implements IPostRepo {
     const image_id = image?.id;
 
     if(!exist){ // is new
+      console.log("is exists..")
       await this.postModel.create({...postraw, image_id});
       if(image_id) await this.postImageModel.update({post_id: postraw.id}, {where: {id: image_id}});
 
       return 1;
         
     }else{
+      console.log("is updated..")
       await this.postModel.update({...postraw, image_id}, {where: {id: post.postId.getStringValue()}});
       if(image_id) await this.postImageModel.update({post_id: postraw.id}, {where: {id: image_id}});
       return 0;

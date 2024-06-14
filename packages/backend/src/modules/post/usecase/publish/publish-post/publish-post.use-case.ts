@@ -24,7 +24,8 @@ export class PublishPostUseCase implements UseCase<PublishPostDTORequest, Promis
       if(!post)
         return left(new PublishPostUseCaseErrors.PostNotFound(postId));
       
-      if(user.role === "USER"){
+      // only admin that can freely publish
+      if(user.role !== "ADMIN"){
         if(post.ownerId.getStringValue() !== user.id) 
           return left(new PublishPostUseCaseErrors.ForbiddenUser(user.id));
       }
@@ -32,7 +33,7 @@ export class PublishPostUseCase implements UseCase<PublishPostDTORequest, Promis
       post.publishPost();
       await this.postRepo.save(post);
       
-      return right(Result.ok({post}));
+      return right(Result.ok({post})); 
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }

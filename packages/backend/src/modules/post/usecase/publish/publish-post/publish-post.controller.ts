@@ -43,7 +43,8 @@ export class PublishPostController<TPostRaw extends Record<string, any> = Record
             return this.notFound(exception.message);
 
           default:
-            console.log(exception);
+            // console.log("unerror")
+            console.error(exception);
             return this.fail("unexpected error", exception);
           
         }
