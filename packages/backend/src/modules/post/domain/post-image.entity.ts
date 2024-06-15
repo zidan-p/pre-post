@@ -12,6 +12,9 @@ import { ArgumentInvalidException } from "~/common/exceptions";
 // size: number; // in bytes
 // fileType: string;
 
+export const POST_IMAGE_GROUP = "postImage" as const;
+export const POST_IMAGE_IMAGE_TYPE = "post" as const;
+
 export interface PostImageProps extends ICommonFile {
   imageType: "post";
   group: "postImage"

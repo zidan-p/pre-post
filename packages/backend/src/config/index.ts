@@ -1,6 +1,8 @@
+import path from "path"
 
 export const appConfig = {
-  appURL : process.env.APP_URL
+  appURL : process.env.APP_URL,
+  root: path.join(__dirname, "../..")
 }
 
 export const authConfig = {

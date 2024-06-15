@@ -39,6 +39,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       const files = request.files;
       const body = request.body;
 
+
       // if there are image uploaded
       if(files?.postImage){
         
