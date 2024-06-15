@@ -20,6 +20,10 @@ import { GET_ALL_PUBLISHED_POSTS, GetAllPublishedPostsManager } from "../../usec
 import { GET_PUBLISHED_POST_BY_OWNER, GetPublishedPostByOwnerManager } from "../../usecase/get/get-published-post-by-owner";
 import { GetAllPostManager } from "../../usecase/get/get-all-post";
 import { GET_MANY_POSTS, GetManyPostsManager } from "../../usecase/get/get-many-posts";
+import { PUBLISH_MANY_POSTS, PublishManyPostsManager } from "../../usecase/publish/publish-many-posts";
+import { PUBLISH_MANY_OWNED_POSTS, PublishManyOwnedPostsManager } from "../../usecase/publish/publish-many-owned-posts";
+import { UNPUBLISH_MANY_POSTS, UnpublishManyPostsManager } from "../../usecase/publish/unpublish-many-posts";
+import { UNPUBLISH_MANY_OWNED_POSTS, UnpublishManyOwnedPostsManager } from "../../usecase/publish/unpublish-many-owned-posts";
 
 
 
@@ -85,17 +89,41 @@ postUseCaseManagerFactory.addUseCaseManager(GET_POSTS_BY_OWNER, new GetPostsByOw
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));
 
+// get only published
 postUseCaseManagerFactory.addUseCaseManager(GET_PUBLISHED_POST_BY_OWNER, new GetPublishedPostByOwnerManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ))
 
+// publish one post
 postUseCaseManagerFactory.addUseCaseManager(PUBLISH_POST, new PublishPostManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));
 
+// unpublish one post
 postUseCaseManagerFactory.addUseCaseManager(UNPUBLISH_POST, new UnpublishPostManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ));
+
+// publish many post
+postUseCaseManagerFactory.addUseCaseManager(PUBLISH_MANY_POSTS, new PublishManyPostsManager(
+  postRepositoryFactory
+));
+
+// publish only owned post
+postUseCaseManagerFactory.addUseCaseManager(PUBLISH_MANY_OWNED_POSTS, new PublishManyOwnedPostsManager(
+  postRepositoryFactory
+));
+
+// unpublish many post
+postUseCaseManagerFactory.addUseCaseManager(UNPUBLISH_MANY_POSTS, new UnpublishManyPostsManager(
+  postRepositoryFactory
+));
+
+
+// unpublish many owned post
+postUseCaseManagerFactory.addUseCaseManager(UNPUBLISH_MANY_OWNED_POSTS, new UnpublishManyOwnedPostsManager(
+  postRepositoryFactory
+))

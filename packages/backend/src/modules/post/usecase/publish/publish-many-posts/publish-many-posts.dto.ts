@@ -1,3 +1,4 @@
+import { PostId } from "~/modules/post/domain/post-id.value-object";
 
 export interface PublishManyPostsFiles{}
 
@@ -13,4 +14,6 @@ export interface PublishManyPostsDTORequest {
   query?: PublishManyPostsQuery;
 }
 
-export interface PublishManyPostsDTOResponse{}
+export interface PublishManyPostsDTOResponse{
+  postIds: PostId[];
+}

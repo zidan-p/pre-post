@@ -18,9 +18,9 @@ export class PublishManyPostsUseCase implements UseCase<PublishManyPostsDTOReque
   async execute(request: PublishManyPostsDTORequest): Promise<PublishManyPostsResponse> {
     try{
       const idCollection = request?.query?.postIds;
-      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!idCollection) return right(Result.ok({postIds: []})); 
 
-      if(!Array.isArray(idCollection)) return left(new PublishManyPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
+      if(!Array.isArray(idCollection)) return left(new PublishManyPostsUseCaseErrors.InvalidPostIdValue(idCollection));
 
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
@@ -44,7 +44,7 @@ export class PublishManyPostsUseCase implements UseCase<PublishManyPostsDTOReque
         await this.postRepo.save(post);
       })
 
-      return right(Result.ok());
+      return right(Result.ok({postIds: postIdCollection}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }

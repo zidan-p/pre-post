@@ -27,6 +27,8 @@ export class PublishManyPostsController extends BaseController {
         const exception = error.getErrorValue();
 
         switch(true){
+          case error instanceof PublishManyPostsUseCaseErrors.InvalidPostIdValue:
+            return this.clientError(exception.message, exception.metadata as Record<string, any>)
           case error  instanceof PublishManyPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message, exception);
             break
@@ -39,7 +41,7 @@ export class PublishManyPostsController extends BaseController {
           
         }
       }
-      return this.ok(null, "Success publish many posts");
+      return this.ok({postIds: result.value.getValue().postIds.map(item => item.getStringValue())});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
