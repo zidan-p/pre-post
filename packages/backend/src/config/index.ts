@@ -3,7 +3,7 @@
 export const authConfig = {
   secret: process.env.JWT_SECRET,
   refreshSecret: process.env.JWT_REFRESH_SECRET,
-  tokenExpiryTime: 1000, // seconds => 5 minutes
+  tokenExpiryTime: 3600, // seconds => 1 hour
   refreshTokenExpireTime: 1 * 60 * 60 * 24 // in 24 hours
 }
 
