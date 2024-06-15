@@ -17,7 +17,14 @@ export class UnpublishManyPostsUseCase implements UseCase<UnpublishManyPostsDTOR
 
   async execute(request: UnpublishManyPostsDTORequest): Promise<UnpublishManyPostsResponse> {
     try{
-      const idCollection = request.body.postIds;
+      const idCollection = request.query.postIds;
+
+      // when no collection id, return empty post.
+      // no needed for ownership checking
+      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!Array.isArray(idCollection)) 
+        return left(new UnpublishManyPostsUseCaseErrors.InvalidPostIdValue(idCollection));
+
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
       // build post id object first;

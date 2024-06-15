@@ -7,10 +7,12 @@ export interface UnpublishManyPostsBody{
 
 export interface UnpublishManyPostsParams{}
 
-export interface UnpublishManyPostsQuery{}
+export interface UnpublishManyPostsQuery{
+  postIds: string[]
+}
 
 export interface UnpublishManyPostsDTORequest {
-  body: UnpublishManyPostsBody;
+  query: UnpublishManyPostsQuery
 }
 
 export interface UnpublishManyPostsDTOResponse{}

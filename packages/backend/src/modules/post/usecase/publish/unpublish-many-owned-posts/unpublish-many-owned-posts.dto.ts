@@ -2,9 +2,7 @@ import { IUserAuth } from "~/common/core/user.auth.interface";
 
 export interface UnpublishManyOwnedPostsFiles{}
 
-export interface UnpublishManyOwnedPostsBody{
-  postIds: string[]
-}
+export interface UnpublishManyOwnedPostsBody{}
 
 export interface UnpublishManyOwnedPostsParams{}
 
