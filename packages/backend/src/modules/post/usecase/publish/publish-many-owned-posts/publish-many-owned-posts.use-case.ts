@@ -19,8 +19,15 @@ export class PublishManyOwnedPostsUseCase implements UseCase<PublishManyOwnedPos
 
   async execute(request: PublishManyOwnedPostsDTORequest): Promise<PublishManyOwnedPostsResponse> {
     try{
-      const idCollection = request.body.postIds;
+      const idCollection = request.query.postIds;
       const userRequest = request.user;
+
+      // when no collection id, return empty post.
+      // no needed for ownership checking
+      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!Array.isArray(idCollection)) 
+        return left(new PublishManyOwnedPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
+
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
       // build post id object first;

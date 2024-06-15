@@ -1,7 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { PublishManyOwnedPostsUseCase } from "./publish-many-owned-posts.use-case";
 import { PublishManyOwnedPostsUseCaseErrors } from "./publish-many-owned-posts.error";
-import { PublishManyOwnedPostsBody } from "./publish-many-owned-posts.dto";
+import { PublishManyOwnedPostsBody, PublishManyOwnedPostsQuery } from "./publish-many-owned-posts.dto";
 
 
 
@@ -17,13 +17,14 @@ export class PublishManyOwnedPostsController extends BaseController {
 
   async executeImpl(){
 
-    const body = this.getBody() as PublishManyOwnedPostsBody;
+    // const body = this.getBody() as PublishManyOwnedPostsBody;
+    const query = this.getQueryData() as PublishManyOwnedPostsQuery;
     const user = this.getUser();
 
     if(!user) return this.unauthorized("User not defined to perform this action");
 
     try {
-      const result = await this.useCase.execute({body, user});
+      const result = await this.useCase.execute({query, user});
       
       if(result.isLeft()){
         const error = result.value;

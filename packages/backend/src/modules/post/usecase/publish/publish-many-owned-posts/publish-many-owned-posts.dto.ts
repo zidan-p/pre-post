@@ -2,16 +2,16 @@ import { IUserAuth } from "~/common/core/user.auth.interface";
 
 export interface PublishManyOwnedPostsFiles{}
 
-export interface PublishManyOwnedPostsBody{
-  postIds: string[]
-}
+export interface PublishManyOwnedPostsBody{}
 
 export interface PublishManyOwnedPostsParams{}
 
-export interface PublishManyOwnedPostsQuery{}
+export interface PublishManyOwnedPostsQuery{
+  postIds: string[]
+}
 
 export interface PublishManyOwnedPostsDTORequest {
-  body: PublishManyOwnedPostsBody;
+  query: PublishManyOwnedPostsQuery;
   user: IUserAuth;
 }
 
