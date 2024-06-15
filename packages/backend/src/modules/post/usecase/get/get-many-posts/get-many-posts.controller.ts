@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { GetManyPostsUseCase } from "./get-many-posts.use-case";
-import { GetManyPostsBody, GetManyPostsDTOEnd } from "./get-many-posts.dto";
+import { GetManyPostsBody, GetManyPostsDTOEnd, GetManyPostsParams } from "./get-many-posts.dto";
 import { GetManyPostsUseCaseErrors } from "./get-many-posts.error";
 import { IPresenterMapper } from "~/common/core/mapper";
 import { Post } from "~/modules/post/domain/post.agregate-root";
@@ -19,9 +19,10 @@ export class GetManyPostsController<TPostPresenter = any> extends BaseController
 
   async executeImpl(){
 
-    const body = this.getBody() as GetManyPostsBody;
+    const body = this.getBody() as GetManyPostsBody;;
+    const params = this.getParams() as GetManyPostsParams | undefined;
     try {
-      const result = await this.useCase.execute({body});
+      const result = await this.useCase.execute({params});
       
       if(result.isLeft()){
         const error = result.value;

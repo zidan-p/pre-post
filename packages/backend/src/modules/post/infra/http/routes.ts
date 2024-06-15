@@ -21,6 +21,7 @@ import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
 import { DELETE_OWNED_POST } from "../../usecase/delete/delete-owned-post";
 import { uploadImagePost } from "./storage.config";
 import { authService } from "~/common/infra/http/auth";
+import { GET_ALL_POST } from "../../usecase/get/get-all-post";
 
 
 
@@ -30,11 +31,11 @@ export const userPostRouter = Router();
 
 postRouter.get("/", authService.jwtOptionalAuth(), (req,res) => {
   switch(req.user?.role){
-    case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
+    case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST)(req,res);
     default : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
     // default: return res.status(403).json({message: "forbidden credential"})
   }
-})
+});
 
 postRouter.get("/many",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
 postRouter.get("/me", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));

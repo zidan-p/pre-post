@@ -3,15 +3,16 @@ import { Post } from "~/modules/post/domain/post.agregate-root";
 export interface GetManyPostsFiles{}
 
 export interface GetManyPostsBody{
-  postIds: string[];
 }
 
-export interface GetManyPostsParams{}
+export interface GetManyPostsParams{
+  postIds: string[];
+}
 
 export interface GetManyPostsQuery{}
 
 export interface GetManyPostsDTORequest {
-  body: GetManyPostsBody;
+  params?: GetManyPostsParams;
 }
 
 export interface GetManyPostsDTOResponse{

@@ -18,7 +18,10 @@ export class GetManyPostsUseCase implements UseCase<GetManyPostsDTORequest, Prom
   async execute(request: GetManyPostsDTORequest): Promise<GetManyPostsResponse> {
     try{
 
-      const idCollection = request.body.postIds;
+      const idCollection = request?.params?.postIds;
+      // return empty array when not prividing ids
+      if(!idCollection) return right(Result.ok({posts: []}))
+
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
       const postIdCollectionBuilderResult = Result.combine(postIdCollectionOrError);
