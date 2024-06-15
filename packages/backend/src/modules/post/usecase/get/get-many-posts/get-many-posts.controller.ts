@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { GetManyPostsUseCase } from "./get-many-posts.use-case";
-import { GetManyPostsBody, GetManyPostsDTOEnd, GetManyPostsParams } from "./get-many-posts.dto";
+import { GetManyPostsBody, GetManyPostsDTOEnd, GetManyPostsParams, GetManyPostsQuery } from "./get-many-posts.dto";
 import { GetManyPostsUseCaseErrors } from "./get-many-posts.error";
 import { IPresenterMapper } from "~/common/core/mapper";
 import { Post } from "~/modules/post/domain/post.agregate-root";
@@ -19,10 +19,10 @@ export class GetManyPostsController<TPostPresenter = any> extends BaseController
 
   async executeImpl(){
 
-    const body = this.getBody() as GetManyPostsBody;;
-    const params = this.getParams() as GetManyPostsParams | undefined;
+    // const body = this.getBody() as GetManyPostsBody;;
+    const query = this.getQueryData() as GetManyPostsQuery | undefined;
     try {
-      const result = await this.useCase.execute({params});
+      const result = await this.useCase.execute({query});
       
       if(result.isLeft()){
         const error = result.value;
@@ -32,6 +32,9 @@ export class GetManyPostsController<TPostPresenter = any> extends BaseController
 
           case error  instanceof GetManyPostsUseCaseErrors.IssueWhenBuilding:
             return this.fail(exception.message);
+
+          case error  instanceof GetManyPostsUseCaseErrors.IssueWhenBuilding:
+            return this.clientError(exception.message);
 
           case error  instanceof GetManyPostsUseCaseErrors.SomePostNotFound:
             return this.notFound(exception.message);

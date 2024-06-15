@@ -17,10 +17,11 @@ export class GetManyPostsUseCase implements UseCase<GetManyPostsDTORequest, Prom
 
   async execute(request: GetManyPostsDTORequest): Promise<GetManyPostsResponse> {
     try{
-
-      const idCollection = request?.params?.postIds;
+      const idCollection = request?.query?.postIds;
       // return empty array when not prividing ids
-      if(!idCollection) return right(Result.ok({posts: []}))
+      if(!idCollection) return right(Result.ok({posts: []})); 
+
+      if(!Array.isArray(idCollection)) return left(new GetManyPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
 
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 

@@ -6,13 +6,14 @@ export interface GetManyPostsBody{
 }
 
 export interface GetManyPostsParams{
+}
+
+export interface GetManyPostsQuery{
   postIds: string[];
 }
 
-export interface GetManyPostsQuery{}
-
 export interface GetManyPostsDTORequest {
-  params?: GetManyPostsParams;
+  query?: GetManyPostsQuery;
 }
 
 export interface GetManyPostsDTOResponse{

@@ -9,7 +9,7 @@ import { UPDATE_POST, UpdatePostManager } from "../../usecase/update/update-post
 import { CREATE_POST, CreatePostManager } from "../../usecase/create/create-post";
 import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
 import { DeletePostManager } from "../../usecase/delete/delete-post/delete-post.manager";
-import { GET_ALL_POST, GetAllPostManager } from "../../usecase/get/get-all-post";
+import { GET_ALL_POST } from "../../usecase/get/get-all-post";
 import { GET_NEWEST_POST, GetNewestPostManager } from "../../usecase/get/get-newest-post";
 import { GET_POSTS_BY_CURRENT_USER, GetPostsByCurrentUserManager } from "../../usecase/get/get-posts-by-current-user";
 import { GET_POSTS_BY_OWNER, GetPostsByOwnerManager } from "../../usecase/get/get-posts-by-owner";
@@ -18,13 +18,13 @@ import { UNPUBLISH_POST } from "../../usecase/publish/unpublish-post/unpublish-p
 import { UnpublishPostManager } from "../../usecase/publish/unpublish-post/unpublish-post.manager";
 import { GET_ALL_PUBLISHED_POSTS, GetAllPublishedPostsManager } from "../../usecase/get/get-all-published-posts";
 import { GET_PUBLISHED_POST_BY_OWNER, GetPublishedPostByOwnerManager } from "../../usecase/get/get-published-post-by-owner";
+import { GetAllPostManager } from "../../usecase/get/get-all-post";
+import { GET_MANY_POSTS, GetManyPostsManager } from "../../usecase/get/get-many-posts";
 
 
 
 const APP_URL = process.env.APP_URL;
-const resourceUrl = new URL(String(APP_URL));
-resourceUrl.pathname = "/hello"
-console.log(resourceUrl);
+const resourceUrl = new URL(String(APP_URL)); 
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
@@ -53,6 +53,12 @@ postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(p
 postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
+))
+
+// get many posts
+postUseCaseManagerFactory.addUseCaseManager(GET_MANY_POSTS, new GetManyPostsManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer
 ))
 
 // get all published
