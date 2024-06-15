@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { UnpublishManyOwnedPostsUseCase } from "./unpublish-many-owned-posts.use-case";
-import { UnpublishManyOwnedPostsBody } from "./unpublish-many-owned-posts.dto";
+import { UnpublishManyOwnedPostsBody, UnpublishManyOwnedPostsQuery } from "./unpublish-many-owned-posts.dto";
 import { UnpublishManyOwnedPostsUseCaseErrors } from "./unpublish-many-owned-posts.error";
 import { PostOwnershipServiceErrors } from "~/modules/post/domain/service/post-ownership.service";
 
@@ -17,12 +17,13 @@ export class UnpublishManyOwnedPostsController extends BaseController {
 
 
   async executeImpl(){
-    const body = this.getBody() as UnpublishManyOwnedPostsBody;
+    // const body = this.getBody() as UnpublishManyOwnedPostsBody;
+    const query = this.getQueryData() as UnpublishManyOwnedPostsQuery;
     const user = this.getUser();
 
     if(!user) return this.unauthorized("can't access this resource");
     try {
-      const result = await this.useCase.execute({body, user});
+      const result = await this.useCase.execute({query, user});
       
       if(result.isLeft()){
         const error = result.value;

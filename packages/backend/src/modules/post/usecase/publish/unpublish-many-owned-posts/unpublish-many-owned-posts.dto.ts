@@ -8,10 +8,12 @@ export interface UnpublishManyOwnedPostsBody{
 
 export interface UnpublishManyOwnedPostsParams{}
 
-export interface UnpublishManyOwnedPostsQuery{}
+export interface UnpublishManyOwnedPostsQuery{
+  postIds: string[]
+}
 
 export interface UnpublishManyOwnedPostsDTORequest {
-  body: UnpublishManyOwnedPostsBody;
+  query: UnpublishManyOwnedPostsQuery;
   user: IUserAuth;
 }
 
