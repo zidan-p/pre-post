@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { PublishManyPostsUseCase } from "./publish-many-posts.use-case";
-import { PublishManyPostsBody } from "./publish-many-posts.dto";
+import { PublishManyPostsBody, PublishManyPostsQuery } from "./publish-many-posts.dto";
 import { PublishManyPostsUseCaseErrors } from "./publish-many-posts.error";
 
 
@@ -17,9 +17,10 @@ export class PublishManyPostsController extends BaseController {
 
   async executeImpl(){
 
-    const body = this.getBody() as PublishManyPostsBody;
+    // const body = this.getBody() as PublishManyPostsBody;
+    const query = this.getQueryData() as PublishManyPostsQuery;
     try {
-      const result = await this.useCase.execute({body});
+      const result = await this.useCase.execute({query});
       
       if(result.isLeft()){
         const error = result.value;

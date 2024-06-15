@@ -17,7 +17,11 @@ export class PublishManyPostsUseCase implements UseCase<PublishManyPostsDTOReque
 
   async execute(request: PublishManyPostsDTORequest): Promise<PublishManyPostsResponse> {
     try{
-      const idCollection = request.body.postIds;
+      const idCollection = request?.query?.postIds;
+      if(!idCollection) return right(Result.ok({posts: []})); 
+
+      if(!Array.isArray(idCollection)) return left(new PublishManyPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
+
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
       // build post id object first;

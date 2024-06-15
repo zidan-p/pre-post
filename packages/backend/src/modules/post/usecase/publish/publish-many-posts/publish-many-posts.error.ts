@@ -1,6 +1,6 @@
 import { Result } from "~/common/core/result";
 import { UseCaseError } from "~/common/core/use-case.error.base";
-import { InternalServerErrorException, NotFoundException } from "~/common/exceptions";
+import { ArgumentInvalidException, InternalServerErrorException, NotFoundException } from "~/common/exceptions";
 
 
 export namespace PublishManyPostsUseCaseErrors {
@@ -15,6 +15,12 @@ export namespace PublishManyPostsUseCaseErrors {
   export class IssueWhenBuilding extends Result<UseCaseError, InternalServerErrorException>{
     constructor(message: string = "Issue when building process"){
       super(false, new InternalServerErrorException(message));
+    }
+  }
+
+  export class InvalidPostIdValue extends Result<UseCaseError, ArgumentInvalidException>{
+    constructor(message: string = "Invalid Provided Request"){
+      super(false, new ArgumentInvalidException(message));
     }
   }
 }
