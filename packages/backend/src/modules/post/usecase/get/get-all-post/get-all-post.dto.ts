@@ -6,8 +6,7 @@ export interface GetAllPostBody{}
 
 export interface GetAllPostParam {}
 
-export interface GetAllPostQuery{
-  paginate: IPaginate;
+export interface GetAllPostQuery extends IPaginate{
 }
 
 

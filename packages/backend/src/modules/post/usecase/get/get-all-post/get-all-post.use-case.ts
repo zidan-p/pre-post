@@ -17,8 +17,8 @@ export class GetAllPostUseCase implements UseCase<GetAllPostDTORequest, Promise<
   async execute(request: GetAllPostDTORequest): Promise<GetAllPostResponse> {
     try {
 
-      let page = request.query.paginate.page;
-      let dataPerPage = request.query.paginate.dataPerPage;
+      let page = request?.query?.page;
+      let dataPerPage = request?.query?.dataPerPage;
 
       const posts = await this.postRepository.find({}, {paginate: {dataPerPage, page}});
       const paginate = await this.postRepository.getPaginate({}, {dataPerPage, page});

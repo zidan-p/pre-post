@@ -32,8 +32,11 @@ export class UnpublishPostUseCase implements UseCase<UnpublishPostDTORequest, Pr
       if(!post)
         return left(new UnpublishPostUseCaseErrors.PostNotFound(postId));
 
-      if(post.ownerId !== user.userId)
-        return left(new UnpublishPostUseCaseErrors.ForbiddenUser(user.id.toString()));
+              // only admin that can freely publish
+      if(user.role !== "ADMIN"){
+        if(post.ownerId.getStringValue() !== ownerId) 
+          return left(new UnpublishPostUseCaseErrors.ForbiddenUser(user.id.toString()));
+      }
 
       post.unPublishPost();
 
