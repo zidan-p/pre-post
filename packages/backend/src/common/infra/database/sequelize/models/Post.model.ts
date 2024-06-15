@@ -15,7 +15,7 @@ export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<P
   declare is_published: boolean;
   // a little unnecessary, but ok
   declare date_time_created: Date;
-  declare date_time_posted?: Date;
+  declare date_time_posted?: Date | null;
     // timestamps!
   // createdAt can be undefined during creation
   declare createdAt: CreationOptional<Date>;

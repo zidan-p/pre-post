@@ -24,7 +24,7 @@ export interface ISequelizePostRaw {
 
   is_published: boolean;
   date_time_created: Date;
-  date_time_posted?: Date; 
+  date_time_posted?: Date | null; 
 }
 
 

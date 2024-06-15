@@ -23,7 +23,7 @@ export interface IExpressPostWihtImageUrlRaw {
 
   isPublished: boolean;
   dateTimeCreated: Date;
-  dateTimePosted?: Date; 
+  dateTimePosted?: Date | null; 
 }
 
 export type ExpressWithImageUrlPostMapper = IPresenterMapper<Post, IExpressPostWihtImageUrlRaw>;

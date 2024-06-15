@@ -1,4 +1,7 @@
 
+export const appConfig = {
+  appURL : process.env.APP_URL
+}
 
 export const authConfig = {
   secret: process.env.JWT_SECRET,

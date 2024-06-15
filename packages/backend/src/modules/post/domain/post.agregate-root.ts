@@ -24,7 +24,7 @@ export interface PostProps{
 
   isPublised: boolean;
   dateTimeCreated: Date;
-  dateTimePosted?: Date; // when user or admin publish it's own post
+  dateTimePosted?: Date | null; // when user or admin publish it's own post
 }
 
 export interface PostPropsWithId extends PostProps {
@@ -45,7 +45,7 @@ export class Post extends AggregateRoot<PostProps>{
   get ownerId(): UserId {return this.props.ownerId}
   get isPublished(): boolean { return this.props.isPublised }
   get dateTimeCreated(): Date { return this.props.dateTimeCreated }
-  get dateTimePosted(): undefined | Date { return this.props.dateTimePosted }
+  get dateTimePosted(): undefined | Date | null { return this.props.dateTimePosted }
 
   public set postContent(content: PostContent){
     this.props.postContent = content;
@@ -65,7 +65,7 @@ export class Post extends AggregateRoot<PostProps>{
   public unPublishPost(){
 
     this.props.isPublised = false;
-    this.props.dateTimePosted = undefined;
+    this.props.dateTimePosted = null;
     return Result.ok<void>();
   }
 

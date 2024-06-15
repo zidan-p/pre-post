@@ -23,7 +23,7 @@ export interface IExpressPostRaw {
 
   isPublished: boolean;
   dateTimeCreated: Date;
-  dateTimePosted?: Date; 
+  dateTimePosted?: Date | null; 
 }
 
 
