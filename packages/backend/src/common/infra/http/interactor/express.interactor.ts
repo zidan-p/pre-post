@@ -33,6 +33,17 @@ export class ExpressInteractor implements IInteractor {
   }
 
 
+  /**
+   * @todo find out teh best way to do file saving. 
+   * now, it can't store nested directory as group because it only provide single value of fieldname (/myField `fieldName from upload form in frontend`).
+   * the file object that provide by multer didn't have extra field that can be customized from upload config.
+   * the only way to serialize object it through this multer file object. 
+   * ideally, it should can use nested group as value (/section/myfield).
+   * 
+   * 
+   * @param file uploaded file
+   * @returns common file
+   */
   serializeFile(file: Express.Multer.File): ICommonFile{
     return {
       fileType: file.mimetype,

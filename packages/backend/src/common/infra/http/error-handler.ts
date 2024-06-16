@@ -15,11 +15,10 @@ import { ExceptionBase } from "~/common/exceptions";
  * @returns any
  */
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.log("mencapai error handler")
   try {
-    console.log(err?.name);
     const httpHandler = new ExpressInteractor(req, res);
 
+    // handler authentication error
     if(err?.name === "AuthenticationError"){
       return httpHandler.unauthorized("Invalid Credentials", undefined)
     }

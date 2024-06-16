@@ -2,7 +2,7 @@
 node_modules/
 dist/
 !**/*.gitkeep
-storage/**/*
+storage/
 !storage/**/*.gitkeep
 # storage/post/*
 # # storage/post/postImage/*
