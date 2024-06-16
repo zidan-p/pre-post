@@ -11,7 +11,8 @@ const postImagestorage = multer.diskStorage({
     cb(null, join(appConfig.root, "storage" , POST_IMAGE_GROUP));
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    const uniqueSuffix = (new Date()).toISOString() + '-' + Math.round(Math.random() * 1E9)
+    console.log(uniqueSuffix);
     cb(null, file.fieldname + '-' + uniqueSuffix + extname(file.originalname));
   },
   

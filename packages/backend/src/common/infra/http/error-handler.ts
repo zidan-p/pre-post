@@ -17,7 +17,12 @@ import { ExceptionBase } from "~/common/exceptions";
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.log("mencapai error handler")
   try {
+    console.log(err?.name);
     const httpHandler = new ExpressInteractor(req, res);
+
+    if(err?.name === "AuthenticationError"){
+      return httpHandler.unauthorized("Invalid Credentials", undefined)
+    }
     
     // handler multer error
     if (err instanceof multer.MulterError) {

@@ -161,7 +161,7 @@ export class ExpressInteractor implements IInteractor {
   clientError(message: string, metadata: Record<string, any>) {
     this.jsonResponse(false, 400, message, null, metadata);
   }
-  unauthorized(message: string, metadata: Record<string, any>) {
+  unauthorized(message: string, metadata?: Record<string, any>) {
     this.jsonResponse(false, 401, message, null, metadata);
   }
   paymentRequired(message: string, metadata: Record<string, any>) {

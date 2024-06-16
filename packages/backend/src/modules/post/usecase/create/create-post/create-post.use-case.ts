@@ -47,7 +47,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
         if(unValidatedFile.group !== POST_IMAGE_GROUP)
           return left( new CreatePostUseCaseErrors.InvalidImageProperties(
-            new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
+            new ArgumentInvalidException("Files group should be " + POST_IMAGE_GROUP +" not [ '" + unValidatedFile.group + "' ]")
           ));
 
         const postImageProps: PostImageProps = {

@@ -28,7 +28,7 @@ export class AuthService {
 
   /** only accept jwt auth, and throw unauthorized when the token is not provided or invalid */
   jwtAuth(){
-    return passport.authenticate("jwt", {session: false});
+    return passport.authenticate("jwt", {session: false, failWithError: true});
   }
 
   /**
@@ -41,7 +41,7 @@ export class AuthService {
    * ```
    */
   jwtOptionalAuth(){
-    return passport.authenticate(["jwt", "anonymous"], {session: false});
+    return passport.authenticate(["jwt", "anonymous"], {session: false, failWithError: true});
   }
 }
 
