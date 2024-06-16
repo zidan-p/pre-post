@@ -1,5 +1,5 @@
 import { PersisterMapper } from "~/common/core/mapper";
-import { PostImage } from "../../domain/post-image.entity";
+import { IMAGE_TYPE_POST_IMAGE, POST_IMAGE_GROUP, PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 
@@ -23,8 +23,8 @@ export class PostImageMap implements PersisterMapper<PostImage, ISequelizePostIm
     const postImageOrError = PostImage.create({
       size: raw.size,
       fileType: raw.file_type,
-      group: raw.group as "postImage",
-      imageType: raw.image_type as "post",
+      group: raw.group as typeof POST_IMAGE_GROUP,
+      imageType: raw.image_type as typeof IMAGE_TYPE_POST_IMAGE,
       name: raw.name
     }, new UniqueEntityID(raw?.id));
 

@@ -17,7 +17,7 @@ import { EditableField } from "~/modules/post/domain/editable-field.interface";
 import { Post } from "~/modules/post/domain/post.agregate-root";
 import { ArgumentInvalidException } from "~/common/exceptions";
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
-import { PostImage, PostImageProps } from "~/modules/post/domain/post-image.entity";
+import { IMAGE_TYPE_POST_IMAGE, POST_IMAGE_GROUP, PostImage, PostImageProps } from "~/modules/post/domain/post-image.entity";
 import { IPostImageRepo } from "~/modules/post/repository/post-image.repository.port";
 import { PostTitle } from "~/modules/post/domain/post-title.value-object";
 import { PostContent } from "~/modules/post/domain/post-content.value-object";
@@ -143,13 +143,13 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
   async validatePostImage(unValidatedFile: ICommonFile): Promise<ValidatePostImageResponse>{
 
-    if(unValidatedFile.group !== "postImage")
+    if(unValidatedFile.group !== POST_IMAGE_GROUP)
       return left( new UpdateManyPostUseCaseErrors.InvalidImageProperties(
         new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
       ));
 
     const postImageProps: PostImageProps = {
-      imageType: "post",
+      imageType: IMAGE_TYPE_POST_IMAGE,
       fileType: unValidatedFile.fileType,
       group: unValidatedFile.group,
       name: unValidatedFile.name,

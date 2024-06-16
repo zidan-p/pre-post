@@ -1,7 +1,7 @@
 import { UseCase } from "~/common/core/use-case";
 import { CreatePostDTORequest, CreatePostDTOResponse, CreatePostFiles } from "./create-post.dto";
 import { Post } from "../../../domain/post.agregate-root";
-import { PostImage, PostImageProps } from "../../../domain/post-image.entity";
+import { IMAGE_TYPE_POST_IMAGE, POST_IMAGE_GROUP, PostImage, PostImageProps } from "../../../domain/post-image.entity";
 import { PostTitle } from "../../../domain/post-title.value-object";
 import { PostContent } from "../../../domain/post-content.value-object";
 import { UserId } from "../../../domain/user-id.value-object";
@@ -45,13 +45,13 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
         
         const unValidatedFile = files.postImage;
 
-        if(unValidatedFile.group !== "postImage")
+        if(unValidatedFile.group !== POST_IMAGE_GROUP)
           return left( new CreatePostUseCaseErrors.InvalidImageProperties(
             new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
           ));
 
         const postImageProps: PostImageProps = {
-          imageType: "post",
+          imageType: IMAGE_TYPE_POST_IMAGE,
           fileType: unValidatedFile.fileType,
           group: unValidatedFile.group,
           name: unValidatedFile.name,

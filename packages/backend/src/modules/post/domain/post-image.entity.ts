@@ -12,12 +12,12 @@ import { ArgumentInvalidException } from "~/common/exceptions";
 // size: number; // in bytes
 // fileType: string;
 
-export const POST_IMAGE_GROUP = "postImage" as const;
-export const POST_IMAGE_IMAGE_TYPE = "post" as const;
+export const POST_IMAGE_GROUP = "post/postImage" as const;
+export const IMAGE_TYPE_POST_IMAGE = "post" as const;
 
 export interface PostImageProps extends ICommonFile {
-  imageType: "post";
-  group: "postImage"
+  imageType: typeof IMAGE_TYPE_POST_IMAGE
+  group: typeof POST_IMAGE_GROUP
 
   isDeleted?: boolean;
   isSaved?: boolean; // is already saved in database
@@ -49,7 +49,12 @@ export class PostImage extends Entity<PostImageProps>{
   private static validation(props: PostImageProps){
     if(props.imageType !== "post") 
       return Result.fail<PostImage, ArgumentInvalidException>(
-        new ArgumentInvalidException('the imageType should be "post", [ ' + props.imageType + " ] provided")
+        new ArgumentInvalidException('the imageType should be ' + IMAGE_TYPE_POST_IMAGE + ', [ ' + props.imageType + " ] provided")
+      );
+    
+    if(props.group !== POST_IMAGE_GROUP)
+      return Result.fail<PostImage, ArgumentInvalidException>(
+        new ArgumentInvalidException('the group should be ' + POST_IMAGE_GROUP + ', [ ' + props.group + " ] provided")
       );
 
     return Result.ok<PostImage>();

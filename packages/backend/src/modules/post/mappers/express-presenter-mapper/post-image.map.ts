@@ -1,5 +1,5 @@
 import { IPresenterMapper } from "~/common/core/mapper";
-import { PostImage } from "../../domain/post-image.entity";
+import { IMAGE_TYPE_POST_IMAGE, POST_IMAGE_GROUP, PostImage } from "../../domain/post-image.entity";
 import { ArgumentNotProvidedException, ParseException } from "~/common/exceptions";
 import { Entity } from "~/common/domain/entity.base";
 
@@ -35,8 +35,8 @@ export class ExpressPostImageMap implements IPresenterMapper<PostImage, IExpress
     const postImageOrError = PostImage.create({
       size: raw.size,
       fileType: raw.fileType,
-      group: raw.group as "postImage",
-      imageType: raw.imageType as "post",
+      group: raw.group as typeof POST_IMAGE_GROUP,
+      imageType: raw.imageType as typeof IMAGE_TYPE_POST_IMAGE,
       name: raw.name
     });
 
