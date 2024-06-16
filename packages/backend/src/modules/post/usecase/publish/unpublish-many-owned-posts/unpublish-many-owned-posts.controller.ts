@@ -57,7 +57,7 @@ export class UnpublishManyOwnedPostsController extends BaseController {
           
         }
       }
-      return this.ok(null, "Success unpublish post");
+      return this.ok(result?.value?.getValue()?.postIds?.map(i => i.getStringValue()), "Success unpublish post");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

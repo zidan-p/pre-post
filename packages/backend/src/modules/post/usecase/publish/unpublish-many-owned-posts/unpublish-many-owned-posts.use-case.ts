@@ -25,7 +25,7 @@ export class UnpublishManyOwnedPostsUseCase implements UseCase<UnpublishManyOwne
 
       // when no collection id, return empty post.
       // no needed for ownership checking
-      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!idCollection) return right(Result.ok({postIds: []})); 
       if(!Array.isArray(idCollection)) 
         return left(new UnpublishManyOwnedPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
 
@@ -35,7 +35,7 @@ export class UnpublishManyOwnedPostsUseCase implements UseCase<UnpublishManyOwne
       // build post id object first;
       const postIdCollectionBuilderResult = Result.combine(postIdCollectionOrError);
       if(postIdCollectionBuilderResult.isFailure)
-        return left(new UnpublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding("There are issue when building post id collection"));
+        return left(new UnpublishManyOwnedPostsUseCaseErrors.IssueWhenBuilding("There are issues when building post id collection"));
 
       const postIdCollection = Result.getCombinedValue(postIdCollectionOrError);
 
@@ -56,15 +56,15 @@ export class UnpublishManyOwnedPostsUseCase implements UseCase<UnpublishManyOwne
         ownerId, postIdCollection, existsCountWithThisOwnership, posts.length
       )
 
-      if(ownerShipResult.isLeft()) return ownerShipResult;
+      if(ownerShipResult.isLeft()) return left(ownerShipResult.value);
 
       // loop for unpublishing
       posts.forEach(async (post) => {
         post.unPublishPost();
         await this.postRepo.save(post);
-      })
+      });
 
-      return right(Result.ok());
+      return right(Result.ok({postIds: postIdCollection }));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
