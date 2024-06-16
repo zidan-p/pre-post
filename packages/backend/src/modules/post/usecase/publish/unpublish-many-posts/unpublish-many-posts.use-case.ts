@@ -21,7 +21,7 @@ export class UnpublishManyPostsUseCase implements UseCase<UnpublishManyPostsDTOR
 
       // when no collection id, return empty post.
       // no needed for ownership checking
-      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!idCollection) return right(Result.ok({postIds: []})); 
       if(!Array.isArray(idCollection)) 
         return left(new UnpublishManyPostsUseCaseErrors.InvalidPostIdValue(idCollection));
 
@@ -45,7 +45,7 @@ export class UnpublishManyPostsUseCase implements UseCase<UnpublishManyPostsDTOR
         post.unPublishPost();
         await this.postRepo.save(post);
       })
-      return right(Result.ok());
+      return right(Result.ok({postIds: postIdCollection}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
