@@ -39,4 +39,6 @@ export class SequelizePostImageRepository implements IPostImageRepo{
   async isAlreadySaved(postImage: PostImage): Promise<boolean> {
     return await  this.exists(postImage.id.toString());
   }
+
+  async deleteImage(){}
 }
