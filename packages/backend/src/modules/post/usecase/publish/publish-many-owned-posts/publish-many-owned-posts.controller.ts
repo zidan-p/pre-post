@@ -52,7 +52,7 @@ export class PublishManyOwnedPostsController extends BaseController {
           
         }
       }
-      return this.ok(null, "Success Publish owned Post Controller");
+      return this.ok({postIds: result?.value?.getValue()?.postIds?.map(i => i.getStringValue())}, "Success Publish owned Post Controller");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

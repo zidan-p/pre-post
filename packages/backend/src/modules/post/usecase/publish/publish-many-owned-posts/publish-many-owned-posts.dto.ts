@@ -1,4 +1,5 @@
 import { IUserAuth } from "~/common/core/user.auth.interface";
+import { PostId } from "~/modules/post/domain/post-id.value-object";
 
 export interface PublishManyOwnedPostsFiles{}
 
@@ -15,4 +16,6 @@ export interface PublishManyOwnedPostsDTORequest {
   user: IUserAuth;
 }
 
-export interface PublishManyOwnedPostsDTOResponse{}
+export interface PublishManyOwnedPostsDTOResponse{
+  postIds: PostId[];
+}

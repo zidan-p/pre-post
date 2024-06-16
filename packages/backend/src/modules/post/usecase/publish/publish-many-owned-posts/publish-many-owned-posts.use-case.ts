@@ -24,7 +24,7 @@ export class PublishManyOwnedPostsUseCase implements UseCase<PublishManyOwnedPos
 
       // when no collection id, return empty post.
       // no needed for ownership checking
-      if(!idCollection) return right(Result.ok({posts: []})); 
+      if(!idCollection) return right(Result.ok({postIds: []})); 
       if(!Array.isArray(idCollection)) 
         return left(new PublishManyOwnedPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
 
@@ -37,24 +37,26 @@ export class PublishManyOwnedPostsUseCase implements UseCase<PublishManyOwnedPos
 
       const postIdCollection = Result.getCombinedValue(postIdCollectionOrError);
 
-      // check user exitance
+      // check user existance
       const user = await this.userRepo.getUserByUserId(userRequest.id);
       if(!user) return left(new PublishManyOwnedPostsUseCaseErrors.UserNotFound(userRequest.id))
 
 
-      // check ownership of post of user
+      // check ownership of post
       // i use count to check, beacause the id is assumed will not same among all records
       const ownerId = user.userId;
       const existsCountWithThisOwnership = await this.postRepo.countIsInSearchWhere({postId: postIdCollection},{ownerId: ownerId});
       const posts = await this.postRepo.isInSearch({postId: postIdCollection});
 
-      // when only there some post that not found
+      // check if founded posts with provided ids have same count.
+      // if the posts length is less than the provided id, that's mean there are some posts missing
       if(posts.length < postIdCollection.length){
         return left(new PublishManyOwnedPostsUseCaseErrors.SomePostNotFound(idCollection));
       }
 
-      // when the founded exists count wiith ownershipp less than that actually exists
-      // the count already filtered so in this code always reach post id collection length that match exists count
+      // check ownership of the founded posts.
+      // when the founded exists count with current user ownershipp is less than that actually exists (from post query).
+      // the count already filtered, so posts should match the length of count of owned post
       if(existsCountWithThisOwnership < posts.length)
         return left(new PublishManyOwnedPostsUseCaseErrors.ForbiddenAccess(userRequest.id));
 
@@ -63,7 +65,7 @@ export class PublishManyOwnedPostsUseCase implements UseCase<PublishManyOwnedPos
         await this.postRepo.save(post);
       })
       
-      return right(Result.ok());
+      return right(Result.ok({postIds: postIdCollection}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
