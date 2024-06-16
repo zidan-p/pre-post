@@ -17,7 +17,7 @@ export class AuthService {
         try {
           return done(null, payload.context);
         } catch (error) {
-          console.log(error);
+          console.log("passport auth error",error);
           return done(error);
         }
       })
@@ -26,10 +26,20 @@ export class AuthService {
     passport.use(new AnonymousStartegy());
   }
 
+  /** only accept jwt auth, and throw unauthorized when the token is not provided or invalid */
   jwtAuth(){
     return passport.authenticate("jwt", {session: false});
   }
 
+  /**
+   * @description accept jwt auth but optional, the token can be provided or not.
+   * it's usefull when handling controller that use express `user` variable as optional
+   * 
+   * @example
+   * ```
+   * const user = req.user; // IAuth | undefined
+   * ```
+   */
   jwtOptionalAuth(){
     return passport.authenticate(["jwt", "anonymous"], {session: false});
   }

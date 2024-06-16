@@ -6,16 +6,26 @@ import { ExceptionBase } from "~/common/exceptions";
 
 
 
-
-export const  errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+/**
+ * register global error handler here.
+ * @param err error object from prevous route
+ * @param req -
+ * @param res -
+ * @param next -
+ * @returns any
+ */
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.log("mencapai error handler")
   try {
     const httpHandler = new ExpressInteractor(req, res);
     
+    // handler multer error
     if (err instanceof multer.MulterError) {
       return httpHandler.fail("Fail when uploading file", err as ExceptionBase, {field: err.field})
     } 
     
-    return httpHandler.notFound("Your Path isn't here, try another", {});
+    console.log((err as Error)?.stack)
+    return httpHandler.fail("Failed operation", err, {});
   } catch (error) {
     return res.status(500).json({error});
   }

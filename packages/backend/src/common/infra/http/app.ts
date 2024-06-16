@@ -3,9 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { v1 } from './api/v1';
 import { errorHandler } from './error-handler';
+import { notFoundHandler } from './not-found-handler';
 
 const origin = {
-  // origin: isProduction ? 'https://dddforum.com' : '*',
   origin: "*"
 }
 
@@ -22,6 +22,9 @@ export function loadExpressServer(){
   app.use(v1);
   // app.use("/",arouter);
   
+  // handler not found
+  app.use("*", notFoundHandler);
+
   // handle the error
   app.use(errorHandler);
   
