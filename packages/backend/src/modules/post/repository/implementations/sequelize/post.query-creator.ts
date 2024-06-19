@@ -21,7 +21,7 @@ export class PostSequelizeQueryCreator implements IQueryCreator {
   private readonly objectArrayableMapperConfig: AdvaceObjectMapperConfig<WhereInConfig<PostPropsWithId>> = ObjectWhereInConfig;
 
   constructor(
-    private query: FindAdvanceProps & {includes?: ("PostImage")[]}
+    private query: FindAdvanceProps
   ){}
 
   /**

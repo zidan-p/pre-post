@@ -15,11 +15,24 @@ export interface FilterConfig<TProps extends Object>{
   orderBy?: OrderByCofig<TProps>;
 };
 
-/** useful used in query string */
-export interface FilterQuery<TProps extends Object>{
+/**
+ * @see FilterQueryFlat
+ * @description
+ * useful used in query string 
+ * */
+export interface FilterQuery<TProps extends Object> extends IPaginate{
   where: WhereConfig<TProps>
   whereIncluded: WhereInConfig<TProps>;
   whereExcluded: WhereInConfig<TProps>;
   orderBy: OrderByCofig<TProps>;
-  paginate: IPaginate;
 }
+
+/** 
+ * useful when you want flat data
+ * */
+export type FilterQueryFlat<TProps extends Object> = 
+  & WhereConfig<TProps>
+  & WhereInConfig<TProps>
+  & WhereInConfig<TProps>
+  & OrderByCofig<TProps>
+  & IPaginate;

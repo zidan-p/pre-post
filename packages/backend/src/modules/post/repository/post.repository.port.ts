@@ -10,6 +10,7 @@ export interface FindAdvanceProps {
   whereExcluded?: WhereInConfig<PostPropsWithId>;
   orderBy?: OrderByCofig<PostPropsWithId>;
   paginate?: Partial<IPaginate>;
+  includes?: ("PostImage")[]
 }
 
 export interface IPostRepo{

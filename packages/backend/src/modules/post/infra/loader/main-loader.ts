@@ -24,6 +24,7 @@ import { PUBLISH_MANY_POSTS, PublishManyPostsManager } from "../../usecase/publi
 import { PUBLISH_MANY_OWNED_POSTS, PublishManyOwnedPostsManager } from "../../usecase/publish/publish-many-owned-posts";
 import { UNPUBLISH_MANY_POSTS, UnpublishManyPostsManager } from "../../usecase/publish/unpublish-many-posts";
 import { UNPUBLISH_MANY_OWNED_POSTS, UnpublishManyOwnedPostsManager } from "../../usecase/publish/unpublish-many-owned-posts";
+import { GET_ALL_POST_LIST, GetAllPostListManager } from "../../usecase/get/get-all-post-list";
 
 
 
@@ -55,6 +56,12 @@ postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(p
 
 // get all post
 postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(
+  postRepositoryFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+))
+
+// get post list
+postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST_LIST, new GetAllPostListManager(
   postRepositoryFactory,
   postPresenterMapperFactoryWithResourceUrlSerializer,
 ))

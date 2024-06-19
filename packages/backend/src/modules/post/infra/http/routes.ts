@@ -31,7 +31,7 @@ export const userPostRouter = Router();
 
 postRouter.get("/", authService.jwtOptionalAuth(), (req,res) => {
   switch(req.user?.role){
-    case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST)(req,res);
+    case "ADMIN" : return postUseCaseManagerFactory.getController(GET_ALL_POST_LIST)(req,res);
     default : return postUseCaseManagerFactory.getController(GET_ALL_PUBLISHED_POSTS)(req,res);
     // default: return res.status(403).json({message: "forbidden credential"})
   }
