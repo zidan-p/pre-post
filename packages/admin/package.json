@@ -1,6 +1,9 @@
 {
   "name": "@pre-post/admin",
-  "private": true,
+  "version": "1.0.0",
+  "description": "admin view for pre-post",
+  "author": "zidan p",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
