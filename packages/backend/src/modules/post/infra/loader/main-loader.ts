@@ -28,6 +28,7 @@ import { GET_ALL_POST_LIST, GetAllPostListManager } from "../../usecase/get/get-
 import { PostServiceFactory } from "../../service/implementations/post-service.factory";
 import { appConfig } from "~/config/index";
 import { join } from "path";
+import { DELETE_MANY_POSTS, DeleteManyPostsManager } from "../../usecase/delete/delete-many-posts";
 
 
 
@@ -63,6 +64,11 @@ postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
 postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
   postRepositoryFactory, postServiceFactory
 ));
+
+// delete many posts
+postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_POSTS, new DeleteManyPostsManager(
+  postRepositoryFactory, postServiceFactory
+))
 
 // get all post
 postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(

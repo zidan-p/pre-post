@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { DeleteManyPostsUseCase } from "./delete-many-posts.use-case";
-import { DeleteManyPostsBody } from "./delete-many-posts.dto";
+import { DeleteManyPostsBody, DeleteManyPostsQuery } from "./delete-many-posts.dto";
 import { DeleteManyPostsUseCaseErrors } from "./delete-many-posts.error";
 
 
@@ -17,9 +17,9 @@ export class DeleteManyPostsController extends BaseController {
 
   async executeImpl(){
 
-    const body = this.getBody() as DeleteManyPostsBody;
+    const query = this.getQueryData() as DeleteManyPostsQuery;
     try {
-      const result = await this.useCase.execute({body});
+      const result = await this.useCase.execute({query});
       
       if(result.isLeft()){
         const error = result.value;

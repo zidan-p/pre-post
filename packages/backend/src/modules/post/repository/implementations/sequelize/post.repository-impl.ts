@@ -40,7 +40,8 @@ export class SequelizePostRepository implements IPostRepo {
     const queryCreator = new PostSequelizeQueryCreator({
       orderBy: config?.orderBy,
       paginate: config?.paginate,
-      whereIncluded: payload
+      whereIncluded: payload,
+      includes: ["PostImage"]
   });
     const query = queryCreator.getBaseQuery()
 
@@ -139,9 +140,9 @@ export class SequelizePostRepository implements IPostRepo {
     return queryCreator.getPaginate(postCount);
   }
 
-  async deleteMany(postIds: PostId[]): Promise<number> {
-    
-    const queryCreator = new PostSequelizeQueryCreator({whereIncluded: {postId: postIds}})
+  async deleteMany(postIds: PostId[], limit?: number): Promise<number> {
+
+    const queryCreator = new PostSequelizeQueryCreator({whereIncluded: {postId: postIds}, paginate: {dataPerPage: limit}})
 
     const result = await this.postModel.destroy(queryCreator.getBaseQuery());
 

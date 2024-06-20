@@ -1,6 +1,6 @@
 import { Result } from "~/common/core/result";
 import { UseCaseError } from "~/common/core/use-case.error.base";
-import { InternalServerErrorException, NotFoundException } from "~/common/exceptions";
+import { ExceptionBase, InternalServerErrorException, NotFoundException } from "~/common/exceptions";
 
 
 export namespace DeleteManyPostsUseCaseErrors {
@@ -29,6 +29,12 @@ export namespace DeleteManyPostsUseCaseErrors {
   export class IssueWhenBuilding extends Result<UseCaseError, InternalServerErrorException>{
     constructor(message: string = "Issue when building process"){
       super(false, new InternalServerErrorException(message));
+    }
+  }
+
+  export class DeleteOperationFailed extends Result<UseCaseError, ExceptionBase>{
+    constructor(exception: ExceptionBase){
+      super(false, exception);
     }
   }
 }

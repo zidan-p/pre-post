@@ -5,6 +5,7 @@ import { DeleteManyPostsUseCaseErrors } from "./delete-many-posts.error";
 
 export type DeleteManyPostsResponse = Either<
   DeleteManyPostsUseCaseErrors.SomePostNotFound |
+  DeleteManyPostsUseCaseErrors.DeleteOperationFailed |
   AppError.UnexpectedError,
   Result<DeleteManyPostsDTOResponse>
 >

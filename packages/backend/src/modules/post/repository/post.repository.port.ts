@@ -53,7 +53,8 @@ export interface IPostRepo{
   findAdvancePaginate(args: FindAdvanceProps): Promise<IPaginateReponse>;
 
   /**
-   * note, this method may not apply the data existence checking. so always try to check it first before delete it
+   * note, this method may not apply the data existence checking. so always try to check it first before delete it.
+   * note
    * @param postId target record id
    */
   delete(postId: string | PostId): Promise<void>;
@@ -62,7 +63,7 @@ export interface IPostRepo{
    * delete many post
    * @param postIds 
    */
-  deleteMany(postIds: string[] | PostId[]): Promise<number>;
+  deleteMany(postIds: string[] | PostId[], limit? : number): Promise<number>;
 
   save (user: Post): Promise<SaveStatus>;
 }
