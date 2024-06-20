@@ -3,6 +3,7 @@ import { PostImage } from "~/modules/post/domain/post-image.entity";
 import { IPostImageRepo } from "../../post-image.repository.port";
 import { PostImageModelImplementation } from "~/common/infra/database/sequelize/models/PostImage.model";
 import { SequelizePostImageMapper } from "~/modules/post/mappers/sequelize-persistence-mapper/post-image.map";
+import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 
 
 
@@ -40,5 +41,9 @@ export class SequelizePostImageRepository implements IPostImageRepo{
     return await  this.exists(postImage.id.toString());
   }
 
-  async deleteImage(){}
+  async remove(postImageId: string | UniqueEntityID): Promise<void> {
+    const image = await this.postImageModel.findByPk(postImageId.toString());
+    await image?.destroy();
+    return;
+  }
 }

@@ -217,7 +217,9 @@ export class SequelizePostRepository implements IPostRepo {
     
     const postStringId = postId.toString();
 
+
     const result = await this.postModel.destroy({where: {id: postStringId}});
+
     return;
   }
 

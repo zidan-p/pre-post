@@ -25,20 +25,28 @@ import { PUBLISH_MANY_OWNED_POSTS, PublishManyOwnedPostsManager } from "../../us
 import { UNPUBLISH_MANY_POSTS, UnpublishManyPostsManager } from "../../usecase/publish/unpublish-many-posts";
 import { UNPUBLISH_MANY_OWNED_POSTS, UnpublishManyOwnedPostsManager } from "../../usecase/publish/unpublish-many-owned-posts";
 import { GET_ALL_POST_LIST, GetAllPostListManager } from "../../usecase/get/get-all-post-list";
+import { PostServiceFactory } from "../../service/implementations/post-service.factory";
+import { appConfig } from "~/config/index";
+import { join } from "path";
 
 
 
 const APP_URL = process.env.APP_URL;
+const storagePath = join(appConfig.root, "storage");
 const resourceUrl = new URL(String(APP_URL)); 
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
 const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
 const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
 
+// -- repository --
 const postRepositoryFactory = new SequelizePostRepoFactory(
   postPersistenceMapperFactory,
   PostImageMode, PostModel, UserModel
 );
+
+// -- service --
+const postServiceFactory = new PostServiceFactory(storagePath);
 
 export const postUseCaseManagerFactory = new ExpressUseCaseManagerFactory();
 
@@ -52,7 +60,9 @@ postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
 ))
 
 // delete post
-postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(postRepositoryFactory));
+postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
+  postRepositoryFactory, postServiceFactory
+));
 
 // get all post
 postUseCaseManagerFactory.addUseCaseManager(GET_ALL_POST, new GetAllPostManager(

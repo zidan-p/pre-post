@@ -47,7 +47,7 @@ export class PostImage extends Entity<PostImageProps>{
   }
 
   private static validation(props: PostImageProps){
-    if(props.imageType !== "post") 
+    if(props.imageType !== "post")
       return Result.fail<PostImage, ArgumentInvalidException>(
         new ArgumentInvalidException('the imageType should be ' + IMAGE_TYPE_POST_IMAGE + ', [ ' + props.imageType + " ] provided")
       );
