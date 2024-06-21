@@ -29,6 +29,7 @@ import { PostServiceFactory } from "../../service/implementations/post-service.f
 import { appConfig } from "~/config/index";
 import { join } from "path";
 import { DELETE_MANY_POSTS, DeleteManyPostsManager } from "../../usecase/delete/delete-many-posts";
+import { DELETE_OWNED_POST, DeleteOwnedPostManager } from "../../usecase/delete/delete-owned-post";
 
 
 
@@ -64,6 +65,11 @@ postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
 postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
   postRepositoryFactory, postServiceFactory
 ));
+
+// delete owned post
+postUseCaseManagerFactory.addUseCaseManager(DELETE_OWNED_POST, new DeleteOwnedPostManager(
+  postRepositoryFactory, postServiceFactory
+))
 
 // delete many posts
 postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_POSTS, new DeleteManyPostsManager(

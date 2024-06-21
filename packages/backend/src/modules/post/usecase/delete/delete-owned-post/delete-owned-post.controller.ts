@@ -34,7 +34,7 @@ export class DeleteOwnedPostController extends BaseController<DeleteOwnedPostDTO
             this.notFound(exception.message, exception?.metadata as Record<string, any>)
             break;
           case error  instanceof DeleteOwnedPostUseCaseErrors.UserNotFound:
-            this.notFound(exception.message, exception?.metadata as Record<string, any>)
+            this.unauthorized(exception.message, exception?.metadata as Record<string, any>)
             break;
           default:
             console.log(exception);

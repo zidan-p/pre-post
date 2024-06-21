@@ -20,7 +20,7 @@ export namespace DeleteOwnedPostUseCaseErrors {
 
   export class ForbiddenUser extends Result<UseCaseError, ForbiddenException>{
     constructor(userId: string){
-      const message = "User with id [ " + userId + " ] not found to process this action";
+      const message = "User with id [ " + userId + " ] don't have access to this resource";
       super(false, new ForbiddenException(message, undefined));
     }
   }
