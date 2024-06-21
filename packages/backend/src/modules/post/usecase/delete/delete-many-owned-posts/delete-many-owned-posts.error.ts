@@ -1,9 +1,17 @@
 import { Result } from "~/common/core/result";
 import { UseCaseError } from "~/common/core/use-case.error.base";
-import { InternalServerErrorException, NotFoundException } from "~/common/exceptions";
+import { ExceptionBase, InternalServerErrorException, NotFoundException } from "~/common/exceptions";
 
 
 export namespace DeleteManyOwnedPostsUseCaseErrors {
+
+  export class UserNotFound extends Result<UseCaseError, NotFoundException>{
+    constructor(userId: string){
+      const message = "User with id [ " + userId + " ] not found to process this action";
+      super(false, new NotFoundException(message, undefined, {userId}));
+    }
+  }
+
   export class SomePostNotFound extends Result<UseCaseError, NotFoundException>{
     constructor(ids: string[] | number[]){
       const message = "Post With id [ " + ids.join(", ") + " ] not found ";
@@ -28,6 +36,12 @@ export namespace DeleteManyOwnedPostsUseCaseErrors {
   export class IssueWhenBuilding extends Result<UseCaseError, InternalServerErrorException>{
     constructor(message: string = "Issue when building process"){
       super(false, new InternalServerErrorException(message));
+    }
+  }
+
+  export class DeleteOperationFailed extends Result<UseCaseError, ExceptionBase>{
+    constructor(exception: ExceptionBase){
+      super(false, exception);
     }
   }
 }

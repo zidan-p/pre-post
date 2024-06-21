@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { DeleteManyOwnedPostsUseCase } from "./delete-many-owned-posts.use-case";
-import { DeleteManyOwnedPostsBody } from "./delete-many-owned-posts.dto";
+import { DeleteManyOwnedPostsBody, DeleteManyOwnedPostsQuery } from "./delete-many-owned-posts.dto";
 import { DeleteManyOwnedPostsUseCaseErrors } from "./delete-many-owned-posts.error";
 
 
@@ -20,8 +20,9 @@ export class DeleteManyOwnedPostsController extends BaseController {
     if(!user) return this.unauthorized("no authorized user found");
 
     const body = this.getBody() as DeleteManyOwnedPostsBody;
+    const query = this.getQueryData() as DeleteManyOwnedPostsQuery;
     try {
-      const result = await this.useCase.execute({body, user});
+      const result = await this.useCase.execute({query, user});
       
       if(result.isLeft()){
         const error = result.value;

@@ -30,6 +30,7 @@ import { appConfig } from "~/config/index";
 import { join } from "path";
 import { DELETE_MANY_POSTS, DeleteManyPostsManager } from "../../usecase/delete/delete-many-posts";
 import { DELETE_OWNED_POST, DeleteOwnedPostManager } from "../../usecase/delete/delete-owned-post";
+import { DELETE_MANY_OWNED_POSTS, DeleteManyOwnedPostsManager } from "../../usecase/delete/delete-many-owned-posts";
 
 
 
@@ -73,6 +74,11 @@ postUseCaseManagerFactory.addUseCaseManager(DELETE_OWNED_POST, new DeleteOwnedPo
 
 // delete many posts
 postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_POSTS, new DeleteManyPostsManager(
+  postRepositoryFactory, postServiceFactory
+))
+
+// delete many owned posts
+postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_OWNED_POSTS, new DeleteManyOwnedPostsManager(
   postRepositoryFactory, postServiceFactory
 ))
 
