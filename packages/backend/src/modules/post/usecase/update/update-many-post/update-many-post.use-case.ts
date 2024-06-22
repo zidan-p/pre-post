@@ -22,13 +22,15 @@ import { IPostImageRepo } from "~/modules/post/repository/post-image.repository.
 import { PostTitle } from "~/modules/post/domain/post-title.value-object";
 import { PostContent } from "~/modules/post/domain/post-content.value-object";
 import { UseCaseError } from "~/common/core/use-case.error.base";
+import { IStorageService } from "~/modules/post/service/storage.service.interface";
 
 
 export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, Promise<UpdateManyPostResponse>>{
 
   constructor(
     private readonly postRepo: IPostRepo,
-    private readonly postImageRepo: IPostImageRepo
+    private readonly postImageRepo: IPostImageRepo,
+    private readonly storageService: IStorageService
   ){}
 
   async execute(request: UpdateManyPostDTORequest): Promise<UpdateManyPostResponse> {
@@ -84,7 +86,8 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
       const posts = await this.postRepo.isInSearch({ownerId: postIdCollection});
 
       // update for each post
-      posts.forEach(async post => await this.updatePost(post, postImage, postTitle, postContent, payload?.isPublished))
+      // posts.forEach(async post => await this.updatePost(post, postImage, postTitle, postContent, payload?.isPublished))
+
 
       // return founded id, (even when it's already self explanatory)
       return right(Result.ok({affectedRecord :posts.length}));
@@ -101,9 +104,29 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
     isPublised: boolean | undefined
   ){
 
+    // set the new post image if exists
     if(postImage){
-      post.imageManager.changeImage(postImage);
+
+      // create and save clone image in database and storage
+      const cloneImageFile = await this.storageService.cloneFile(postImage);
+      const createCloneImageOrError = await this.validatePostImage(cloneImageFile);
+      if(createCloneImageOrError.isLeft()) return Result.fail(createCloneImageOrError.value.getErrorValue());
+      const cloneImage = createCloneImageOrError.value.getValue();
+      this.postImageRepo.save(cloneImage);
+
+      // remove previous image if exists
+      const oldImage = post.imageManager.getImage;
+      if(oldImage){
+        const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
+        if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
+
+        await this.postImageRepo.remove(oldImage.id);
+      }
+
+      // change current image
+      post.imageManager.changeImage(cloneImage);
       post.imageManager.attachNewImage();
+
     }
     if(postTitle) post.postTitle = postTitle;
     if(postContent) post.postContent = postContent;
@@ -163,9 +186,11 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
         postImageOrError.getErrorValue()
       ));
 
-    // save the image data to database
     const postImage = postImageOrError.getValue();
-    this.postImageRepo.save(postImage); // <-- save image to database
+
+    // actually, don't save image to database, let each of posts work what should to do with it.
+    // save the image data to database
+    // this.postImageRepo.save(postImage); // <-- save image to database
     return right(Result.ok(postImage));
   }
   

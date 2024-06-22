@@ -10,4 +10,7 @@ export interface IStorageService{
   isFileExists(file: ICommonFile): Promise<boolean>;
   getFileBufer(file: ICommonFile): Promise<Buffer>;
   removeFile(file: ICommonFile): Promise<void>;
+
+  /** clone file in storage */
+  cloneFile(file: ICommonFile): Promise<ICommonFile>;
 }
