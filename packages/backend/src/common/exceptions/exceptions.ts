@@ -10,6 +10,7 @@ import {
   INVALID_STATE,
   NOT_FOUND,
   PARSE_ERROR,
+  UNAUTHORIZED,
   UNSAVED_ENTITY,
   VALIDATION_FAIL,
 } from '.';
@@ -136,18 +137,28 @@ export class ForbiddenException extends ExceptionBase{
   readonly code = FORBIDDEN;
   static readonly message = "Forbidden to access this resource";
 
-  constructor(message = ForbiddenException.message, cause?: Error){
-    super(message, cause);
+  constructor(message = ForbiddenException.message, cause?: Error, metadata?: Record<any, any>){
+    super(message, cause, metadata);
   }
   
+}
+
+export class UnAuthorizedException extends ExceptionBase{
+  readonly code = UNAUTHORIZED;
+  static readonly message = "Unauthorize to access this resource";
+
+  constructor(message = UnAuthorizedException.message, cause?: Error, metadata?: Record<any, any>){
+    super(message, cause, metadata);
+  }
+
 }
 
 
 export class ValidationFailException extends ExceptionBase{
   static readonly message = "Validation Error"
 
-  constructor(message = ValidationFailException.message, cause?: Error){
-    super(message, cause);
+  constructor(message = ValidationFailException.message, cause?: Error, metadata?: Record<any, any>){
+    super(message, cause, metadata);
   }
 
   readonly code = VALIDATION_FAIL;

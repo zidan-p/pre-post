@@ -135,7 +135,7 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
       console.error("interactor hasn't been initialized");
       return;
     }
-    return this.interactor.getSingleFile();
+    return this.interactor.getSingleFile() ?? undefined;
   }
 
   ok<T extends TEndDto> (args?: T, message?: string);

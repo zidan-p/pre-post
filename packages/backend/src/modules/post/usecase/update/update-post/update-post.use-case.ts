@@ -15,6 +15,7 @@ import { UpdatePostDTORequest } from "./update-post.dto";
 import { UpdatePostResponse } from "./update-post.response";
 import { UpdatePostUseCaseErrors } from "./update-post.error";
 import { IStorageService } from "~/modules/post/service/storage.service.interface";
+import { prePostLogger } from "~/common/core/logger.entry";
 
 
 
@@ -125,7 +126,7 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
       return right(Result.ok({post}));
 
     } catch (error) {
-      console.error(error);
+      prePostLogger.error(error?.message ?? "unexpected error", error?.stack ?? __filename);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }

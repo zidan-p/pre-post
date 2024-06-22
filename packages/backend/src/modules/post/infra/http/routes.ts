@@ -23,6 +23,7 @@ import { uploadImagePost } from "./storage.config";
 import { authService } from "~/common/infra/http/auth";
 import { GET_ALL_POST } from "../../usecase/get/get-all-post";
 import { Role } from "~/common/core/role.const";
+import { UPDATE_OWNED_POST } from "../../usecase/update/update-owned-post";
 
 
 
@@ -73,13 +74,10 @@ postRouter.delete("/",authService.jwtAuth(), (req,res) => {
 })
 
 postRouter.put("/:postId", authService.jwtAuth(), uploadImagePost.single("postImage"), (req, res) => {
-  console.log("mecapai update user...")
   switch (req.user?.role) {
     case Role.ADMIN: return postUseCaseManagerFactory.getController(UPDATE_POST)(req,res);
-    default:  
-      console.log("invalid role : " + req.user?.role);
-      res.status(403).json({message: "forbidden credential"})
-      break;
+    case Role.USER: return postUseCaseManagerFactory.getController(UPDATE_OWNED_POST)(req, res);
+    default: return res.status(403).json({message: "forbidden credential"});
   }
 })
 // postRouter.put("/:postId",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_POST));

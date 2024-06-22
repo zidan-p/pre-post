@@ -31,6 +31,7 @@ import { join } from "path";
 import { DELETE_MANY_POSTS, DeleteManyPostsManager } from "../../usecase/delete/delete-many-posts";
 import { DELETE_OWNED_POST, DeleteOwnedPostManager } from "../../usecase/delete/delete-owned-post";
 import { DELETE_MANY_OWNED_POSTS, DeleteManyOwnedPostsManager } from "../../usecase/delete/delete-many-owned-posts";
+import { UPDATE_OWNED_POST, UpdateOwnedPostManager } from "../../usecase/update/update-owned-post";
 
 
 
@@ -63,6 +64,13 @@ postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
   postServiceFactory
 ))
 
+// update owned post
+postUseCaseManagerFactory.addUseCaseManager(UPDATE_OWNED_POST, new UpdateOwnedPostManager(
+  postRepositoryFactory, 
+  postServiceFactory,
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+))
+
 // delete post
 postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
   postRepositoryFactory, postServiceFactory
@@ -72,6 +80,7 @@ postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
 postUseCaseManagerFactory.addUseCaseManager(DELETE_OWNED_POST, new DeleteOwnedPostManager(
   postRepositoryFactory, postServiceFactory
 ))
+
 
 // delete many posts
 postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_POSTS, new DeleteManyPostsManager(
