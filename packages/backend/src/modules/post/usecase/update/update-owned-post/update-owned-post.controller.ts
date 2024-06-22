@@ -29,7 +29,7 @@ export class UpdateOwnedPostController extends BaseController<UpdateOwnedPostDTO
           
         }
       }
-      return this.ok(null, "Success Update owned post");
+      return this.ok(undefined, "Success Update owned post");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

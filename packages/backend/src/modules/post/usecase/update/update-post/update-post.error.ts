@@ -27,7 +27,7 @@ export namespace UpdatePostUseCaseErrors {
 
   export class PostNotFound extends Result<UseCaseError, NotFoundException>{
     constructor(id?: string | number, message = "post not found"){
-      super(false, new NotFoundException(message));
+      super(false, new NotFoundException(message, undefined, {postId: id}));
     }
   }
 

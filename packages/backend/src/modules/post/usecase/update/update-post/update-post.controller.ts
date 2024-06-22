@@ -22,11 +22,11 @@ export class UpdatePostController<TPostRaw extends Record<string, any> = Record<
   async executeImpl(){
     
     const payloadBody = this.getBody() as UpdatePostBody;
-    const payloadFiles = this.getFiles() as UpdatePostFiles;
+    const file = this.getSingleFile();
     const param = this.getParams() as unknown as UpdatePostParam;
 
     try {
-      const result = await this.useCase.execute({body: payloadBody, files: payloadFiles, param});
+      const result = await this.useCase.execute({body: payloadBody, files: {postImage: file ?? undefined}, param});
       
       if(result.isLeft()){
         const error = result.value;
@@ -44,7 +44,7 @@ export class UpdatePostController<TPostRaw extends Record<string, any> = Record<
             break;
           
           case error instanceof UpdatePostUseCaseErrors.PostNotFound:
-            return this.notFound(exception.message, exception.toJSON());
+            return this.notFound(exception.message, exception?.metadata as Record<string, any>);
             break;
           
           default:

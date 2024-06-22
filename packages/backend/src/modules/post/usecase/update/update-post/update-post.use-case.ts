@@ -14,6 +14,7 @@ import { SingleImageManager } from "~/common/domain/common/single-image-manager.
 import { UpdatePostDTORequest } from "./update-post.dto";
 import { UpdatePostResponse } from "./update-post.response";
 import { UpdatePostUseCaseErrors } from "./update-post.error";
+import { IStorageService } from "~/modules/post/service/storage.service.interface";
 
 
 
@@ -22,8 +23,8 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
 
   constructor(
     private readonly postImageRepository: IPostImageRepo,
-    private readonly userRepository: IUserRepo,
-    private readonly postRepository: IPostRepo
+    private readonly postRepository: IPostRepo,
+    private readonly storageService: IStorageService
   ){}
 
   async execute(request: UpdatePostDTORequest): Promise<UpdatePostResponse> {
@@ -44,16 +45,18 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
       post = await this.postRepository.findById(postId);
 
       if(!post)
-        throw new UpdatePostUseCaseErrors.PostNotFound(postId);
+        return left(new UpdatePostUseCaseErrors.PostNotFound(postId));
 
+      // console.log(files);
+      // console.log(body);
       // if there are image uploaded
-      if(files.postImage){
+      if(files?.postImage){
         
         const unValidatedFile = files.postImage;
 
         if(unValidatedFile.group !== POST_IMAGE_GROUP)
           return left( new UpdatePostUseCaseErrors.InvalidImageProperties(
-            new ArgumentInvalidException("Files group should be postImage not [ " + unValidatedFile.group + " ]")
+            new ArgumentInvalidException("Files group should be " + POST_IMAGE_GROUP +" not [ " + unValidatedFile.group + " ]")
           ));
 
         const postImageProps: PostImageProps = {
@@ -70,13 +73,24 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
           return left( new UpdatePostUseCaseErrors.InvalidImageProperties(
             postImageOrError.getErrorValue()
           ));
-  
+        
         // save the image data to database
         postImage = postImageOrError.getValue();
-        this.postImageRepository.save(postImage);
+        await this.postImageRepository.save(postImage);
+        console.log(postImage);
+
+        // remove previous image if exists
+        const oldImage = post.imageManager.getImage;
+        if(oldImage){
+          const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
+          if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
+
+          await this.postImageRepository.remove(oldImage.id);
+        }
 
         // change current image
         post?.imageManager.changeImage(postImage);
+        post.imageManager.attachNewImage();
       }
 
       // check content
@@ -103,6 +117,8 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
 
         post.postTitle = titleOrError.getValue();
       }
+
+      console.log(post.imageManager.getImage);
 
       await this.postRepository.save(post);
 

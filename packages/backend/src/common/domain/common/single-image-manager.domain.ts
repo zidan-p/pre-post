@@ -59,7 +59,7 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
       if(!this.props.currentImage?.isDeleted)
       return new SingleImageManagerDomainErrors.InvalidOldImageState<SingleImageManager<TImage>>();
     }
-    this.props.currentImage = this.props.currentImage;
+    this.props.currentImage = this.props.newImage;
     delete this.props.newImage;
 
     return Result.ok<void>();

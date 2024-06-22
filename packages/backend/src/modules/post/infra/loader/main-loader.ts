@@ -5,7 +5,7 @@ import { SequelizeMapperFactory } from "../../mappers/sequelize-persistence-mapp
 import { SequelizePostRepoFactory } from "../../repository/implementations/sequelize/sequelize-post.factory";
 import { ExpressUseCaseManagerFactory } from "~/common/infra/http/interactor/express.use-case.manager";
 import { ExpressMapperFactory, ExpressMapperFactoryWithResourceUrlSerializer } from "../../mappers/express-presenter-mapper/sequelize-mapper.factory";
-import { UPDATE_POST, UpdatePostManager } from "../../usecase/update/update-post ";
+import { UPDATE_POST, UpdatePostManager } from "../../usecase/update/update-post";
 import { CREATE_POST, CreatePostManager } from "../../usecase/create/create-post";
 import { DELETE_POST } from "../../usecase/delete/delete-post/delete-post.type";
 import { DeletePostManager } from "../../usecase/delete/delete-post/delete-post.manager";
@@ -59,7 +59,8 @@ postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(p
 // update post
 postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
   postRepositoryFactory, 
-  postPresenterMapperFactoryWithResourceUrlSerializer
+  postPresenterMapperFactoryWithResourceUrlSerializer,
+  postServiceFactory
 ))
 
 // delete post

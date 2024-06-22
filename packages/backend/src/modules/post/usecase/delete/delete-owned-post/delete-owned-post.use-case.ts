@@ -31,8 +31,6 @@ export class DeleteOwnedPostUseCase implements UseCase<DeleteOwnedPostDTORequest
       const post = await this.postRepo.findById(postId);
       if(!post) return left(new DeleteOwnedPostUseCaseErrors.PostNotFound(postId));
 
-      console.log("post.ownerId.getStringValue() : " + post.ownerId.getStringValue());
-      console.log("owner.id.toString() : " + owner.id.toString());
       // check if this user owned the post
       if(post.ownerId.getStringValue() !== owner.id.toString())
         return left(new DeleteOwnedPostUseCaseErrors.ForbiddenUser(postId))

@@ -242,8 +242,9 @@ export class SequelizePostRepository implements IPostRepo {
       return 1;
         
     }else{
-      console.log("is updated..")
-      await this.postModel.update({...postraw, image_id}, {where: {id: post.postId.getStringValue()}});
+      console.log("is updated..");
+      const {id, ...postWithOutId} = postraw;
+      await this.postModel.update({...postWithOutId, image_id}, {where: {id: post.postId.getStringValue()}});
       if(image_id) await this.postImageModel.update({post_id: postraw.id}, {where: {id: image_id}});
       return 0;
     }

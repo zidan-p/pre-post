@@ -5,6 +5,7 @@ import { IPostRepositoryFactory } from "../../../repository/post-creator.interfa
 import { UpdatePostController } from "./update-post.controller";
 import { UpdatePostUseCase } from "./update-post.use-case";
 import { IPostMapperPresenterFactory } from "../../../mappers/post-mapper.factory.interface";
+import { IPostServiceFactory } from "~/modules/post/service/post-service.factory.interface";
 
 
 
@@ -15,12 +16,16 @@ export class UpdatePostManager<TPostOutputDto extends Record<string, any> = Reco
   private postRepoFactory: IPostRepositoryFactory;
   postMapperPresenterFactory: IPostMapperPresenterFactory
 
-  constructor(postRepoFactory: IPostRepositoryFactory, postMapperPresenterFactory: IPostMapperPresenterFactory){
+  constructor(
+    postRepoFactory: IPostRepositoryFactory, 
+    postMapperPresenterFactory: IPostMapperPresenterFactory,
+    private postServiceFactory: IPostServiceFactory
+  ){
     this.postMapperPresenterFactory = postMapperPresenterFactory;
     this.useCase = new UpdatePostUseCase(
       postRepoFactory.createPostImageRepo(),
-      postRepoFactory.createUserRepo(),
       postRepoFactory.createPostRepo(),
+      this.postServiceFactory.getStorageService()
     )
 
     this.controller = new UpdatePostController<TPostOutputDto>(
@@ -35,8 +40,8 @@ export class UpdatePostManager<TPostOutputDto extends Record<string, any> = Reco
   getNewUseCaseInstance(){
     return new UpdatePostUseCase(
       this.postRepoFactory.createPostImageRepo(),
-      this.postRepoFactory.createUserRepo(),
       this.postRepoFactory.createPostRepo(),
+      this.postServiceFactory.getStorageService()
     )
   }
 

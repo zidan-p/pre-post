@@ -29,7 +29,7 @@ export class DeleteManyOwnedPostController extends BaseController<DeleteManyOwne
           
         }
       }
-      return this.ok(null, "Success Delete many owned post");
+      return this.ok(undefined, "Success Delete many owned post");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
