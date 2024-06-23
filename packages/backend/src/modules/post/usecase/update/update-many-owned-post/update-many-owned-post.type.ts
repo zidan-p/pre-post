@@ -1,0 +1,1 @@
+export const UPDATE_MANY_OWNED_POST = "update-many-owned-post";

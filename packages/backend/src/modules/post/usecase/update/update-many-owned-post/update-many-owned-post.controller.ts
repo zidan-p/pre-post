@@ -1,13 +1,13 @@
 import { BaseController } from "~/common/core/controller.base";
-import { DeleteManyOwnedPostUseCase } from "./delete-many-owned-post.use-case";
-import { DeleteManyOwnedPostDTOEnd } from "./delete-many-owned-post.dto";
+import { UpdateManyOwnedPostUseCase } from "./update-many-owned-post.use-case";
+import { UpdateManyOwnedPostDTOEnd } from "./update-many-owned-post.dto";
 
 
 
-export class DeleteManyOwnedPostController extends BaseController<DeleteManyOwnedPostDTOEnd> {
+export class UpdateManyOwnedPostController extends BaseController<UpdateManyOwnedPostDTOEnd> {
 
   constructor(
-    private useCase: DeleteManyOwnedPostUseCase
+    private useCase: UpdateManyOwnedPostUseCase
   ){
     super();
   }
@@ -29,7 +29,7 @@ export class DeleteManyOwnedPostController extends BaseController<DeleteManyOwne
           
         }
       }
-      return this.ok(undefined, "Success Delete many owned post");
+      return this.ok(null, "Success Update many owned post");
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
