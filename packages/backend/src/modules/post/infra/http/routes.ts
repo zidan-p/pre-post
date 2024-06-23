@@ -47,8 +47,6 @@ postRouter.post("/",authService.jwtAuth(), uploadImagePost.single("postImage"), 
 postRouter.put("/:postId/publish", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(PUBLISH_POST));
 postRouter.put("/:postId/unpublish",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UNPUBLISH_POST));
 
-postRouter.put("/", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_MANY_POST));
-
 
 postRouter.put("/publish",authService.jwtAuth(), (req, res) => {
   switch(req.user?.role){
@@ -79,9 +77,14 @@ postRouter.put("/:postId", authService.jwtAuth(), uploadImagePost.single("postIm
     case Role.USER: return postUseCaseManagerFactory.getController(UPDATE_OWNED_POST)(req, res);
     default: return res.status(403).json({message: "forbidden credential"});
   }
-})
-// postRouter.put("/:postId",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(UPDATE_POST));
+});
 
+postRouter.put("/", authService.jwtAuth(), (req, res) => {
+  switch (req.user?.role) {
+    case Role.ADMIN: return postUseCaseManagerFactory.getController(UPDATE_MANY_POST)
+    default: return res.status(403).json({message: "forbidden credential"})
+  }
+})
 
 postRouter.delete("/:postId", authService.jwtAuth(), (req,res) => {
   switch(req.user?.role){

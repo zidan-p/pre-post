@@ -26,18 +26,40 @@ export class AuthService {
     passport.use(new AnonymousStartegy());
   }
 
-  /** only accept jwt auth, and throw unauthorized when the token is not provided or invalid */
+  /** 
+   * @description
+   * only accept jwt auth, and throw unauthorized when the token is not provided or invalid 
+   * @example
+   * ```
+   * const authService = new AuthService();
+   * function exampleController(req, res) {
+   *  const user = req.user; // IAuth 
+   * }
+   * 
+   * // routes.ts
+   * app.get("/test", authService.jwtAuth(), exampleController)
+   * 
+   * 
+   * ```
+   * */
   jwtAuth(){
     return passport.authenticate("jwt", {session: false, failWithError: true});
   }
 
   /**
    * @description accept jwt auth but optional, the token can be provided or not.
-   * it's usefull when handling controller that use express `user` variable as optional
+   * it's usefull when handling controller that use express `user` variable as optional.
+   * or expose the endpoint to public but still return different value for certain user.
    * 
    * @example
    * ```
-   * const user = req.user; // IAuth | undefined
+   * const authService = new AuthService();
+   * function exampleController(req, res) {
+   *  const user = req.user; // IAuth | undefined
+   * }
+   * 
+   * // routes.ts
+   * app.get("/test", authService.jwtAuth(), exampleController)
    * ```
    */
   jwtOptionalAuth(){
