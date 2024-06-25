@@ -51,7 +51,7 @@ export class UpdateOwnedPostUseCase implements UseCase<UpdateOwnedPostDTORequest
       owner = await this.userRepository.getUserByUserId(userData.id);
       if(!owner) return left(new UpdateOwnedPostUseCaseErrors.UnauthorizeUser(userData));
 
-      // fail when user is not the owned
+      // fail when user is not the owner
       if(post.ownerId.getStringValue() !== owner.id.toString())
         return left(new UpdateOwnedPostUseCaseErrors.ForbiddenUser(userData?.id));
 

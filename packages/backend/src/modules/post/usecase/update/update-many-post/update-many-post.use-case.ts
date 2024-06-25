@@ -86,10 +86,12 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
       const posts = await this.postRepo.isInSearch({ownerId: postIdCollection});
 
       // update for each post
-      // posts.forEach(async post => await this.updatePost(post, postImage, postTitle, postContent, payload?.isPublished))
+      for (const postKey in posts){
+        const updateResult = await this.updatePost(posts[postKey], postImage!, postTitle!, postContent!, payload?.isPublished)
+        if(updateResult.isFailure) throw updateResult.getErrorValue();
+      }
 
-
-      // return founded id, (even when it's already self explanatory)
+      // return founded id so the client can make sure it's correct 
       return right(Result.ok({affectedRecord :posts.length}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
@@ -103,42 +105,46 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
     postContent: PostContent | undefined, 
     isPublised: boolean | undefined
   ){
-
-    // set the new post image if exists
-    if(postImage){
-
-      // create and save clone image in database and storage
-      const cloneImageFile = await this.storageService.cloneFile(postImage);
-      const createCloneImageOrError = await this.validatePostImage(cloneImageFile);
-      if(createCloneImageOrError.isLeft()) return Result.fail(createCloneImageOrError.value.getErrorValue());
-      const cloneImage = createCloneImageOrError.value.getValue();
-      this.postImageRepo.save(cloneImage);
-
-      // remove previous image if exists
-      const oldImage = post.imageManager.getImage;
-      if(oldImage){
-        const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
-        if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
-
-        await this.postImageRepo.remove(oldImage.id);
+    try {
+      // set the new post image if exists
+      if(postImage){
+  
+        // create and save clone image in database and storage
+        const cloneImageFile = await this.storageService.cloneFile(postImage);
+        const createCloneImageOrError = await this.validatePostImage(cloneImageFile);
+        if(createCloneImageOrError.isLeft()) return Result.fail(createCloneImageOrError.value.getErrorValue());
+        const cloneImage = createCloneImageOrError.value.getValue();
+        this.postImageRepo.save(cloneImage);
+  
+        // remove previous image if exists
+        const oldImage = post.imageManager.getImage;
+        if(oldImage){
+          const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
+          if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
+  
+          await this.postImageRepo.remove(oldImage.id);
+        }
+  
+        // change current image
+        post.imageManager.changeImage(cloneImage);
+        post.imageManager.attachNewImage();
+  
       }
-
-      // change current image
-      post.imageManager.changeImage(cloneImage);
-      post.imageManager.attachNewImage();
-
+      if(postTitle) post.postTitle = postTitle;
+      if(postContent) post.postContent = postContent;
+  
+      // only accept when not undefined
+      if(isPublised !== undefined){
+        // true
+        if(isPublised) post.publishPost();
+        else post.unPublishPost() 
+      }
+  
+      await this.postRepo.save(post);
+      return Result.ok();
+    } catch (error) {
+      return Result.fail(error);
     }
-    if(postTitle) post.postTitle = postTitle;
-    if(postContent) post.postContent = postContent;
-
-    // only accept when not undefined
-    if(isPublised !== undefined){
-      // true
-      if(isPublised) post.publishPost();
-      else post.unPublishPost() 
-    }
-
-    await this.postRepo.save(post);
   }
 
 
