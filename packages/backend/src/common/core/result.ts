@@ -46,7 +46,7 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
     return new Result<U>(false, error);
   }
 
-  public static combine <T>(results: Result<T>[]) : Result<T> {
+  public static combine <T extends any = any>(results: Result<T>[]) : Result<T> {
     for (let result of results) {
       if (result.isFailure) return result;
     }

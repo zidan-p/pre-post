@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { CreateUserUseCase } from "./create-user.use-case";
-import { CreateUserDTOEnd } from "./create-user.dto";
+import { CreateUserBody, CreateUserDTOEnd } from "./create-user.dto";
 
 
 
@@ -14,9 +14,9 @@ export class CreateUserController extends BaseController<CreateUserDTOEnd> {
 
 
   async executeImpl(){
-
+    const body = this.getBody() as CreateUserBody;
     try {
-      const result = await this.useCase.execute({});
+      const result = await this.useCase.execute({body});
       
       if(result.isLeft()){
         const error = result.value;

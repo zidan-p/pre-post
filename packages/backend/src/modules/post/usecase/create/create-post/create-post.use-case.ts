@@ -99,7 +99,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
       const postOrError = Post.create({
         postTitle,
         ownerId : userId,
-        postContent,
+        postContent, 
         isPublised : body.isPublished ?? false,
         postImageManager,
         dateTimeCreated: body.dateTimeCreate ?? new Date()
