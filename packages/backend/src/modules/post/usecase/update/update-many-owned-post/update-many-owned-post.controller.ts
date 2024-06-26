@@ -16,11 +16,11 @@ export class UpdateManyOwnedPostController extends BaseController<UpdateManyOwne
 
   async executeImpl(){
     const body = this.getBody() as UpdateManyOwnedPostBody;
-    const files = this.getFiles() as UpdateManyOwnedPostFiles;
+    const file = this.getSingleFile();
     const query = this.getQueryData() as UpdateManyOwnedPostQuery;
     const user = this.getUser()!;
     try {
-      const result = await this.useCase.execute({user, body, files,query});
+      const result = await this.useCase.execute({user, body, files: {postImage: file},query});
       
       if(result.isLeft()){
         const error = result.value;

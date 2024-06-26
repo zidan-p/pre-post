@@ -6,8 +6,7 @@ export interface UpdateManyOwnedPostFiles{
   postImage?: ICommonFile;
 }
 
-export interface UpdateManyOwnedPostBody{
-  data?: Partial<EditableField>
+export interface UpdateManyOwnedPostBody extends Partial<EditableField>{
 }
 
 export interface UpdateManyOwnedPostParams{}

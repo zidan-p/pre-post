@@ -19,11 +19,7 @@ export class LocalStorageService implements IStorageService {
   async isFileExists(file: ICommonFile) {
     try {
       const filePath = path.join(this.storagePath, file.group, file.name);
-      // await fs.access(filePath, fs.constants.W_OK | fs.constants.W_OK)
-      // const result = existsSync(filePath);
-      console.log(filePath);
       const result = await fs.stat(filePath);
-      console.log(result);
       return true
     } catch (error) {
       console.error(error);

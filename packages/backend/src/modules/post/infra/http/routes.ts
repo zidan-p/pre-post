@@ -24,6 +24,7 @@ import { authService } from "~/common/infra/http/auth";
 import { GET_ALL_POST } from "../../usecase/get/get-all-post";
 import { Role } from "~/common/core/role.const";
 import { UPDATE_OWNED_POST } from "../../usecase/update/update-owned-post";
+import { UPDATE_MANY_OWNED_POST } from "../../usecase/update/update-many-owned-post";
 
 
 
@@ -82,6 +83,7 @@ postRouter.put("/:postId", authService.jwtAuth(), uploadImagePost.single("postIm
 postRouter.put("/", authService.jwtAuth(), uploadImagePost.single("postImage"), (req, res) => {
   switch (req.user?.role) {
     case Role.ADMIN: return postUseCaseManagerFactory.getController(UPDATE_MANY_POST)(req,res);
+    case Role.USER : return postUseCaseManagerFactory.getController(UPDATE_MANY_OWNED_POST)(req,res);
     default: return res.status(403).json({message: "forbidden credential"})
   }
 })

@@ -30,12 +30,12 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
 
   async execute(request: UpdateManyOwnedPostDTORequest): Promise<UpdateManyOwnedPostResponse> {
     let postIdCollection: PostId[];
-    let postImage: PostImage;
-    let postTitle: PostTitle;
-    let postContent: PostContent;
+    let postImage: PostImage | undefined;
+    let postTitle: PostTitle | undefined;
+    let postContent: PostContent | undefined;
     let owner: User | null;
 
-    const payload = request?.body?.data;
+    const payload = request?.body;
     const files = request?.files;
     const userData = request.user;
 
@@ -87,8 +87,8 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
       }
       
       // get posts by post ids
-      const posts = await this.postRepo.isInSearch({ownerId: postIdCollection});
-
+      const posts = await this.postRepo.isInSearch({postId: postIdCollection});
+      
       // check ownership for each post
       for(const post of posts){
         // fail when user is not the owned
@@ -101,8 +101,9 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
         const updateResult = await this.updatePost(posts[postKey], postImage!, postTitle!, postContent!, payload?.isPublished)
         if(updateResult.isFailure) throw updateResult.getErrorValue();
       }
-      // posts.forEach(async post => await this.updatePost(post, postImage, postTitle, postContent, payload?.isPublished))
 
+      // clean up the uploaded files in storage
+      if(postImage) await this.storageService.removeFile(postImage);
 
       // return founded id
       return right(Result.ok({affectedRecord :posts.length}));
@@ -111,6 +112,16 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
     }
   }
 
+  /**
+   * Updates a post with the provided image, title, content, and publishing status.
+   *
+   * @param {Post} post - The post to be updated.
+   * @param {PostImage | undefined} postImage - The new image for the post, if provided.
+   * @param {PostTitle | undefined} postTitle - The new title for the post, if provided.
+   * @param {PostContent | undefined} postContent - The new content for the post, if provided.
+   * @param {boolean | undefined} isPublished - The new publishing status for the post, if provided.
+   * @return {Promise<Result<void, Error>>} A promise that resolves to a Result object indicating the success or failure of the update.
+   */
   async updatePost(
     post: Post, 
     postImage: PostImage | undefined, 
@@ -134,7 +145,6 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
         if(oldImage){
           const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
           if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
-  
           await this.postImageRepo.remove(oldImage.id);
         }
   
