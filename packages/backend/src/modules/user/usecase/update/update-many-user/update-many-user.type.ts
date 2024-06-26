@@ -1,0 +1,1 @@
+export const UPDATE_MANYUSER = "update-many-user";

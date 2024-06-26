@@ -1,0 +1,1 @@
+export const CREATE_MANY_USER = "create-many-user";

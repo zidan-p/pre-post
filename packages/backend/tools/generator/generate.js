@@ -54,10 +54,6 @@ generateTemplateFiles([
     },
     stringReplacers: [
       {
-        slot: "__usecase__",
-        question: "Insert your usecase name, in this case your main domain.."
-      },
-      {
         slot: "__module__",
         question: "Insert your modules name"
       },

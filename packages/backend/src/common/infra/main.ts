@@ -28,7 +28,7 @@ export class AppMainInfra{
 
   async loadDatabase(){ await loadSequelizeOrm();}
 
-  loadHttpServer(){loadExpressServer()}
+  loadHttpServer(){ loadExpressServer() }
 
   validateEnv(){
     const result = validateEnvService();

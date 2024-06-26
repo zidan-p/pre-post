@@ -1,0 +1,1 @@
+export const GET_MANY_USER = "get-many-user";
