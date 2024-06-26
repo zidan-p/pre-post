@@ -4,6 +4,7 @@ import fs, { cp } from "node:fs/promises"
 import path, { extname } from "node:path";
 import { generateUniqueSuffix } from "~/common/utils/unique-suffix";
 import { fileNameCreator } from "~/common/utils/filename-creator";
+import { existsSync } from "node:fs";
 
 
 
@@ -18,9 +19,14 @@ export class LocalStorageService implements IStorageService {
   async isFileExists(file: ICommonFile) {
     try {
       const filePath = path.join(this.storagePath, file.group, file.name);
-      await fs.access(filePath, fs.constants.W_OK | fs.constants.W_OK)
+      // await fs.access(filePath, fs.constants.W_OK | fs.constants.W_OK)
+      // const result = existsSync(filePath);
+      console.log(filePath);
+      const result = await fs.stat(filePath);
+      console.log(result);
       return true
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
@@ -32,17 +38,18 @@ export class LocalStorageService implements IStorageService {
   async cloneFile(file: ICommonFile): Promise<ICommonFile> {
     const filePath = path.join(this.storagePath, file.group, file.name);
 
+
     // new file temp
     const newFileName = fileNameCreator(file.group, extname(file.name));
-    const newFilePath = path.join(this.storagePath, newFileName);
+    const newFilePath = path.join(this.storagePath, file.group, newFileName);
 
     // copy the file
     await cp(filePath, newFilePath);
-    console.log("finish copy from [ " + filePath + " ] to [ " + newFilePath + " ]");
+    console.log("finish copy from [ " + filePath + " ] to [ " + newFilePath + " ]"); 
 
     const newFile: ICommonFile = {
-      fileType: file.fileType,
-      group: file.fileType,
+      fileType: file.fileType, 
+      group: file.group,
       name: newFileName,
       size: file.size
     };
@@ -59,6 +66,8 @@ export class LocalStorageService implements IStorageService {
   async removeFile(file: ICommonFile){
     const filePath = path.join(this.storagePath, file.group, file.name);
     await fs.unlink(filePath);
+    console.log("finish remove from [ " + filePath + " ]");
   }
 
 }
+

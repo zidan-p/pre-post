@@ -35,17 +35,20 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
   async execute(request: UpdateManyPostDTORequest): Promise<UpdateManyPostResponse> {
     let postIdCollection: PostId[];
-    let postImage: PostImage;
-    let postTitle: PostTitle;
-    let postContent: PostContent;
+    let postImage: PostImage | undefined;
+    let postTitle: PostTitle | undefined;
+    let postContent: PostContent | undefined;
 
-    const payload = request.body.data;
+    const payload = request.body;
     const files = request.files;
 
     try {
 
+      if(!Array.isArray(request?.query?.postIds)) return right(Result.ok({affectedRecord : 0}));
+      if(!request.query.postIds.length) return right(Result.ok({affectedRecord : 0}));
+
       // check the post id
-      const postIdCollectionOrLeft = await this.validateIdCollectionList(request.body.postIds);
+      const postIdCollectionOrLeft = await this.validateIdCollectionList(request?.query?.postIds);
       if(postIdCollectionOrLeft.isLeft()) {
         const exception = postIdCollectionOrLeft.value;
         return left(exception);
@@ -54,7 +57,7 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
 
       // validate post image when provided
-      if(files.postImage){
+      if(files?.postImage){
         const postImageOrLeft = await this.validatePostImage(files.postImage);
         if(postImageOrLeft.isLeft()){
           const exception = postImageOrLeft.value;
@@ -83,21 +86,35 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
       
       // get posts by post id
-      const posts = await this.postRepo.isInSearch({ownerId: postIdCollection});
+      const posts = await this.postRepo.isInSearch({postId: postIdCollection});
 
       // update for each post
-      for (const postKey in posts){
-        const updateResult = await this.updatePost(posts[postKey], postImage!, postTitle!, postContent!, payload?.isPublished)
+      for await (const post of posts){
+        const updateResult = await this.updatePost(post, postImage!, postTitle!, postContent!, payload?.isPublished)
         if(updateResult.isFailure) throw updateResult.getErrorValue();
       }
+
+      // clean up the uploaded files in storage
+      if(postImage) await this.storageService.removeFile(postImage);
 
       // return founded id so the client can make sure it's correct 
       return right(Result.ok({affectedRecord :posts.length}));
     } catch (error) {
+      console.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }
 
+  /**
+   * Updates a post with the provided image, title, content, and publishing status.
+   *
+   * @param {Post} post - The post to be updated.
+   * @param {PostImage | undefined} postImage - The new image for the post, if provided.
+   * @param {PostTitle | undefined} postTitle - The new title for the post, if provided.
+   * @param {PostContent | undefined} postContent - The new content for the post, if provided.
+   * @param {boolean | undefined} isPublished - The new publishing status for the post, if provided.
+   * @return {Promise<Result<void, Error>>} A promise that resolves to a Result object indicating the success or failure of the update.
+   */
   async updatePost(
     post: Post, 
     postImage: PostImage | undefined, 
@@ -121,7 +138,6 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
         if(oldImage){
           const isImageImageExistsInStorage = await this.storageService.isFileExists(oldImage);
           if(isImageImageExistsInStorage) await this.storageService.removeFile(oldImage);
-  
           await this.postImageRepo.remove(oldImage.id);
         }
   

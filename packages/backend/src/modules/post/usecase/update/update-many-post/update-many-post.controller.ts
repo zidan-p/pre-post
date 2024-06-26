@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { UpdateManyPostUseCase } from "./update-many-post.use-case";
-import { UpdateManyPostBody, UpdateManyPostDTOEnd, UpdateManyPostFiles } from "./update-many-post.dto";
+import { UpdateManyPostBody, UpdateManyPostDTOEnd, UpdateManyPostFiles, UpdateManyPostQuery } from "./update-many-post.dto";
 import { UpdateManyPostUseCaseErrors } from "./update-many-post.error";
 
 
@@ -15,10 +15,12 @@ export class UpdateManyPostController extends BaseController<UpdateManyPostDTOEn
 
 
   async executeImpl(){
+
     const body = this.getBody() as UpdateManyPostBody;
-    const files = this.getFiles() as UpdateManyPostFiles;
+    const file = this.getSingleFile() as UpdateManyPostFiles["postImage"];
+    const query = this.getQueryData() as UpdateManyPostQuery;
     try {
-      const result = await this.useCase.execute({body, files});
+      const result = await this.useCase.execute({body, files: {postImage: file}, query});
       
       if(result.isLeft()){
         const error = result.value;

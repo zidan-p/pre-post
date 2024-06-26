@@ -79,9 +79,9 @@ postRouter.put("/:postId", authService.jwtAuth(), uploadImagePost.single("postIm
   }
 });
 
-postRouter.put("/", authService.jwtAuth(), (req, res) => {
+postRouter.put("/", authService.jwtAuth(), uploadImagePost.single("postImage"), (req, res) => {
   switch (req.user?.role) {
-    case Role.ADMIN: return postUseCaseManagerFactory.getController(UPDATE_MANY_POST)
+    case Role.ADMIN: return postUseCaseManagerFactory.getController(UPDATE_MANY_POST)(req,res);
     default: return res.status(403).json({message: "forbidden credential"})
   }
 })

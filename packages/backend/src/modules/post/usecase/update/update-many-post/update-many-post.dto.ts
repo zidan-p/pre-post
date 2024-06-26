@@ -5,17 +5,18 @@ export interface UpdateManyPostFiles{
   postImage?: ICommonFile;
 }
 
-export interface UpdateManyPostBody{
-  postIds: string[];
-  data?: Partial<EditableField>
+export interface UpdateManyPostBody extends Partial<EditableField>{
 }
 
 export interface UpdateManyPostParams{}
 
-export interface UpdateManyPostQuery{}
+export interface UpdateManyPostQuery{
+  postIds?: string[];
+}
 
 export interface UpdateManyPostDTORequest {
   body: UpdateManyPostBody;
+  query: UpdateManyPostQuery;
   files: UpdateManyPostFiles;
 }
 
