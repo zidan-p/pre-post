@@ -6,6 +6,13 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
   private error: E;
   private _value: T;
 
+  /**
+   * Constructor for creating a Result instance.
+   *
+   * @param {boolean} isSuccess - Indicates if the result is successful.
+   * @param {E | null} error - The error associated with the result.
+   * @param {T} value - The value associated with the result.
+   */
   public constructor (isSuccess: boolean, error?: E | null, value?: T) {
     if (isSuccess && error) {
       throw new Error("InvalidOperation: A result cannot be successful and contain an error");

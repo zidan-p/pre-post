@@ -5,10 +5,18 @@ export interface DeleteManyUserBody{}
 
 export interface DeleteManyUserParams{}
 
-export interface DeleteManyUserQuery{}
+export interface DeleteManyUserQuery{
+  userIds: string[];
+}
 
-export interface DeleteManyUserDTORequest {}
+export interface DeleteManyUserDTORequest {
+  query?: Partial<DeleteManyUserQuery>;
+}
 
-export interface DeleteManyUserDTOResponse{}
+export interface DeleteManyUserDTOResponse{
+  affectedRecord: number;
+}
 
-export type DeleteManyUserDTOEnd = {} | null
+export type DeleteManyUserDTOEnd = {
+  affectedRecord: number;
+}

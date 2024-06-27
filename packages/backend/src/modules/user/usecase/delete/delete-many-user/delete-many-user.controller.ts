@@ -1,6 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { DeleteManyUserUseCase } from "./delete-many-user.use-case";
-import { DeleteManyUserDTOEnd } from "./delete-many-user.dto";
+import { DeleteManyUserDTOEnd, DeleteManyUserQuery } from "./delete-many-user.dto";
+import { DeleteManyUserUseCaseErrors } from "./delete-many-user.error";
 
 
 
@@ -14,23 +15,30 @@ export class DeleteManyUserController extends BaseController<DeleteManyUserDTOEn
 
 
   async executeImpl(){
-
+    const query = this.getQueryData() as DeleteManyUserQuery;
     try {
-      const result = await this.useCase.execute({});
+      const result = await this.useCase.execute({query});
       
       if(result.isLeft()){
         const error = result.value;
         const exception = error.getErrorValue();
 
         switch(true){
+          case error instanceof DeleteManyUserUseCaseErrors.InvalidUserIdValue:
+            return this.clientError(exception.message, exception?.metadata as Record<string, any>);
+          case error instanceof DeleteManyUserUseCaseErrors.SomeUserNotFound:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>);
+          case error instanceof DeleteManyUserUseCaseErrors.IssueWhenBuilding:
+          case error instanceof DeleteManyUserUseCaseErrors.DeleteOperationFailed:
+            return this.fail(exception.message);
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);
           
         }
       }
-      // return this.ok(null, "Success usersentenceCase__");
-      return this.okBuild()
+      const affectedRecord = result.value.getValue().affectedRecord;
+      return this.okBuild({data: {affectedRecord}});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

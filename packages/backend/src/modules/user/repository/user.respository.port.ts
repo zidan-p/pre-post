@@ -1,12 +1,20 @@
+import { OrderByCofig, WhereConfig, WhereInConfig } from "~/common/types/filter-query";
 import { UserEmail } from "../domain/user-email.value-object";
 import { UserName } from "../domain/user-name.value-object";
-import { User } from "../domain/user.agreegate-root";
+import { User, UserPropsWithId } from "../domain/user.agreegate-root";
+import { IPaginate, IPaginateReponse } from "~/common/types/paginate";
+import { SaveStatus, SaveStatusValue } from "~/common/core/save.status";
 
 
 
-type Updated = 0;
-type Created = 1;
-export type saveStatus = Created | Updated; 
+export interface FindAdvanceProps {
+  where?: WhereConfig<UserPropsWithId>;
+  whereIncluded?: WhereInConfig<UserPropsWithId>;
+  whereExcluded?: WhereInConfig<UserPropsWithId>;
+  orderBy?: OrderByCofig<UserPropsWithId>;
+  paginate?: Partial<IPaginate>;
+  includes?: []
+}
 
 export interface IUserRepo{
   exists (userEmail: string): Promise<boolean>;
@@ -14,5 +22,10 @@ export interface IUserRepo{
   getUserByUserId (userId: string): Promise<User | null>;
   getUserByUserEmail (email: UserEmail | string): Promise<User | null>;
   getUserByUserName (userName: UserName | string): Promise<User | null>;
-  save (user: User): Promise<saveStatus>;
+
+  find(args: FindAdvanceProps): Promise<User[]>;
+  findPaginate(args: FindAdvanceProps): Promise<IPaginateReponse>;
+
+  save (user: User): Promise<SaveStatusValue>;
+  saveCollection(users: User[]): Promise<(SaveStatusValue)[]>
 }

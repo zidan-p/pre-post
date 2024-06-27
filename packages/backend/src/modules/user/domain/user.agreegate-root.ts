@@ -20,6 +20,10 @@ interface UserProps{
   isDeleted?: boolean
 }
 
+export interface UserPropsWithId extends UserProps{
+  userId: UserId;
+}
+
 
 
 
