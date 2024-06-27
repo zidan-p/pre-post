@@ -1,14 +1,23 @@
+import { User } from "~/modules/user/domain/user.agreegate-root";
 
 export interface GetUserFiles{}
 
 export interface GetUserBody{}
 
-export interface GetUserParams{}
+export interface GetUserParams{
+  userId?: string
+}
 
 export interface GetUserQuery{}
 
-export interface GetUserDTORequest {}
+export interface GetUserDTORequest {
+  params?: GetUserParams;
+}
 
-export interface GetUserDTOResponse{}
+export interface GetUserDTOResponse{
+  user: User;
+}
 
-export type GetUserDTOEnd = {} | null
+export type GetUserDTOEnd<TUser = any> = {
+  user: TUser;
+}
