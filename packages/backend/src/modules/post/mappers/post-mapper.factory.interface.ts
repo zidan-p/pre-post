@@ -7,7 +7,7 @@ import { IPaginateReponse } from "~/common/types/paginate";
 
 
 
-export interface IPostMapperPresenterFactory{
+export interface IPostMapperPresenterFactory{ 
   createPostMapper<TDomain extends Post> (): IPresenterMapper<TDomain, any>;
   createPostImageMapper<TDomain extends PostImage, TRaw extends Record<string, any>> (): IPresenterMapper<TDomain, TRaw>;
   createUserMapper<TDomain extends User, TRaw extends Record<string, any>> (): IPresenterMapper<TDomain, TRaw>;
