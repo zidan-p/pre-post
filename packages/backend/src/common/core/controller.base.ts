@@ -155,6 +155,14 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
     return this.interactor.okBuild(args);
   }
 
+  okEmpty(args?: OKBuilderResponse<undefined>){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+    return this.interactor.okEmpty(args);
+  }
+
   created (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");

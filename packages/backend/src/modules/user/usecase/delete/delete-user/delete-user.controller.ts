@@ -1,6 +1,7 @@
 import { BaseController } from "~/common/core/controller.base";
 import { DeleteUserUseCase } from "./delete-user.use-case";
 import { DeleteUserDTOEnd } from "./delete-user.dto";
+import { DeleteUserUseCaseErrors } from "./delete-user.error";
 
 
 
@@ -23,14 +24,18 @@ export class DeleteUserController extends BaseController<DeleteUserDTOEnd> {
         const exception = error.getErrorValue();
 
         switch(true){
+          case error instanceof DeleteUserUseCaseErrors.InvalidUserIdValue:
+            return this.clientError(exception.message, exception?.metadata as Record<string, any>);
+          case error instanceof DeleteUserUseCaseErrors.UserNotFound:
+            return this.notFound(exception.message, exception.metadata as Record<string, any>);
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);
           
         }
       }
-      // return this.ok(null, "Success usersentenceCase__");
-      return this.okBuild()
+
+      return this.okEmpty()
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

@@ -3,12 +3,16 @@ export interface DeleteUserFiles{}
 
 export interface DeleteUserBody{}
 
-export interface DeleteUserParams{}
+export interface DeleteUserParams{
+  userId: string
+}
 
 export interface DeleteUserQuery{}
 
-export interface DeleteUserDTORequest {}
+export interface DeleteUserDTORequest {
+  params?: DeleteUserParams;
+}
 
-export interface DeleteUserDTOResponse{}
+export type DeleteUserDTOResponse = undefined
 
 export type DeleteUserDTOEnd = {} | null

@@ -1,6 +1,7 @@
 import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { DeleteUserController } from "./delete-user.controller";
 import { DeleteUserUseCase } from "./delete-user.use-case";
+import { IUserRepoFactory } from "~/modules/user/repository/user.repository.factory";
 
 
 export class DeleteUserManager implements IUseCaseManager{
@@ -8,9 +9,13 @@ export class DeleteUserManager implements IUseCaseManager{
   private controller: DeleteUserController;
   private useCase: DeleteUserUseCase;
 
-  constructor(){
+  constructor(
+    private readonly userRepoFactory: IUserRepoFactory
+  ){
 
-    this.useCase = new DeleteUserUseCase()
+    this.useCase = new DeleteUserUseCase(
+      this.userRepoFactory.getUserRepo()
+    )
 
     this.controller = new DeleteUserController(this.useCase);
   }
@@ -19,7 +24,9 @@ export class DeleteUserManager implements IUseCaseManager{
   getController(){ return this.controller}
 
   getNewUseCaseInstance(){
-    return new DeleteUserUseCase()
+    return new DeleteUserUseCase(
+      this.userRepoFactory.getUserRepo()
+    )
   }
 
   createController(){

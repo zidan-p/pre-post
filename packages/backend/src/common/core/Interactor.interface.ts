@@ -52,6 +52,8 @@ export interface IInteractor<R = any> {
   // RESPONSE
   ok<T> (args: T, message?:string): R;
   okBuild<T>(args?: OKBuilderResponse<T>): R;
+  okEmpty<T>(args?: OKBuilderResponse<T>): R;
+
   created (message: string, metadata?: Record<string, any>):any ;
   clientError (message: string, metadata?: Record<string, any>): any; 
   unauthorized (message: string, metadata?: Record<string, any>): any; 
