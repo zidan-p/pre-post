@@ -12,7 +12,7 @@ import { ValidationFailException } from "~/common/exceptions";
 
 
 
-interface UserProps{
+export interface UserProps{
   email: UserEmail,
   username: UserName,
   password: UserPassword,

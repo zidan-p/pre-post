@@ -4,6 +4,8 @@ import { GetListUserDTOResponse } from "./get-list-user.dto";
 import {GetListUserUseCaseErrors} from "./get-list-user.error";
 
 export type GetListUserResponse = Either<
+  GetListUserUseCaseErrors.FailBuildingUser | 
+  GetListUserUseCaseErrors.InvalidProperties | 
   AppError.UnexpectedError,
   Result<GetListUserDTOResponse>
 >
