@@ -45,12 +45,12 @@ export class Result<T, E extends ExceptionBase = ExceptionBase> {
     return this.error;
   }
 
-  public static ok<U, E extends ExceptionBase = ExceptionBase> (value?: U) : Result<U> {
+  public static ok<U, E extends ExceptionBase = ExceptionBase> (value?: U) : Result<U, E> {
     return new Result<U, E>(true, null, value);
   }
 
-  public static fail<U, E extends ExceptionBase = ExceptionBase> (error: E): Result<U> {
-    return new Result<U>(false, error);
+  public static fail<U, E extends ExceptionBase = ExceptionBase> (error: E): Result<U, E> {
+    return new Result<U, E>(false, error);
   }
 
   public static combine <T extends any = any>(results: Result<T>[]) : Result<T> {

@@ -4,19 +4,19 @@ import { Result, left, right } from "~/common/core/result";
 import { UpdateManyUserDTORequest } from "./update-many-user.dto";
 import { UpdateManyUserResponse } from "./update-many-user.response";
 import { IUserRepo } from "~/modules/user/repository/user.respository.port";
-import { IdCollectionDomainService } from "~/modules/user/domain/service/id-collection.domain-service";
 import { UpdateManyUserUseCaseErrors } from "./update-many-user.error";
 import { UserEmail } from "~/modules/user/domain/user-email.value-object";
 import { UserName } from "~/modules/user/domain/user-name.value-object";
 import { UserPassword } from "~/modules/user/domain/user-password.value-object";
-import { RoleValue } from "~/common/core/role.const";
+import { Role, RoleValue } from "~/common/core/role.const";
 import { SaveStatus } from "~/common/core/save.status";
+import { User } from "~/modules/user/domain/user.agreegate-root";
+import { UserId } from "~/modules/user/domain/user-id.value-object";
 
 
 export class UpdateManyUserUseCase implements UseCase<UpdateManyUserDTORequest, Promise<UpdateManyUserResponse>>{
 
 
-  private readonly idCollectionDomainService = new IdCollectionDomainService();
 
   constructor(
     private readonly userRepo: IUserRepo
@@ -30,35 +30,23 @@ export class UpdateManyUserUseCase implements UseCase<UpdateManyUserDTORequest, 
     try{
 
       // get id collection
-      const idCollectionResult = this.idCollectionDomainService.filterIdCollection(request?.query?.userIds);
+      const idCollectionResult = UserId.validateIdCollection(request?.query?.userIds);
       if(idCollectionResult.isFailure) return left(new UpdateManyUserUseCaseErrors.IssueWhenBuilding(
         idCollectionResult.getErrorValue().message
       ));
       const userIdCollection = idCollectionResult.getValue();
 
+      // check body request
+      if(!request?.body) 
+        return left (new UpdateManyUserUseCaseErrors.InvalidFieldValue("invalid body request", {field: "body", value: request?.body}));
+
       // build the all body
-
-      if(request?.body?.email) {
-        const userEmailOrError = UserEmail.create(request.body.email);
-        if(userEmailOrError.isFailure) 
-          return left(new UpdateManyUserUseCaseErrors.InvalidFieldValue("invalid email", "email", request.body.email));
-        userEmail = userEmailOrError.getValue();
-      }
-
-      if(request?.body?.username) {
-        const userNameOrError = UserName.create({"name": request.body.username});
-        if(userNameOrError.isFailure) 
-          return left(new UpdateManyUserUseCaseErrors.InvalidFieldValue("invalid username", "username", request.body.username));
-        userName = userNameOrError.getValue();
-      }
-
-      if(request?.body?.password) {
-        const userPasswordOrError = UserPassword.create({value: request.body.password});
-        if(userPasswordOrError.isFailure) 
-          return left(new UpdateManyUserUseCaseErrors.InvalidFieldValue("invalid password", "password", request.body.password));
-        userPassword = userPasswordOrError.getValue();
-      }
-      
+      const validateEditableFieldOrError = User.validateEditableField(request?.body);
+      if(validateEditableFieldOrError.isFailure)
+        return left(new UpdateManyUserUseCaseErrors.InvalidFieldValue(
+          validateEditableFieldOrError.getErrorValue().message,
+          validateEditableFieldOrError.getErrorValue().metadata,
+        ))
 
       const users = await this.userRepo.find({whereIncluded: {userId: userIdCollection}});
 

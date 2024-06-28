@@ -18,8 +18,8 @@ export namespace UpdateManyUserUseCaseErrors {
   }
 
   export class InvalidFieldValue extends Result<UseCaseError, ArgumentInvalidException>{
-    constructor(message: string = "Invalid Provided Request", field: string, value: string){
-      super(false, new ArgumentInvalidException(message, undefined, {field, value}));
+    constructor(message: string = "Invalid Provided Request", metadata: any){
+      super(false, new ArgumentInvalidException(message, undefined, metadata));
     }
   }
 

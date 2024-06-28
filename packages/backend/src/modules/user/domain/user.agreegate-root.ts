@@ -2,12 +2,13 @@ import { AggregateRoot } from "~/common/domain/agregate-root.base";
 import { UserEmail } from "./user-email.value-object";
 import { UserName } from "./user-name.value-object";
 import { UserPassword } from "./user-password.value-object";
-import { RoleValue } from "~/common/core/role.const";
+import { Role, RoleValue } from "~/common/core/role.const";
 import { UserId } from "./user-id.value-object";
 import { Guard } from "~/common/core/guard";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { Result } from "~/common/core/result";
-import { ValidationFailException } from "~/common/exceptions";
+import { ArgumentInvalidException, ExceptionBase, ValidationFailException } from "~/common/exceptions";
+import { UserEditableField, UserEditableFieldValueObject } from "./user-editable-field.interface";
 
 
 
@@ -23,6 +24,7 @@ export interface UserProps{
 export interface UserPropsWithId extends UserProps{
   userId: UserId;
 }
+
 
 
 
@@ -65,6 +67,46 @@ export class User extends AggregateRoot<UserProps>{
     this.props.role = role;
   }
 
+  public static validateEditableField(field: Partial<UserEditableField> ): Result<Partial<UserEditableFieldValueObject>, ArgumentInvalidException >{
+    let userEmail: UserEmail | undefined;
+    let userName: UserName | undefined;
+    let userPassword: UserPassword | undefined;
+    let userRole: RoleValue | undefined;
+
+    if(field?.email) {
+      const userEmailOrError = UserEmail.create(field.email);
+      if(userEmailOrError.isFailure) {
+        return Result.fail(new ArgumentInvalidException("invalid email value", undefined, {field: "email", value: field.email}));
+        
+      }
+      userEmail = userEmailOrError.getValue();
+    }
+
+    if(field?.username) {
+      const userNameOrError = UserName.create({"name": field.username});
+      if(userNameOrError.isFailure) 
+        return Result.fail(new ArgumentInvalidException("invalid username value", undefined, {field: "username", value: field.username}));
+      userName = userNameOrError.getValue();
+    }
+
+    if(field?.password) {
+      const userPasswordOrError = UserPassword.create({value: field.password});
+      if(userPasswordOrError.isFailure) 
+        return Result.fail(new ArgumentInvalidException("invalid password value", undefined, {field: "password", value: field.password}));
+      userPassword = userPasswordOrError.getValue();
+    }
+
+    if(field?.role){
+      if(field?.role !== Role.ADMIN && field?.role !== Role.USER){
+        return Result.fail(new ArgumentInvalidException("invalid password value", undefined, {field: "password", value: field.password}));
+      }
+      userRole = field?.role;
+    }
+
+    return Result.ok({
+      userEmail, userName, userPassword, userRole
+    })
+  }
 
 
   public delete (): void {
