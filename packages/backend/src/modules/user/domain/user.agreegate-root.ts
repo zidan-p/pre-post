@@ -49,6 +49,23 @@ export class User extends AggregateRoot<UserProps>{
     return this.props.role;
   }
 
+  set email (email: UserEmail) {
+    this.props.email = email;
+  }
+
+  set username (username: UserName) {
+    this.props.username = username;
+  }
+
+  set password (password: UserPassword) {
+    this.props.password = password
+  }
+
+  set role(role: RoleValue){
+    this.props.role = role;
+  }
+
+
 
   public delete (): void {
     if (!this.props.isDeleted) {
