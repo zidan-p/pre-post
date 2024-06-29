@@ -1,0 +1,1 @@
+export const GET_POST_BANNER = "get-post-banner";
