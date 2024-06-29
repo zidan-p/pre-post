@@ -23,7 +23,8 @@ export interface FailBuilderResponse{
 
 export interface IInteractor<R = any> {
 
-  // REQUEST PARAM
+  // ---------- REQUEST -----------
+  // PARAM
   getRequestParams(name: string): string | null;
   getRequestParams(): Record<string, string> | null;
   getRequestParams(name?: string): string | Record<string, string> | null;
@@ -49,10 +50,12 @@ export interface IInteractor<R = any> {
   getSingleArrayFiles(): ICommonFile[] | null; 
   getSingleFile(): ICommonFile | null;
 
-  // RESPONSE
+  // ------------ RESPONSE ------------
   ok<T> (args: T, message?:string): R;
   okBuild<T>(args?: OKBuilderResponse<T>): R;
   okEmpty<T>(args?: OKBuilderResponse<T>): R;
+
+  okFile(file: ICommonFile):void;
 
   created (message: string, metadata?: Record<string, any>):any ;
   clientError (message: string, metadata?: Record<string, any>): any; 

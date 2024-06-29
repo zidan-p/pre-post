@@ -10,12 +10,15 @@ export interface UpdateUserBody{
   role?: RoleValue
 }
 
-export interface UpdateUserParams{}
+export interface UpdateUserParams{
+  userId: string;
+}
 
 export interface UpdateUserQuery{}
 
 export interface UpdateUserDTORequest {
   body: UpdateUserBody;
+  params?: Partial<UpdateUserParams>;
 }
 
 export interface UpdateUserDTOResponse{

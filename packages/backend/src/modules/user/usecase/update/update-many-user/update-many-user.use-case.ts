@@ -27,7 +27,7 @@ export class UpdateManyUserUseCase implements UseCase<UpdateManyUserDTORequest, 
     let userName: UserName | undefined;
     let userPassword: UserPassword | undefined;
     let userRole: RoleValue | undefined;
-    try{
+    try {
 
       // get id collection
       const idCollectionResult = UserId.validateIdCollection(request?.query?.userIds);

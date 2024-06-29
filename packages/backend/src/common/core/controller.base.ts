@@ -163,6 +163,14 @@ export abstract class BaseController<TEndDto = any, TControllerOkResult = any>{
     return this.interactor.okEmpty(args);
   }
 
+  okFile(file: ICommonFile){
+    if(!this.interactor){
+      console.error("interactor hasn't been initialized");
+      return;
+    }
+    return this.interactor.okFile(file);
+  }
+
   created (message: string, metadata?: Record<string, any>){
     if(!this.interactor){
       console.error("interactor hasn't been initialized");
