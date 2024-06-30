@@ -34,6 +34,8 @@ import { DELETE_MANY_OWNED_POSTS, DeleteManyOwnedPostsManager } from "../../usec
 import { UPDATE_OWNED_POST, UpdateOwnedPostManager } from "../../usecase/update/update-owned-post";
 import { UPDATE_MANY_POST, UpdateManyPostManager } from "../../usecase/update/update-many-post";
 import { UPDATE_MANY_OWNED_POST, UpdateManyOwnedPostManager } from "../../usecase/update/update-many-owned-post";
+import { GET_ONE_POST, GetOnePostManager } from "../../usecase/get/get-one-post";
+import { GET_POST_BANNER, GetPostBannerManager } from "../../usecase/get/get-post-banner";
 
 
 
@@ -101,6 +103,17 @@ postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_POSTS, new DeleteManyPos
 
 // delete many owned posts
 postUseCaseManagerFactory.addUseCaseManager(DELETE_MANY_OWNED_POSTS, new DeleteManyOwnedPostsManager(
+  postRepositoryFactory, postServiceFactory
+))
+
+// get one post
+postUseCaseManagerFactory.addUseCaseManager(GET_ONE_POST, new GetOnePostManager(
+  postRepositoryFactory, 
+  postPresenterMapperFactoryWithResourceUrlSerializer
+));
+
+// get one post banner
+postUseCaseManagerFactory.addUseCaseManager(GET_POST_BANNER, new GetPostBannerManager(
   postRepositoryFactory, postServiceFactory
 ))
 

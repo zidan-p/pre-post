@@ -25,6 +25,8 @@ import { GET_ALL_POST } from "../../usecase/get/get-all-post";
 import { Role } from "~/common/core/role.const";
 import { UPDATE_OWNED_POST } from "../../usecase/update/update-owned-post";
 import { UPDATE_MANY_OWNED_POST } from "../../usecase/update/update-many-owned-post";
+import { GET_ONE_POST } from "../../usecase/get/get-one-post";
+import { GET_POST_BANNER } from "../../usecase/get/get-post-banner";
 
 
 
@@ -42,6 +44,8 @@ postRouter.get("/", authService.jwtOptionalAuth(), (req,res) => {
 
 postRouter.get("/many",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
 postRouter.get("/me", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
+postRouter.get("/:postId", authService.jwtOptionalAuth(), postUseCaseManagerFactory.executeRequest(GET_ONE_POST));
+postRouter.get("/:postId/banner", authService.jwtOptionalAuth(), postUseCaseManagerFactory.executeRequest(GET_POST_BANNER));
 
 postRouter.post("/",authService.jwtAuth(), uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 

@@ -5,6 +5,8 @@ import { PrePostResponse } from "../response/reponse.type";
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
 import { IUserAuth } from "~/common/core/user.auth.interface";
 import { isEmpty, objectMap } from "~/common/utils/object";
+import { getStorageFilePath } from "../storage.utils";
+import { appConfig } from "~/config/index";
 
 
 
@@ -17,6 +19,15 @@ export class ExpressInteractor implements IInteractor {
     private readonly request: Request,
     private readonly response: Response,
   ){}
+
+
+
+  okEmpty<T>(args?: OKBuilderResponse<T> | undefined) {
+    return this.response.sendStatus(200);
+  }
+  okFile(file: ICommonFile): void {
+    return this.response.sendFile(getStorageFilePath(appConfig.storageRootPath, file));
+  }
 
 
   getRequestParams(name: string): string | null;
