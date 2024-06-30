@@ -65,6 +65,10 @@ export class SingleImageManager<TImage extends CommonImageEntity> extends ValueO
     return Result.ok<void>();
   }
 
+  public isImageExists(){
+    return !!this.props.currentImage
+  }
+
   public static create<TImage extends CommonImageEntity>(props: ISingleImageManagerProps<TImage>){
     if(props.currentImage){
       
