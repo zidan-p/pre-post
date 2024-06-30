@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { GetOnePostUseCase } from "./get-one-post.use-case";
-import { GetOnePostDTOEnd } from "./get-one-post.dto";
+import { GetOnePostDTOEnd, GetOnePostParams } from "./get-one-post.dto";
 import { GetOnePostUseCaseErrors } from "./get-one-post.error";
 import { Post } from "~/modules/post/domain/post.agregate-root";
 import { IPresenterMapper } from "~/common/core/mapper";
@@ -19,8 +19,10 @@ export class GetOnePostController<TPostRaw = any> extends BaseController<GetOneP
 
   async executeImpl(){
 
+    const params = this.getParams() as unknown as GetOnePostParams;
+    const user = this.getUser() ?? undefined;
     try {
-      const result = await this.useCase.execute({});
+      const result = await this.useCase.execute({params, user});
       
       if(result.isLeft()){
         const error = result.value;

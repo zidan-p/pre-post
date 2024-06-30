@@ -1,2 +1,2 @@
-export * from "./get-user.manager";
-export * from "./get-user.type";
+export * from "./get-list-user.manager";
+export * from "./get-list-user.type";
