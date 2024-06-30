@@ -19,7 +19,7 @@ export interface IUserRaw {
 }
 
 
-export class SequelizeUserMap implements PersisterMapper<User, IUserRaw | Promise<IUserRaw>>{
+export class SequelizeUserMapper implements PersisterMapper<User, IUserRaw | Promise<IUserRaw>>{
 
 
   toDomain(raw: IUserRaw): User {

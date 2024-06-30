@@ -1,15 +1,15 @@
 import { PersisterMapper } from "~/common/core/mapper";
-import { SequelizeUserMap } from "./user.mapper";
 import { IUserMapperPersiterFactory } from "../user-mapper.factory.interface.ts";
+import { SequelizeUserMapper } from "./sequelize.mapper.js";
 
 
 
 
 
-export class SequelizeAuthMapperFactory implements IUserMapperPersiterFactory{
+export class SequelizeUserMapperFactory implements IUserMapperPersiterFactory{
 
   getUserMapper(): PersisterMapper<any, any> {
-    return new SequelizeUserMap();
+    return new SequelizeUserMapper();
   }
   
 }

@@ -47,6 +47,10 @@ export class User extends AggregateRoot<UserProps>{
     return this.props.password;
   }
 
+  get isDeleted(){
+    return !!this.props.isDeleted;
+  }
+
   get role(){
     return this.props.role;
   }
