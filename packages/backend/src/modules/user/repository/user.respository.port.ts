@@ -17,7 +17,7 @@ export interface FindAdvanceProps {
 }
 
 export interface IUserRepo{
-  exists (userEmail: string): Promise<boolean>;
+  exists (id: string): Promise<boolean>;
   existsByEmail (userEmail: UserEmail): Promise<boolean>;
   getUserByUserId (userId: string): Promise<User | null>;
   getUserByUserEmail (email: UserEmail | string): Promise<User | null>;
