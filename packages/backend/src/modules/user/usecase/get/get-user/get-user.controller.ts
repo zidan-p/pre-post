@@ -1,6 +1,6 @@
 import { BaseController } from "~/common/core/controller.base";
 import { GetUserUseCase } from "./get-user.use-case";
-import { GetUserDTOEnd } from "./get-user.dto";
+import { GetUserDTOEnd, GetUserParams } from "./get-user.dto";
 import { GetUserUseCaseErrors } from "./get-user.error";
 import { IPresenterMapper } from "~/common/core/mapper";
 import { User } from "~/modules/user/domain/user.agreegate-root";
@@ -11,16 +11,16 @@ export class GetUserController<TUserRaw = any> extends BaseController<GetUserDTO
 
   constructor(
     private useCase: GetUserUseCase,
-    private readonly userPresenterMapper: IPresenterMapper<User, TUserRaw>
+    private readonly userPresenterMapper: IPresenterMapper<User, Promise<TUserRaw>>
   ){
     super();
   }
 
 
   async executeImpl(){
-
+    const params = this.getParams() as GetUserParams
     try {
-      const result = await this.useCase.execute({});
+      const result = await this.useCase.execute({params});
       
       if(result.isLeft()){
         const error = result.value;
@@ -39,7 +39,9 @@ export class GetUserController<TUserRaw = any> extends BaseController<GetUserDTO
       }
 
       const value = result.value.getValue();
-      const user = this.userPresenterMapper.toPresentation(value?.user)
+      console.log(value);
+      const user = await this.userPresenterMapper.toPresentation(value?.user);
+      console.log(user);
       return this.okBuild({data: user});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);

@@ -23,6 +23,7 @@ export class GetUserUseCase implements UseCase<GetUserDTORequest, Promise<GetUse
       const user = await this.userRepo.getUserByUserId(userId);
       if(!user) return left(new GetUserUseCaseErrors.userNotFound(userId));
 
+      // console.log(user);
       return right(Result.ok({user}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));

@@ -10,7 +10,7 @@ import { IPaginateReponse } from "~/common/types/paginate";
 
 
 export interface IUserMapperPresenterFactory {
-  getUserMapper<TDomain extends User, TRaw extends Record<string, any> = Record<string, any>>(): IPresenterMapper<TDomain, TRaw>;
+  getUserMapper<TDomain extends User, TRaw extends Promise<Record<string, any>> = Promise<Record<string, any>>>(): IPresenterMapper<TDomain, TRaw>;
   getPaginateMapper<TPresenter = any>(): IGeneralPresenterMapper<IPaginateReponse, TPresenter>;
 }
 

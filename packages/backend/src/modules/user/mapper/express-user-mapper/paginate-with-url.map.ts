@@ -14,7 +14,7 @@ export interface ExpressPaginateWithUrlRaw {
 }
 
 
-export class ExpressPaginateWithUrlMap implements IGeneralPresenterMapper<IPaginateReponse, ExpressPaginateWithUrlRaw>{
+export class ExpressPaginateWithUrlMap implements IGeneralPresenterMapper<IPaginateReponse, Promise<ExpressPaginateWithUrlRaw>>{
 
   private readonly URL: URL;
 
@@ -30,7 +30,7 @@ export class ExpressPaginateWithUrlMap implements IGeneralPresenterMapper<IPagin
    * @param args 
    * @returns 
    */
-  toPresentation(args: IPaginateReponse): ExpressPaginateWithUrlRaw{
+  async toPresentation(args: IPaginateReponse): Promise<ExpressPaginateWithUrlRaw>{
 
     let nextPage: string | null = null;
     if(args.hasNextPage){ 

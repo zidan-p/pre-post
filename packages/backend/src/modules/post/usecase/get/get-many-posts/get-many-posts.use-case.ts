@@ -21,7 +21,7 @@ export class GetManyPostsUseCase implements UseCase<GetManyPostsDTORequest, Prom
       // return empty array when not prividing ids
       if(!idCollection) return right(Result.ok({posts: []})); 
 
-      if(!Array.isArray(idCollection)) return left(new GetManyPostsUseCaseErrors.InvalidPostIdValue(String(idCollection)));
+      if(!Array.isArray(idCollection)) return left(new GetManyPostsUseCaseErrors.InvalidPostIdValue("the query shoudl be valid array"));
 
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
 
