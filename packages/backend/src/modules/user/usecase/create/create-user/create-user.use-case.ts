@@ -10,6 +10,7 @@ import { RoleValue } from "~/common/core/role.const";
 import { CreateUserUseCaseErrors } from "./create-user.error";
 import { IUserRepo } from "~/modules/user/repository/user.respository.port";
 import { User } from "~/modules/user/domain/user.agreegate-root";
+import { prePostLogger } from "~/common/core/logger.entry";
 
 
 export class CreateUserUseCase implements UseCase<CreateUserDTORequest, Promise<CreateUserResponse>>{
@@ -28,10 +29,10 @@ export class CreateUserUseCase implements UseCase<CreateUserDTORequest, Promise<
       const body = request?.body;
 
       // check each field
-      if(!body.email) return left(new CreateUserUseCaseErrors.FieldNotProvided("user", "email"));
-      if(!body.username) return left(new CreateUserUseCaseErrors.FieldNotProvided("user", "username"));
-      if(!body.password) return left(new CreateUserUseCaseErrors.FieldNotProvided("user", "password"));
-      if(!body.role) return left(new CreateUserUseCaseErrors.FieldNotProvided("user", "role"));
+      if(!body.email) return left(new CreateUserUseCaseErrors.FieldNotProvided("email not provided", "email"));
+      if(!body.username) return left(new CreateUserUseCaseErrors.FieldNotProvided("username not provided", "username"));
+      if(!body.password) return left(new CreateUserUseCaseErrors.FieldNotProvided("password not provided", "password"));
+      if(!body.role) return left(new CreateUserUseCaseErrors.FieldNotProvided("role not provided", "role"));
 
       const emailOrError = UserEmail.create(body.email);
       const usernameOrError = UserName.create({name: body.username});
@@ -61,6 +62,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTORequest, Promise<
 
       return right(Result.ok({user: userOrError.getValue()}));
     } catch (error) {
+      prePostLogger.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }
