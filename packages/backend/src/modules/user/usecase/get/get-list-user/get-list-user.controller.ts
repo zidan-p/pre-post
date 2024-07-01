@@ -12,8 +12,8 @@ export class GetListUserController<TPostRaw = any, TPaginateRaw = any> extends B
 
   constructor(
     private useCase: GetListUserUseCase,
-    private readonly userMapper: IPresenterMapper<User, TPostRaw>,
-    private readonly pageMapper: IGeneralPresenterMapper<IPaginate, TPaginateRaw>
+    private readonly userMapper: IPresenterMapper<User, Promise<TPostRaw>>,
+    private readonly pageMapper: IGeneralPresenterMapper<IPaginate, Promise<TPaginateRaw>>
   ){
     super();
   }
@@ -40,8 +40,8 @@ export class GetListUserController<TPostRaw = any, TPaginateRaw = any> extends B
       
       const value = result.value.getValue();
       const users = value.users.map(user => this.userMapper.toPresentation(user));
-      const paginate = this.pageMapper.toPresentation(value.paginate);
-      return this.okBuild({data: users, pagination: paginate});
+      const paginate = await this.pageMapper.toPresentation(value.paginate);
+      return this.okBuild({data: await Promise.all(users), pagination: paginate});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

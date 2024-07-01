@@ -4,6 +4,7 @@ import { Result, left, right } from "~/common/core/result";
 import { GetListUserDTORequest } from "./get-list-user.dto";
 import { GetListUserResponse } from "./get-list-user.response";
 import { IUserRepo } from "~/modules/user/repository/user.respository.port";
+import { prePostLogger } from "~/common/core/logger.entry";
 
 
 export class GetListUserUseCase implements UseCase<GetListUserDTORequest, Promise<GetListUserResponse>>{
@@ -27,7 +28,7 @@ export class GetListUserUseCase implements UseCase<GetListUserDTORequest, Promis
 
       return right(Result.ok({paginate, users}));
     } catch (error) {
-      console.error(error);
+      prePostLogger.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }

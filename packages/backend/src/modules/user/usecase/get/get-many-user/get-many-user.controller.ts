@@ -11,7 +11,7 @@ export class GetManyUserController<TUserRaw = any> extends BaseController<GetMan
 
   constructor(
     private useCase: GetManyUserUseCase,
-    private readonly userMapper: IPresenterMapper<User, TUserRaw>,
+    private readonly userMapper: IPresenterMapper<User, Promise<TUserRaw>>,
   ){
     super();
   }
@@ -41,8 +41,8 @@ export class GetManyUserController<TUserRaw = any> extends BaseController<GetMan
       }
 
       const value = result.value.getValue(); 
-      const users = value.users.map(user => this.userMapper.toPresentation(user));
-      return this.okBuild({data: users});
+      const users = value.users.map(user =>  this.userMapper.toPresentation(user));
+      return this.okBuild({data: await Promise.all(users)});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
