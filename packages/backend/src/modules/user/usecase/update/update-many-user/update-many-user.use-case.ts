@@ -48,6 +48,8 @@ export class UpdateManyUserUseCase implements UseCase<UpdateManyUserDTORequest, 
           validateEditableFieldOrError.getErrorValue().metadata,
         ))
 
+      const editableField = validateEditableFieldOrError.getValue();
+
       const users = await this.userRepo.find({whereIncluded: {userId: userIdCollection}});
 
       // check if all post found
@@ -57,9 +59,10 @@ export class UpdateManyUserUseCase implements UseCase<UpdateManyUserDTORequest, 
 
       // update post data
       for(const userKey in users) {
-        if(userEmail) users[userKey].email = userEmail;
-        if(userName) users[userKey].username = userName;
-        if(userPassword) users[userKey].password = userPassword;
+        if(editableField.userEmail) users[userKey].email = editableField.userEmail;
+        if(editableField.userName) users[userKey].username = editableField.userName;
+        if(editableField.userPassword) users[userKey].password = editableField.userPassword;
+        if(editableField.userRole) users[userKey].role = editableField.userRole;
       }
 
       // save each users
