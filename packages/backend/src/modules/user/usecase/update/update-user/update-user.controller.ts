@@ -11,7 +11,7 @@ export class UpdateUserController<TUserRaw = any> extends BaseController<UpdateU
 
   constructor(
     private useCase: UpdateUserUseCase,
-    private readonly userMapper: IPresenterMapper<User, TUserRaw>,
+    private readonly userMapper: IPresenterMapper<User, Promise<TUserRaw>>,
   ){
     super();
   }
@@ -39,7 +39,7 @@ export class UpdateUserController<TUserRaw = any> extends BaseController<UpdateU
           
         }
       }
-      const user = this.userMapper.toPresentation(result.value.getValue().user);
+      const user = await this.userMapper.toPresentation(result.value.getValue().user);
       return this.okBuild({data: user});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
