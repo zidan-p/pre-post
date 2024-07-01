@@ -61,7 +61,7 @@ export type AdvaceObjectMapperConfig<TInObject extends Record<string, any>> = {[
  * @returns 
  * @example
  * ```ts
- * // or it can be inferred from interface
+ * 
  * const myObject = {
  *  name: "John doe",
  *  age: 19,
@@ -80,8 +80,13 @@ export type AdvaceObjectMapperConfig<TInObject extends Record<string, any>> = {[
  *    mapper: (initialValue) => initialValue.join(",")
  *  }
  * }
- * //                                    v~~~~~~v it can be an interface
+ * //                                    
  * const mapperResult = objectAdvanceMap(myObject, myObjectMapperConfiguration);
+ * // {
+ * //   name: "John doe",
+ * //   age: "19 years old",
+ * //   place: "malang,banyuwangi,jogja"
+ * // }
  * ```
  */
 export function objectAdvanceMap<TIn extends Record<string, any> >(

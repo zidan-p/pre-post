@@ -1,11 +1,9 @@
 import { IQueryCreator } from "~/common/infra/database/sequelize/interface/query-creator.interface";
 import { AdvaceObjectMapperConfig, objectAdvanceMap } from "~/common/utils/object";
-import { PostPropsWithId } from "~/modules/post/domain/post.agregate-root";
 import { OrderByCofig, WhereInConfig } from "~/common/types/filter-query";
 import { Post as PostModel } from "~/common/infra/database/sequelize/models/Post.model";
 import { Includeable, InferAttributes, Op, WhereOptions } from "sequelize";
 import { IPaginateReponse } from "~/common/types/paginate";
-import { PostImage } from "~/common/infra/database/sequelize/models/PostImage.model";
 import { FindAdvanceProps } from "../../user.respository.port";
 import { UserObjectMapperConfig, UserObjectWhereInConfig } from "./user.mapper.config";
 import { UserSequelize } from "./user.type";
@@ -77,16 +75,6 @@ export class UserSequelizeQueryCreator implements IQueryCreator {
     }
 
     let sequelizeInclude: Includeable[] = [];
-    includes.forEach(item => {
-      switch (item) {
-        case "PostImage":
-          sequelizeInclude.push({
-            model: PostImage,
-            as: "image"
-          })
-          break;
-      }
-    })
 
     // build paginate
     const limit = dataPerPage;

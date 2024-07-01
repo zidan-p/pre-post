@@ -5,9 +5,9 @@ import { UserName } from "~/modules/user/domain/user-name.value-object";
 import { User } from "~/modules/user/domain/user.agreegate-root";
 import { FindAdvanceProps, IUserRepo } from "../../user.respository.port";
 import { UserModelImplementation } from "~/common/infra/database/sequelize/models/User.model";
-import { IUserMapperPersiterFactory } from "~/modules/user/mapper/user-mapper.factory.interface.ts";
 import { SequelizeUserMapper } from "~/modules/user/mapper/seqluelize-user-mapper/sequelize.mapper";
 import { SequelizeUserMapperFactory } from "~/modules/user/mapper/seqluelize-user-mapper/sequelize-mapper.factory";
+import { UserSequelizeQueryCreator } from "./user.query-creator";
 
 
 
@@ -24,14 +24,40 @@ export class SequelizeUserRepository implements IUserRepo {
   }
 
 
-  find(args: FindAdvanceProps): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  async find(args: FindAdvanceProps): Promise<User[]> {
+    const queryCreator = new UserSequelizeQueryCreator(args);
+    const query = queryCreator.getBaseQuery();
+
+    const users = await this.userModel.findAll(query);
+
+    return users.map(user => this.userMapper.toDomain(user));
   }
-  findPaginate(args: FindAdvanceProps): Promise<IPaginateReponse> {
-    throw new Error("Method not implemented.");
+
+
+  async findPaginate(args: FindAdvanceProps): Promise<IPaginateReponse> {
+    const queryCreator = new UserSequelizeQueryCreator(args);
+    const query = queryCreator.getBaseQuery();
+
+    const count = await this.userModel.count(query);
+
+    const paginate = queryCreator.getPaginate(count);
+
+
+    return paginate;
   }
-  saveCollection(users: User[]): Promise<SaveStatusValue[]> {
-    throw new Error("Method not implemented.");
+
+  /**
+   * @todo make it more efficient, use container rather than other method call
+   */
+  async saveCollection(users: User[]): Promise<SaveStatusValue[]> {
+    const resultContainer: SaveStatusValue[] = [];
+
+    for await (const user of users){
+      const result = await this.save(user);
+      resultContainer.push(result);
+    }
+
+    return resultContainer;
   }
 
   

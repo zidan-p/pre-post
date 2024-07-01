@@ -7,6 +7,7 @@ import { IUserRepo } from "~/modules/user/repository/user.respository.port";
 import { GetManyUserUseCaseErrors } from "./get-many-user.error";
 import { UniqueEntityID } from "~/common/domain/unique-entitiy";
 import { UserId } from "~/modules/auth/domain/user-id.value-object";
+import { prePostLogger } from "~/common/core/logger.entry";
 
 
 export class GetManyUserUseCase implements UseCase<GetManyUserDTORequest, Promise<GetManyUserResponse>>{
@@ -39,6 +40,7 @@ export class GetManyUserUseCase implements UseCase<GetManyUserDTORequest, Promis
 
       return right(Result.ok({users}));
     } catch (error) {
+      prePostLogger.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
     }
   }

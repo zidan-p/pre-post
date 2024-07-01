@@ -18,6 +18,7 @@ export class GetManyUserController<TUserRaw = any> extends BaseController<GetMan
 
 
   async executeImpl(){
+    console.log("mencapai get many user exec")
     const query = this.getQueryData() as GetManyUserQuery;
     try {
       const result = await this.useCase.execute({query});
