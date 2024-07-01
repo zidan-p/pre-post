@@ -11,8 +11,8 @@ export class UpdateUserManager implements IUseCaseManager{
   private useCase: UpdateUserUseCase;
 
   constructor(
+    private readonly userRepoFactory: IUserRepoFactory,
     private readonly userMapperPresenterFactory: IUserMapperPresenterFactory,
-    private readonly userRepoFactory: IUserRepoFactory
   ){
 
     this.useCase = new UpdateUserUseCase(

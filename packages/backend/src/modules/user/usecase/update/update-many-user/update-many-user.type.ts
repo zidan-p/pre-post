@@ -1,1 +1,1 @@
-export const UPDATE_MANYUSER = "update-many-user";
+export const UPDATE_MANY_USER = "update-many-user";

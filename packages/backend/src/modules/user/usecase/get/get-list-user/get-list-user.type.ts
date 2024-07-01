@@ -1,1 +1,1 @@
-export const GET_USER = "get-user";
+export const GET_LIST_USER = "get-list-user";

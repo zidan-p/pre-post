@@ -1,16 +1,21 @@
+import { UserModelImplementation } from "~/common/infra/database/sequelize/models/User.model";
 import { IUserRepoFactory } from "../../user.repository.factory";
-import { IUserRepo } from "../../user.respository.port";
 import { SequelizeUserRepository } from "./user.repository";
+import { SequelizeUserMapperFactory } from "~/modules/user/mapper/seqluelize-user-mapper/sequelize-mapper.factory";
 
 
 
 
 
 export class SequelizeUserCachedFactory implements IUserRepoFactory {
-
+  
+  private readonly userRepo: SequelizeUserRepository
   constructor(
-    private readonly userRepo: SequelizeUserRepository
-  ){}
+    userMapperFactory: SequelizeUserMapperFactory,
+    userModel: UserModelImplementation
+  ){
+    this.userRepo = new SequelizeUserRepository(userMapperFactory, userModel);
+  }
 
   getUserRepo(){
     return this.userRepo;
