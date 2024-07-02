@@ -1,11 +1,11 @@
 import { withLifecycleCallbacks } from "react-admin";
-import { PrepostDataProvider } from "./data-provider";
+import { BasePrepostDataProvider } from "./data-provider";
 
 
 
-const baseDataProvider = new PrepostDataProvider("http://localhost:3006")
+const baseDataProvider = new BasePrepostDataProvider("http://localhost:3006")
 
-export const refinedDataProvider = withLifecycleCallbacks(
+export const prepostDataProvider = withLifecycleCallbacks(
   baseDataProvider,
   [
     {

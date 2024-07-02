@@ -1,4 +1,9 @@
-import { CreateParams, DataProvider, DeleteManyParams, DeleteManyResult, DeleteParams, DeleteResult, GetListParams, GetManyParams, GetManyReferenceParams, GetManyReferenceResult, GetManyResult, GetOneParams, GetOneResult, Identifier, RaRecord, UpdateManyParams, UpdateManyResult, UpdateParams, UpdateResult, fetchUtils } from "react-admin";
+import { 
+  CreateParams, DataProvider, DeleteManyParams, DeleteManyResult, DeleteParams, 
+  DeleteResult, GetListParams, GetManyParams, GetManyReferenceParams, GetManyReferenceResult, 
+  GetManyResult, GetOneParams, GetOneResult, Identifier, RaRecord, UpdateManyParams, 
+  UpdateManyResult, UpdateParams, UpdateResult, fetchUtils 
+} from "react-admin";
 import { FilterType, RemoteQueryFilter } from "../types/filter.type";
 import { convertToArrayNotation } from "../utils/object";
 import queryString from "query-string";
@@ -8,7 +13,7 @@ import { convertObjectToFormData } from "./utils";
 
 const httpClient = fetchUtils.fetchJson;
 
-export class PrepostDataProvider implements DataProvider {
+export class BasePrepostDataProvider implements DataProvider {
   private readonly url: string
 
   constructor(url: string){ this.url = url }
@@ -113,7 +118,10 @@ export class PrepostDataProvider implements DataProvider {
     return data.data;
   }
 
-  async updateMany<RecordType extends RaRecord<Identifier> = any>(resource: string, params: UpdateManyParams<any>) :Promise<UpdateManyResult<RecordType>>{
+  async updateMany<RecordType extends RaRecord<Identifier> = any>(
+    resource: string, 
+    params: UpdateManyParams<any>
+  ) :Promise<UpdateManyResult<RecordType>>{
     const singularResource = resource.slice(0, resource.length - 2); //strip the s
     const manyIds = {
       [singularResource + "Ids"]: params.ids
