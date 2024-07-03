@@ -2,16 +2,17 @@ import {
   CreateParams, DataProvider, DeleteManyParams, DeleteManyResult, DeleteParams, 
   DeleteResult, GetListParams, GetManyParams, GetManyReferenceParams, GetManyReferenceResult, 
   GetManyResult, GetOneParams, GetOneResult, Identifier, RaRecord, UpdateManyParams, 
-  UpdateManyResult, UpdateParams, UpdateResult, fetchUtils 
+  UpdateManyResult, UpdateParams, UpdateResult
 } from "react-admin";
 import { FilterType, RemoteQueryFilter } from "../types/filter.type";
 import { convertToArrayNotation } from "../utils/object";
 import queryString from "query-string";
 import { convertObjectToFormData } from "./utils";
+import { requestor } from "./requestor";
 
 
 
-const httpClient = fetchUtils.fetchJson;
+// const httpClient = fetchUtils.fetchJson;
 
 export class BasePrepostDataProvider implements DataProvider {
   private readonly url: string
@@ -37,8 +38,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
-    const result =  (await httpClient(url, {method: "GET"}));
-    const returnResult = result.json
+    const result =  await requestor(url, {method: "GET"});
+    const returnResult = result.data
     return {
       data: returnResult.data,
       total: returnResult?.pagination?.dataTotal,
@@ -54,8 +55,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const id = params.id;
 
     const url = this.url + "/" + resource + "/" + id;
-    const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "GET"}));
+    const data = result.data
     return data;
   };
 
@@ -72,8 +73,8 @@ export class BasePrepostDataProvider implements DataProvider {
     
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
-    const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "GET"}));
+    const data = result.data
     return data;
   };
 
@@ -101,8 +102,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
-    const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "GET"}));
+    const data = result.data
     return data;
   }
 
@@ -117,8 +118,8 @@ export class BasePrepostDataProvider implements DataProvider {
     else body = JSON.stringify(params.data);
 
     const url = this.url + "/" + resource + "/" + id;
-    const result =  (await httpClient(url, {method: "PUT", body: body}));
-    const data = result.json
+    const result =  await requestor(url, {method: "PUT", data: body});
+    const data = result.data
     return data;
   }
 
@@ -139,8 +140,8 @@ export class BasePrepostDataProvider implements DataProvider {
     
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
-    const result =  (await httpClient(url, {method: "PUT", body}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "PUT", data: body}));
+    const data = result.data
     return data;
   };
 
@@ -157,8 +158,8 @@ export class BasePrepostDataProvider implements DataProvider {
     else body = JSON.stringify(params.data);
 
     const url = this.url + "/" + resource;
-    const result =  (await httpClient(url, {method: "POST", body}));
-    const data = result.json;
+    const result =  (await requestor(url, {method: "POST", data: body}));
+    const data = result.data;
     return data;
   };
 
@@ -169,8 +170,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const id = params.id;
 
     const url = this.url + "/" + resource + "/" + id;
-    const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "GET"}));
+    const data = result.data
     return data;
   }
 
@@ -187,8 +188,8 @@ export class BasePrepostDataProvider implements DataProvider {
     
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
-    const result =  (await httpClient(url, {method: "DELETE"}));
-    const data = result.json
+    const result =  (await requestor(url, {method: "DELETE"}));
+    const data = result.data
     return data;
   };
 

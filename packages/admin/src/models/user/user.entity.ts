@@ -1,4 +1,4 @@
-import { RoleValue } from "../role.type";
+import { AuthRoleValue } from "../role.type";
 
 
 
@@ -9,5 +9,5 @@ export interface UserEntity {
   password: string;
   email: string;
   username: string;
-  role: RoleValue;
+  role: AuthRoleValue;
 }

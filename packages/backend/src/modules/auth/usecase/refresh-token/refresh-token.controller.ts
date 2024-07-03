@@ -25,10 +25,10 @@ export class RefreshTokenController extends BaseController{
 
         switch(true){
           case error instanceof RefresTokenUseCaseError.ExpireRefreshToken:
+            case error instanceof RefresTokenUseCaseError.UserNotFound:
             return this.unauthorized(exception.message, exception.metadata as Record<string, any>)
           
-          case error instanceof RefresTokenUseCaseError.UserNotFound:
-            return this.notFound(exception.message, exception.metadata  as Record<string, any>);
+            // return this.notFound(exception.message, exception.metadata  as Record<string, any>);
 
           case error instanceof RefresTokenUseCaseError.MalformedToken:
             console.error(exception);

@@ -8,7 +8,7 @@ const mainDataProvider = prepostDataProvider(prepostURL);
 
 
 export const App = () => (
-    <Admin dataProvider={mainDataProvider}>
+    <Admin dataProvider={mainDataProvider} >
         <Resource name='posts' list={ListGuesser} />        
         <Resource name='users' list={ListGuesser} />        
     </Admin>
