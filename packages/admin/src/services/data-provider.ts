@@ -38,8 +38,12 @@ export class BasePrepostDataProvider implements DataProvider {
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
     const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json()
-    return data.data;
+    const returnResult = result.json
+    return {
+      data: returnResult.data,
+      total: returnResult?.pagination?.dataTotal,
+      pageInfo: returnResult?.pagination
+    };
 
   }
 
@@ -51,8 +55,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = this.url + "/" + resource + "/" + id;
     const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   };
 
   async getMany<RecordType extends RaRecord<Identifier> = any>(
@@ -69,8 +73,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
     const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   };
 
   async getManyReference<RecordType extends RaRecord<Identifier> = any>(
@@ -98,8 +102,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
     const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   }
 
   async update<RecordType extends RaRecord<Identifier> = any>(
@@ -114,8 +118,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = this.url + "/" + resource + "/" + id;
     const result =  (await httpClient(url, {method: "PUT", body: body}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   }
 
   async updateMany<RecordType extends RaRecord<Identifier> = any>(
@@ -136,8 +140,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
     const result =  (await httpClient(url, {method: "PUT", body}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   };
 
   async create<
@@ -154,8 +158,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = this.url + "/" + resource;
     const result =  (await httpClient(url, {method: "POST", body}));
-    const data = result.json();
-    return data.data;
+    const data = result.json;
+    return data;
   };
 
   async delete<RecordType extends RaRecord<Identifier> = any>(
@@ -166,8 +170,8 @@ export class BasePrepostDataProvider implements DataProvider {
 
     const url = this.url + "/" + resource + "/" + id;
     const result =  (await httpClient(url, {method: "GET"}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   }
 
   async deleteMany<RecordType extends RaRecord<Identifier> = any>(
@@ -184,8 +188,8 @@ export class BasePrepostDataProvider implements DataProvider {
     const url = queryString.stringifyUrl({url: this.url + "/" + resource, query: converted});
 
     const result =  (await httpClient(url, {method: "DELETE"}));
-    const data = result.json()
-    return data.data;
+    const data = result.json
+    return data;
   };
 
 }
