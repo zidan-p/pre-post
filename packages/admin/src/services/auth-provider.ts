@@ -27,7 +27,7 @@ export class prepostAuthProvider implements AuthProvider{
 
 
     try {
-      const result = await requestor.post<LoginResult>(this.URL + "/auth/login", {username, password});
+      const result = await requestor.post<LoginResult>(this.URL + "/auth/login", {email: username, password});
       
       const data =  result.data;
   
@@ -35,7 +35,7 @@ export class prepostAuthProvider implements AuthProvider{
       setLocalStorageRefreshToken(data?.data?.refreshToken);
   
       // set to axios requester
-      setRequestAccessToken(data?.data?.refreshToken);
+      setRequestAccessToken(data?.data?.accessToken);
     } catch (error) {
       if(isAxiosError(error)){
         throw {message: error?.response?.data?.message ?? "Invalid Credentials"}

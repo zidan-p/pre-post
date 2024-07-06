@@ -22,6 +22,7 @@ export class GetAllPostListController<TPostRaw = any, TPaginateRaw = any> extend
   async executeImpl(){
 
     const query = this.getQueryData() as GetAllPostListQuery;
+    // console.log(JSON.stringify(query, null, 2));
     try {
       const result = await this.useCase.execute({query});
       

@@ -21,8 +21,14 @@ export class BasePrepostDataProvider implements DataProvider {
 
   async getList(resource: string, params: GetListParams){
     const {page, perPage} = params.pagination;
-    const {field, order} = params.sort;
+    let {field, order} = params.sort;
     const filter = params.filter as Partial<FilterType>;
+
+    if(field === "id"){
+      // use resource suffix for sorting by id
+      const singularResource = resource.slice(0, resource.length - 1); //strip the s
+      field = singularResource + "Id";
+    }
 
     const RemoteQuery: Partial<RemoteQueryFilter<any>> = {
       dataPerPage: perPage,
@@ -64,7 +70,10 @@ export class BasePrepostDataProvider implements DataProvider {
     resource: string, 
     params: GetManyParams
   ): Promise<GetManyResult<RecordType>>{
-    const singularResource = resource.slice(0, resource.length - 2); //strip the s
+
+    console.log("get many, resource : " + resource);
+
+    const singularResource = resource.slice(0, resource.length - 1); //strip the s
     const manyIds = {
       [singularResource + "Ids"]: params.ids
     };
@@ -82,9 +91,18 @@ export class BasePrepostDataProvider implements DataProvider {
     resource: string, 
     params: GetManyReferenceParams
   ) : Promise<GetManyReferenceResult<RecordType>>{
+
+    console.log("get many reference, resource : " + resource);
+
     const {page, perPage} = params.pagination;
-    const {field, order} = params.sort;
+    let {field, order} = params.sort;
     const filter = params.filter as Partial<FilterType>;
+
+    if(field === "id"){
+      // use resource suffix for sorting by id
+      const singularResource = resource.slice(0, resource.length - 1); //strip the s
+      field = singularResource + "Id";
+    }
 
     const target = {[params.target] : params.id}
 
@@ -127,7 +145,7 @@ export class BasePrepostDataProvider implements DataProvider {
     resource: string, 
     params: UpdateManyParams<any>
   ) :Promise<UpdateManyResult<RecordType>>{
-    const singularResource = resource.slice(0, resource.length - 2); //strip the s
+    const singularResource = resource.slice(0, resource.length - 1); //strip the s
     const manyIds = {
       [singularResource + "Ids"]: params.ids
     };
@@ -179,7 +197,7 @@ export class BasePrepostDataProvider implements DataProvider {
     resource: string, 
     params: DeleteManyParams<RecordType>
   ) : Promise<DeleteManyResult<RecordType>>{
-    const singularResource = resource.slice(0, resource.length - 2); //strip the s
+    const singularResource = resource.slice(0, resource.length - 1); //strip the s
     const manyIds = {
       [singularResource + "Ids"]: params.ids
     };
