@@ -22,11 +22,13 @@ export const userRouter = Router();
 
 
 
-userRouter.get("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(GET_LIST_USER));
 userRouter.get("/many", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(GET_MANY_USER));
+// userRouter.get("/many", authService.jwtAuth(), userUsecaseManagerFactory.createController(GET_MANY_USER));
 userRouter.get("/:userId", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(GET_USER));
+// userRouter.get("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(GET_LIST_USER));
+userRouter.get("/", authService.jwtAuth(), userUsecaseManagerFactory.executeNewRequest(GET_LIST_USER));
 userRouter.post("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(CREATE_USER));
 userRouter.delete("/:userId", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(DELETE_USER));
 userRouter.delete("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(DELETE_MANY_USER));
-userRouter.put("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(UPDATE_MANY_USER));
 userRouter.put("/:userId", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(UPDATE_USER));
+userRouter.put("/", authService.jwtAuth(), userUsecaseManagerFactory.executeRequest(UPDATE_MANY_USER));

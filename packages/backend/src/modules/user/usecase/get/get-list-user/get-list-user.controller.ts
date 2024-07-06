@@ -20,29 +20,34 @@ export class GetListUserController<TPostRaw = any, TPaginateRaw = any> extends B
 
 
   async executeImpl(){
-
+    console.log("run  get list user ........");
     try {
       const result = await this.useCase.execute({});
       
       if(result.isLeft()){
+        console.log("[GetListUserController] is letf in in execution")
         const error = result.value;
         const exception = error.getErrorValue();
-
+        console.log(exception);
         switch(true){
           case error instanceof GetListUserUseCaseErrors.InvalidProperties:
             return this.clientError(exception.message, exception?.metadata as Record<string, any>);
           case error instanceof GetListUserUseCaseErrors.FailBuildingUser:
           default:
-            return this.fail("unexpected error", exception);
+            return  this.fail("unexpected error", exception);
           
         }
       }
       
       const value = result.value.getValue();
-      const users = value.users.map(user => this.userMapper.toPresentation(user));
+      const users = await Promise.all(value.users.map(user => this.userMapper.toPresentation(user)));
       const paginate = await this.pageMapper.toPresentation(value.paginate);
-      return this.okBuild({data: await Promise.all(users), pagination: paginate});
+      console.log(paginate);
+      console.log(users?.length);
+      return await this.okBuild({data: (users), pagination: paginate});
     } catch (error) {
+      console.log("error in [GetListUserController]")
+      console.error(error);
       return this.fail("unexpexted error eccured", error);
     }
   }

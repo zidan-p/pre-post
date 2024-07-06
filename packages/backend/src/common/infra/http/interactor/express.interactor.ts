@@ -74,7 +74,7 @@ export class ExpressInteractor implements IInteractor {
   }
 
   jsonResponse(status: boolean, statusCode: number, message: string, data?: any, error?: any){
-    this.response.status(statusCode).json({
+    return this.response.status(statusCode).json({
       success: status,
       message,
       statusCode,
@@ -163,49 +163,55 @@ export class ExpressInteractor implements IInteractor {
   }
 
   ok<T>(args: T, message: string){
-    this.jsonResponse(true, 200, message, args);
+    return this.jsonResponse(true, 200, message, args);
   }
 
-  okBuild<T>(args?: OKBuilderResponse<T>) {
-    if(args?.header?.length) args.header.forEach(item => this.response.set(item.name, item.value));
-    this.response.status(200);
-    return this.response.json({
-      data: args?.data,
-      pagination: args?.pagination,
-      metadata: args?.metadata
-    });
+  async okBuild<T>(args?: OKBuilderResponse<T>) {
+
+    console.log("ok build called.....");
+    let header = {};
+    // if(args?.header?.length) args.header.forEach(item => this.response.set(item.name, item.value));
+    if(args?.header?.length) args.header.forEach(item => header[item.name] = item.value);
+    return await this.response
+      .header(header)
+      .status(200)
+      .json({
+        data: args?.data,
+        pagination: args?.pagination,
+        metadata: args?.metadata
+      });
   }
 
   created(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(true, 201, message, metadata);
+    return this.jsonResponse(true, 201, message, metadata);
   }
 
   clientError(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 400, message, null, metadata);
+    return this.jsonResponse(false, 400, message, null, metadata);
   }
   unauthorized(message: string, metadata?: Record<string, any>) {
-    this.jsonResponse(false, 401, message, null, metadata);
+    return this.jsonResponse(false, 401, message, null, metadata);
   }
   paymentRequired(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 402, message, null, metadata);
+    return this.jsonResponse(false, 402, message, null, metadata);
   }
   forbidden(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 403, message, null, metadata);
+    return this.jsonResponse(false, 403, message, null, metadata);
   }
   notFound(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 404, message, null, metadata);
+    return this.jsonResponse(false, 404, message, null, metadata);
   }
   conflict(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 409, message, null, metadata);
+    return this.jsonResponse(false, 409, message, null, metadata);
   }
   tooMany(message: string, metadata: Record<string, any>) {
-    this.jsonResponse(false, 429, message, null, metadata);
+    return this.jsonResponse(false, 429, message, null, metadata);
   }
 
   fail(message: string, error: ExceptionBase, metadata: Record<string, any>) {
     console.error(error);
     // this.jsonResponse(false, 500, message, null, error ?? error?.toJSON ? error?.toJSON() : error);
-    this.jsonResponse(false, 500, message, null, error?.toJSON ? error?.toJSON() : error);
+    return this.jsonResponse(false, 500, message, null, error?.toJSON ? error?.toJSON() : error);
   }
 
   failBuild(args: FailBuilderResponse) {
