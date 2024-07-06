@@ -71,7 +71,6 @@ export class BasePrepostDataProvider implements DataProvider {
     params: GetManyParams
   ): Promise<GetManyResult<RecordType>>{
 
-    console.log("get many, resource : " + resource);
 
     const singularResource = resource.slice(0, resource.length - 1); //strip the s
     const manyIds = {
@@ -91,8 +90,6 @@ export class BasePrepostDataProvider implements DataProvider {
     resource: string, 
     params: GetManyReferenceParams
   ) : Promise<GetManyReferenceResult<RecordType>>{
-
-    console.log("get many reference, resource : " + resource);
 
     const {page, perPage} = params.pagination;
     let {field, order} = params.sort;
@@ -133,8 +130,10 @@ export class BasePrepostDataProvider implements DataProvider {
 
     let body: any;
     if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
-    else body = JSON.stringify(params.data);
+    else body = params.data;
 
+    console.log("update body::::")
+    console.log(body)
     const url = this.url + "/" + resource + "/" + id;
     const result =  await requestor(url, {method: "PUT", data: body});
     const data = result.data
@@ -152,7 +151,7 @@ export class BasePrepostDataProvider implements DataProvider {
 
     let body: any;
     if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
-    else body = JSON.stringify(params.data);
+    else body = params.data;
 
     const converted = convertToArrayNotation(manyIds);
     
@@ -173,7 +172,7 @@ export class BasePrepostDataProvider implements DataProvider {
 
     let body: any;
     if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
-    else body = JSON.stringify(params.data);
+    else body = params.data;
 
     const url = this.url + "/" + resource;
     const result =  (await requestor(url, {method: "POST", data: body}));

@@ -20,7 +20,6 @@ export class GetListUserController<TPostRaw = any, TPaginateRaw = any> extends B
 
 
   async executeImpl(){
-    console.log("run  get list user ........");
     try {
       const result = await this.useCase.execute({});
       
@@ -42,12 +41,8 @@ export class GetListUserController<TPostRaw = any, TPaginateRaw = any> extends B
       const value = result.value.getValue();
       const users = await Promise.all(value.users.map(user => this.userMapper.toPresentation(user)));
       const paginate = await this.pageMapper.toPresentation(value.paginate);
-      console.log(paginate);
-      console.log(users?.length);
       return await this.okBuild({data: (users), pagination: paginate});
     } catch (error) {
-      console.log("error in [GetListUserController]")
-      console.error(error);
       return this.fail("unexpexted error eccured", error);
     }
   }
