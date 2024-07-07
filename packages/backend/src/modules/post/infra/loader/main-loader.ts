@@ -44,7 +44,6 @@ const storagePath = join(appConfig.root, "storage");
 const resourceUrl = new URL(String(APP_URL)); 
 
 const postPersistenceMapperFactory = new SequelizeMapperFactory();
-const postPresenterMapperFactory = new ExpressMapperFactory(resourceUrl);
 const postPresenterMapperFactoryWithResourceUrlSerializer = new ExpressMapperFactoryWithResourceUrlSerializer(resourceUrl);
 
 // -- repository --

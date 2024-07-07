@@ -67,6 +67,11 @@ export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper
   } 
 
 
+  /**
+   * image url => baseUrl + /posts/ + imageId + /banner 
+   * @param entity 
+   * @returns 
+   */
   public toPresentation(entity: Post): IExpressPostWihtImageUrlRaw{
 
     let image: PostImage | string | undefined = entity.imageManager.getImage;
@@ -75,7 +80,7 @@ export class ExpressPostMapWithImageUrl implements ExpressWithImageUrlPostMapper
     // console.log(image);
     if(image){
       const imageUrl = new URL(this.imageUrlGetter.href);
-      imageUrl.pathname = "/post/" + entity.id.toString() + "/banner";
+      imageUrl.pathname = "/posts/" + entity.id.toString() + "/banner";
       imagePresenter = imageUrl.href;
     }
 
