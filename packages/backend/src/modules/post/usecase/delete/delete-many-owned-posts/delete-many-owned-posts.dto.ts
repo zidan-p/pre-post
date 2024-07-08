@@ -18,5 +18,5 @@ export interface DeleteManyOwnedPostsDTORequest {
 }
 
 export interface DeleteManyOwnedPostsDTOResponse{
-  affectedRecord: number;
+  postIds?: string[]
 }

@@ -44,9 +44,9 @@ export class DeleteManyPostsController extends BaseController {
             return this.fail("unexpected error", exception);
         }
       }
-      const affectedRecord = result.value.getValue().affectedRecord;
+      const postIds = result.value.getValue().postIds;
 
-      return this.ok({affectedRecord});
+      return this.okBuild({data:postIds})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

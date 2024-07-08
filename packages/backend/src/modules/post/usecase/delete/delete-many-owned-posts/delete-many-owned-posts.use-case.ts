@@ -34,8 +34,8 @@ export class DeleteManyOwnedPostsUseCase implements UseCase<DeleteManyOwnedPosts
       const user = request.user;
 
       // don't do anything when postIds is not provided or defined
-      if(!Array.isArray(idCollection)) return right(Result.ok({affectedRecord: 0}));
-      if(idCollection?.length === 0) right(Result.ok({affectedRecord: 0}));
+      if(!Array.isArray(idCollection)) return right(Result.ok({postIds: []}));
+      if(idCollection?.length === 0) right(Result.ok({postIds: []}));
 
       const postIdCollectionOrError = idCollection.map(id => PostId.create(new UniqueEntityID(id)));
       const postIdCollectionBuilderResult = Result.combine(postIdCollectionOrError);
@@ -71,7 +71,7 @@ export class DeleteManyOwnedPostsUseCase implements UseCase<DeleteManyOwnedPosts
 
       affectedRows = await this.postRepo.deleteMany(postIdCollection);
 
-      return right(Result.ok({affectedRecord: affectedRows}));
+      return right(Result.ok({postIds: idCollection}));
     } catch (error) {
       prePostLogger.error(error?.message ?? "unexpected Error", error?.stack ?? __filename);
       return left(new AppError.UnexpectedError(error.toString()));

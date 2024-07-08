@@ -27,8 +27,8 @@ export class DeleteManyPostsUseCase implements UseCase<DeleteManyPostsDTORequest
       const limit = request.query?.limit ? Number(request.query?.limit) : undefined;
 
       // don't do anything when postIds is not provided or defined
-      if(!Array.isArray(idCollection)) return right(Result.ok({affectedRecord: 0}));
-      if(idCollection?.length === 0) right(Result.ok({affectedRecord: 0}));
+      if(!Array.isArray(idCollection)) return right(Result.ok({postIds: []}));
+      if(idCollection?.length === 0) right(Result.ok({postIds: []}));
 
       console.log(idCollection);
 
@@ -60,7 +60,7 @@ export class DeleteManyPostsUseCase implements UseCase<DeleteManyPostsDTORequest
 
       affectedRows = await this.postRepo.deleteMany(postIdCollection);
 
-      return right(Result.ok({affectedRecord: affectedRows}));
+      return right(Result.ok({postIds: idCollection}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
