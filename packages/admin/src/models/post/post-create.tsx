@@ -1,16 +1,28 @@
-import { BooleanInput, DateInput, Create, ReferenceInput, SimpleForm, TextInput, FileInput } from 'react-admin';
+import { BooleanInput, Create, ReferenceInput, SimpleForm, TextInput, FileInput, useGetIdentity, required, SelectInput } from 'react-admin';
+import { Role } from '../role.type';
 
-export const PostCreate = () => (
-    <Create>
-        <SimpleForm>
-            <TextInput source="id" sx={{width: "100%"}} />
-            <TextInput source="title" sx={{width: "100%"}} />
-            <TextInput source="content" sx={{width: "100%"}} />
-            {/* <TextInput source="image" sx={{width: "100%"}} /> */}
-            <FileInput source='postImage' sx={{width: "100%"}} />
-            <ReferenceInput source="ownerId" reference="users" sx={{width: "100%"}} />
-            <BooleanInput source="isPublished" sx={{width: "100%"}} />
-            <DateInput source="dateTimeCreated" sx={{width: "100%"}} />
-        </SimpleForm>
+
+export const PostCreate = () => {
+  const { data: identity} = useGetIdentity();
+
+  console.log(identity);
+
+  return (
+    <Create mutationOptions={{meta: {isFormData: true}}}>
+      <SimpleForm>
+        <TextInput source="title" sx={{width: "100%"}} validate={[required()]} />
+        <TextInput source="content" sx={{width: "100%"}} validate={[required()]} />
+        <FileInput source='postImage' sx={{width: "100%"}} />
+        <ReferenceInput source="ownerId" fullWidth  reference={'users'}>
+          <SelectInput 
+            defaultValue={identity?.id} 
+            validate={[required()]} 
+            disabled={identity?.role === Role.ADMIN ? false : true}  
+            optionText="id" 
+            fullWidth 
+          />
+        </ReferenceInput>
+        <BooleanInput source="isPublished" fullWidth />
+      </SimpleForm>
     </Create>
-);
+);}
