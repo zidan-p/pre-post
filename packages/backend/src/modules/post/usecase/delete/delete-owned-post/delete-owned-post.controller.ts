@@ -2,13 +2,16 @@ import { BaseController } from "~/common/core/controller.base";
 import { DeleteOwnedPostUseCase } from "./delete-owned-post.use-case";
 import { DeleteOwnedPostDTOEnd, DeleteOwnedPostParams } from "./delete-owned-post.dto";
 import { DeleteOwnedPostUseCaseErrors } from "./delete-owned-post.error";
+import { Post } from "~/modules/post/domain/post.agregate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
 export class DeleteOwnedPostController extends BaseController<DeleteOwnedPostDTOEnd> {
 
   constructor(
-    private useCase: DeleteOwnedPostUseCase
+    private useCase: DeleteOwnedPostUseCase,
+    private readonly postMapper: IPresenterMapper<Post, any>,
   ){
     super();
   }
@@ -28,21 +31,21 @@ export class DeleteOwnedPostController extends BaseController<DeleteOwnedPostDTO
 
         switch(true){
           case error  instanceof DeleteOwnedPostUseCaseErrors.ForbiddenUser:
-            this.forbidden(exception.message, exception?.metadata as Record<string, any>)
-            break;
+            return this.forbidden(exception.message, exception?.metadata as Record<string, any>)
           case error  instanceof DeleteOwnedPostUseCaseErrors.PostNotFound:
-            this.notFound(exception.message, exception?.metadata as Record<string, any>)
-            break;
+            return this.notFound(exception.message, exception?.metadata as Record<string, any>)
           case error  instanceof DeleteOwnedPostUseCaseErrors.UserNotFound:
-            this.unauthorized(exception.message, exception?.metadata as Record<string, any>)
-            break;
+            return this.unauthorized(exception.message, exception?.metadata as Record<string, any>)
           default:
             console.log(exception);
             return this.fail("unexpected error", exception);
           
         }
       }
-      return this.ok();
+
+      const dto = result.value;
+      const postsPresenter = this.postMapper.toPresentation(dto.getValue().post);
+      return this.okBuild({data: postsPresenter})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

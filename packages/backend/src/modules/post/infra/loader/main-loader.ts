@@ -88,12 +88,12 @@ postUseCaseManagerFactory.addUseCaseManager(UPDATE_MANY_OWNED_POST, new UpdateMa
 
 // delete post
 postUseCaseManagerFactory.addUseCaseManager(DELETE_POST, new DeletePostManager(
-  postRepositoryFactory, postServiceFactory
+  postRepositoryFactory, postServiceFactory, postPresenterMapperFactoryWithResourceUrlSerializer
 ));
 
 // delete owned post
 postUseCaseManagerFactory.addUseCaseManager(DELETE_OWNED_POST, new DeleteOwnedPostManager(
-  postRepositoryFactory, postServiceFactory
+  postRepositoryFactory, postServiceFactory, postPresenterMapperFactoryWithResourceUrlSerializer
 ))
 
 

@@ -41,7 +41,7 @@ export class DeletePostUseCase implements UseCase<DeletePostDTORequest, Promise<
 
       await this.postRepo.delete(postId);
 
-      return right(Result.ok());
+      return right(Result.ok({post}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }

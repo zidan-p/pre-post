@@ -1,4 +1,5 @@
 import { IUserAuth } from "~/common/core/user.auth.interface";
+import { Post } from "~/modules/post/domain/post.agregate-root";
 
 export interface DeletePostFiles{}
 
@@ -12,4 +13,6 @@ export interface DeletePostDTORequest {
   param: DeletePostParam;
 }
 
-export interface DeletePostDTOResponse{}
+export interface DeletePostDTOResponse{
+  post: Post
+}

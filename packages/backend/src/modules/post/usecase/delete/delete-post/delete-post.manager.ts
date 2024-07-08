@@ -3,6 +3,7 @@ import { DeletePostController } from "./delete-post.controller";
 import { DeletePostUseCase } from "./delete-post.use-case";
 import { IPostRepositoryFactory } from "../../../repository/post-creator.interface";
 import { IPostServiceFactory } from "~/modules/post/service/post-service.factory.interface";
+import { IPostMapperPresenterFactory } from "~/modules/post/mappers/post-mapper.factory.interface";
 
 
 export class DeletePostManager implements IUseCaseManager{
@@ -12,7 +13,8 @@ export class DeletePostManager implements IUseCaseManager{
 
   constructor(
     private readonly postRepoFactory: IPostRepositoryFactory,
-    private readonly postServiceFactory: IPostServiceFactory
+    private readonly postServiceFactory: IPostServiceFactory,
+    private readonly postMapperPresenterFactory: IPostMapperPresenterFactory
   ){
 
     this.useCase = new DeletePostUseCase( 
@@ -21,7 +23,10 @@ export class DeletePostManager implements IUseCaseManager{
       this.postServiceFactory.getStorageService()
     );
 
-    this.controller = new DeletePostController(this.useCase);
+    this.controller = new DeletePostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -36,7 +41,10 @@ export class DeletePostManager implements IUseCaseManager{
   }
 
   createController(){
-    return new DeletePostController(this.useCase);
+    return new DeletePostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
 }
