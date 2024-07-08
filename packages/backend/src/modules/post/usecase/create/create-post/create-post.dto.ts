@@ -1,5 +1,6 @@
 import { ICommonFile } from "~/common/domain/common/common-file.interface";
 import { PostImageProps } from "../../../domain/post-image.entity";
+import { Post } from "~/modules/post/domain/post.agregate-root";
 
 export interface CreatePostFiles{
   postImage?: ICommonFile;
@@ -20,5 +21,5 @@ export interface CreatePostDTORequest {
 
 
 export interface CreatePostDTOResponse{
-  postId: string;
+  post: Post;
 }

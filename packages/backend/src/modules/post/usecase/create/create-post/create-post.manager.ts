@@ -4,16 +4,20 @@ import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { IPostRepositoryFactory } from "../../../repository/post-creator.interface";
 import { CreatePostController } from "./create-post.controller";
 import { CreatePostUseCase } from "./create-post.use-case";
+import { IPostMapperPresenterFactory } from "~/modules/post/mappers/post-mapper.factory.interface";
 
 
 
 export class CreatePostManager implements IUseCaseManager{
 
-  private controller: CreatePostController;
+  private controller: CreatePostController<Record<string, any>>;
   private useCase: CreatePostUseCase;
   private postRepoFactory: IPostRepositoryFactory
 
-  constructor(postRepoFactory: IPostRepositoryFactory){
+  constructor(
+    postRepoFactory: IPostRepositoryFactory,
+    private readonly postMapperPresenterFactory: IPostMapperPresenterFactory
+  ){
 
     this.useCase = new CreatePostUseCase(
       postRepoFactory.createPostImageRepo(),
@@ -21,7 +25,10 @@ export class CreatePostManager implements IUseCaseManager{
       postRepoFactory.createPostRepo(),
     )
 
-    this.controller = new CreatePostController(this.useCase);
+    this.controller = new CreatePostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -36,7 +43,9 @@ export class CreatePostManager implements IUseCaseManager{
   }
 
   createController(){
-    return new CreatePostController(this.useCase);
+    return new CreatePostController(
+      this.useCase,
+      this.postMapperPresenterFactory.createPostMapper()
+    );
   }
-
 }

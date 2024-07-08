@@ -113,7 +113,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTORequest, Promise<
 
       await this.postRepository.save(post);
 
-      return right(Result.ok({postId: post.id.toString() }));
+      return right(Result.ok({post}));
 
     } catch (error) {
       console.log(error);

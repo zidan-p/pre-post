@@ -58,7 +58,9 @@ const postServiceFactory = new PostServiceFactory(storagePath);
 export const postUseCaseManagerFactory = new ExpressUseCaseManagerFactory();
 
 // create post
-postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(postRepositoryFactory));
+postUseCaseManagerFactory.addUseCaseManager(CREATE_POST, new CreatePostManager(
+  postRepositoryFactory, postPresenterMapperFactoryWithResourceUrlSerializer
+));
 
 // update post
 postUseCaseManagerFactory.addUseCaseManager(UPDATE_POST, new UpdatePostManager(
