@@ -12,7 +12,7 @@ interface ReactAdminImageWithAuthProps {
 export function ReactAdminImageWithAuth(props : ReactAdminImageWithAuthProps){
   const record = useRecordContext();
 
-  if(record[props.source] === undefined) return null
+  if(!record[props.source]) return null
   return (
     <ImageWithAuth 
       style={props.style} 
