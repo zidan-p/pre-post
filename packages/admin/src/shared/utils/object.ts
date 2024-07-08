@@ -28,3 +28,9 @@ export function convertToDotNotation(obj: Record<string, any>, parentKey: string
   }
   return result;
 }
+
+
+
+export function isObjectExcludeArray(o: any) {
+  return o !== null && typeof o === 'object' && Array.isArray(o) === false;
+}

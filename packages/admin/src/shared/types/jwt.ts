@@ -1,4 +1,4 @@
-import { AuthRoleValue } from "../models/role.type";
+import { AuthRoleValue } from "../../models/role.type";
 
 
 export interface IUserAuth{

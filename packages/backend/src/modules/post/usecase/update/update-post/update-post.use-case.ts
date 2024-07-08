@@ -36,6 +36,7 @@ export class UpdatePostUseCase implements UseCase<UpdatePostDTORequest, Promise<
     let postContent: PostContent;
     let userId: UserId;
 
+
     try {
       const files = request.files;
       const body = request.body;

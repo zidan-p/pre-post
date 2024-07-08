@@ -9,17 +9,21 @@ export function prepostDataProvider(url: string){
   return withLifecycleCallbacks(
     baseDataProvider,
     [
-      {
-        // use form data for posts
-        resource: "posts",
-        beforeGetManyReference: async params => {
-          if(params.target === "ownerId")return {...params, target: "userId"}
-          return params;
-        },
-        beforeCreate: async params => ({...params, meta: {...params?.meta, isFormData: true}}), 
-        beforeUpdate: async params => ({...params, meta: {...params?.meta, isFormData: true}}), 
-        beforeUpdateMany: async params => ({...params, meta: {...params?.meta, isFormData: true}}) 
-      }
+      // {
+      //   // use form data for posts
+      //   resource: "posts",
+      //   beforeGetManyReference: params => {
+      //     if(params.target === "ownerId")return {...params, target: "userId"}
+      //     return params;
+      //   },
+      //   beforeCreate: params => ({...params, meta: {...params?.meta, isFormData: true}}), 
+      //   beforeUpdate: params =>{ 
+      //     console.log
+      //     console.log(params);
+      //     return ({...params, meta: {...params?.meta, isFormData: true}})
+      //   }, 
+      //   beforeUpdateMany: params => ({...params, meta: {...params?.meta, isFormData: true}}) 
+      // }
     ]
   )
 }

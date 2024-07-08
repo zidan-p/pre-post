@@ -4,10 +4,10 @@ import {
   GetManyResult, GetOneParams, GetOneResult, Identifier, RaRecord, UpdateManyParams, 
   UpdateManyResult, UpdateParams, UpdateResult
 } from "react-admin";
-import { FilterType, RemoteQueryFilter } from "../types/filter.type";
-import { convertToArrayNotation } from "../utils/object";
+import { FilterType, RemoteQueryFilter } from "../shared/types/filter.type";
+import { convertToArrayNotation } from "../shared/utils/object";
 import queryString from "query-string";
-import { convertObjectToFormData } from "./utils";
+import { convertObjectToFormDataWithRactAdminFileResolver } from "./utils";
 import { requestor } from "./requestor";
 
 
@@ -128,12 +128,27 @@ export class BasePrepostDataProvider implements DataProvider {
   ):  Promise<UpdateResult<RecordType>>{
     const id = params.id;
 
-    let body: any;
-    if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
-    else body = params.data;
+    // console.log(JSON.stringify(params, null, 2))
+    // console.log(JSON.stringify(params.data, null, 2))
+    // console.log(JSON.stringify(params?.meta, null, 2))
+    // console.log("id request form data : " + String(params.meta?.isFormData));
+    // console.log(params.meta.isFormData === true ? "formdata seharusnya true boolean" : "formdata seharusnya false bolean")
 
-    console.log("update body::::")
-    console.log(body)
+    // console.log(params.meta.isFormdata ? "formdata seharusnya true" : "formdata seharusnya false")
+    let body: any = params.meta.isFormData === true ? convertObjectToFormDataWithRactAdminFileResolver(params.data) : params.data;
+    // if(params.meta.isFormdata === true){ 
+    //   console.log("menggunakan form data")
+    //   body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
+    //   console.log("id request form data : " + String(params.meta?.isFormData));
+    // }else {
+    //   console.log("tidak menggunakan form data")
+    //   console.log(params.meta?.isFormData);
+    //   body = params.data;
+    // }
+
+    console.log(params)
+    // console.log("update body::::")
+    // console.log(body)
     const url = this.url + "/" + resource + "/" + id;
     const result =  await requestor(url, {method: "PUT", data: body});
     const data = result.data
@@ -150,7 +165,7 @@ export class BasePrepostDataProvider implements DataProvider {
     };
 
     let body: any;
-    if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
+    if(params.meta?.isFormdata) body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
     else body = params.data;
 
     const converted = convertToArrayNotation(manyIds);
@@ -171,7 +186,7 @@ export class BasePrepostDataProvider implements DataProvider {
   ):Promise<ResultRecordType>{
 
     let body: any;
-    if(params.meta?.isFormdata) body = convertObjectToFormData(params.data);
+    if(params.meta?.isFormdata) body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
     else body = params.data;
 
     const url = this.url + "/" + resource;

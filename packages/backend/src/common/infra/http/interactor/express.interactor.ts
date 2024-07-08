@@ -168,7 +168,6 @@ export class ExpressInteractor implements IInteractor {
 
   async okBuild<T>(args?: OKBuilderResponse<T>) {
 
-    console.log("ok build called.....");
     let header = {};
     // if(args?.header?.length) args.header.forEach(item => this.response.set(item.name, item.value));
     if(args?.header?.length) args.header.forEach(item => header[item.name] = item.value);

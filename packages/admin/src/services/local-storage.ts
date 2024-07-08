@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { DecodedJWT } from "../types/jwt";
+import { DecodedJWT } from "../shared/types/jwt";
 
 
 

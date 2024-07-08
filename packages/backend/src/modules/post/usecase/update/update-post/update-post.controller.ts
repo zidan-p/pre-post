@@ -25,6 +25,8 @@ export class UpdatePostController<TPostRaw extends Record<string, any> = Record<
     const file = this.getSingleFile();
     const param = this.getParams() as unknown as UpdatePostParam;
 
+    
+
     try {
       const result = await this.useCase.execute({body: payloadBody, files: {postImage: file ?? undefined}, param});
       
