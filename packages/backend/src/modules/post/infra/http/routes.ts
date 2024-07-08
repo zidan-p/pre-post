@@ -44,7 +44,7 @@ postRouter.get("/", authService.jwtOptionalAuth(), (req,res) => {
 postRouter.get("/many",authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_MANY_POSTS));
 postRouter.get("/me", authService.jwtAuth(), postUseCaseManagerFactory.executeRequest(GET_POSTS_BY_CURRENT_USER));
 postRouter.get("/:postId", authService.jwtOptionalAuth(), postUseCaseManagerFactory.executeRequest(GET_ONE_POST));
-postRouter.get("/:postId/banner", authService.jwtOptionalAuth(), postUseCaseManagerFactory.executeRequest(GET_POST_BANNER));
+postRouter.get("/:postId/banner", authService.jwtOptionalAuth(), postUseCaseManagerFactory.executeNewRequest(GET_POST_BANNER));
 
 postRouter.post("/",authService.jwtAuth(), uploadImagePost.single("postImage"), postUseCaseManagerFactory.executeRequest(CREATE_POST));
 

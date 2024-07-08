@@ -188,7 +188,7 @@ export class BasePrepostDataProvider implements DataProvider {
     const id = params.id;
 
     const url = this.url + "/" + resource + "/" + id;
-    const result =  (await requestor(url, {method: "GET"}));
+    const result =  (await requestor(url, {method: "DELETE"}));
     const data = result.data
     return data;
   }
