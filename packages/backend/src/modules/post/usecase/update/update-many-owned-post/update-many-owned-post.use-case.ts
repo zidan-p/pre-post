@@ -41,16 +41,17 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
 
     try {
 
+      const postIds = request?.query?.postIds;
       // check the post id
       // return the use case when the post id in not provided or empty array
-      if(!Array.isArray(request?.query?.postIds)) return right(Result.ok({affectedRecord : 0}));
-      if(!request?.query?.postIds?.length) return right(Result.ok({affectedRecord : 0}));
+      if(!Array.isArray(postIds)) return right(Result.ok({postIds: []}));
+      if(!postIds?.length) return right(Result.ok({postIds: []}));
 
       // fail when user not exists in database
       owner = await this.userRepo.getUserByUserId(userData.id);
       if(!owner) return left(new UpdateManyOwnedPostUseCaseErrors.UnauthorizeUser(userData));
 
-      const postIdCollectionOrLeft = await this.validateIdCollectionList(request?.query?.postIds);
+      const postIdCollectionOrLeft = await this.validateIdCollectionList(postIds);
       if(postIdCollectionOrLeft.isLeft()) {
         const exception = postIdCollectionOrLeft.value;
         return left(exception);
@@ -106,7 +107,7 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
       if(postImage) await this.storageService.removeFile(postImage);
 
       // return founded id
-      return right(Result.ok({affectedRecord :posts.length}));
+      return right(Result.ok({postIds}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }
@@ -129,6 +130,16 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
     postContent: PostContent | undefined, 
     isPublised: boolean | undefined
   ){
+    if(postTitle) post.postTitle = postTitle;
+    if(postContent) post.postContent = postContent;
+
+    // only accept when not undefined
+    if(isPublised !== undefined){
+      // true
+      if(isPublised) post.publishPost();
+      else post.unPublishPost() 
+    }
+
     try {
       // set the new post image if exists
       if(postImage){
@@ -152,15 +163,6 @@ export class UpdateManyOwnedPostUseCase implements UseCase<UpdateManyOwnedPostDT
         post.imageManager.changeImage(cloneImage);
         post.imageManager.attachNewImage();
   
-      }
-      if(postTitle) post.postTitle = postTitle;
-      if(postContent) post.postContent = postContent;
-  
-      // only accept when not undefined
-      if(isPublised !== undefined){
-        // true
-        if(isPublised) post.publishPost();
-        else post.unPublishPost() 
       }
   
       await this.postRepo.save(post);

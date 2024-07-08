@@ -43,7 +43,7 @@ export class UpdateManyPostController extends BaseController<UpdateManyPostDTOEn
           
         }
       }
-      return this.ok(result.value.getValue(), "Success Update many posts");
+      return this.okBuild({data: result.value.getValue().postIds})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

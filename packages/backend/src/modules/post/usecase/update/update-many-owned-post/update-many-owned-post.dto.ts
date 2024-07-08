@@ -23,9 +23,9 @@ export interface UpdateManyOwnedPostDTORequest {
 }
 
 export interface UpdateManyOwnedPostDTOResponse{
-  affectedRecord: number;
+  postIds: string[];
 }
 
 export interface UpdateManyOwnedPostDTOEnd{
-  affectedRecord: number;
+  postIds: string[];
 }

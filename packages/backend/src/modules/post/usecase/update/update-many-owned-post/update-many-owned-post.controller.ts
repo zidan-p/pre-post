@@ -47,7 +47,7 @@ export class UpdateManyOwnedPostController extends BaseController<UpdateManyOwne
           
         }
       }
-      return this.ok(result.value.getValue());
+      return this.okBuild({data: result.value.getValue().postIds})
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

@@ -44,11 +44,12 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
 
     try {
 
-      if(!Array.isArray(request?.query?.postIds)) return right(Result.ok({affectedRecord : 0}));
-      if(!request.query.postIds.length) return right(Result.ok({affectedRecord : 0}));
+      const postIds = request?.query?.postIds;
+      if(!Array.isArray(postIds)) return right(Result.ok({postIds: []}));
+      if(!postIds.length) return right(Result.ok({postIds: []}));
 
       // check the post id
-      const postIdCollectionOrLeft = await this.validateIdCollectionList(request?.query?.postIds);
+      const postIdCollectionOrLeft = await this.validateIdCollectionList(postIds);
       if(postIdCollectionOrLeft.isLeft()) {
         const exception = postIdCollectionOrLeft.value;
         return left(exception);
@@ -98,7 +99,7 @@ export class UpdateManyPostUseCase implements UseCase<UpdateManyPostDTORequest, 
       if(postImage) await this.storageService.removeFile(postImage);
 
       // return founded id so the client can make sure it's correct 
-      return right(Result.ok({affectedRecord :posts.length}));
+      return right(Result.ok({postIds}));
     } catch (error) {
       console.error(error);
       return left(new AppError.UnexpectedError(error.toString()));
