@@ -1,4 +1,4 @@
-import { BooleanInput, DateInput, Edit, FileField, FileInput, ReferenceInput, SimpleForm, TextInput, useUpdate } from 'react-admin';
+import { BooleanInput, DateInput, Edit, FileField, FileInput, ReferenceInput, SimpleForm, TextInput } from 'react-admin';
 // import { ReactAdminImageWithAuth } from '../../widgets/react-admin-image-with-auth';
 import { Box, } from '@mui/material';
 

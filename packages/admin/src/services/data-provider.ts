@@ -128,27 +128,11 @@ export class BasePrepostDataProvider implements DataProvider {
   ):  Promise<UpdateResult<RecordType>>{
     const id = params.id;
 
-    // console.log(JSON.stringify(params, null, 2))
-    // console.log(JSON.stringify(params.data, null, 2))
-    // console.log(JSON.stringify(params?.meta, null, 2))
-    // console.log("id request form data : " + String(params.meta?.isFormData));
-    // console.log(params.meta.isFormData === true ? "formdata seharusnya true boolean" : "formdata seharusnya false bolean")
+    // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
+    let body: any = params.meta.isFormData === true 
+      ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
+      : params.data;
 
-    // console.log(params.meta.isFormdata ? "formdata seharusnya true" : "formdata seharusnya false")
-    let body: any = params.meta.isFormData === true ? convertObjectToFormDataWithRactAdminFileResolver(params.data) : params.data;
-    // if(params.meta.isFormdata === true){ 
-    //   console.log("menggunakan form data")
-    //   body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
-    //   console.log("id request form data : " + String(params.meta?.isFormData));
-    // }else {
-    //   console.log("tidak menggunakan form data")
-    //   console.log(params.meta?.isFormData);
-    //   body = params.data;
-    // }
-
-    console.log(params)
-    // console.log("update body::::")
-    // console.log(body)
     const url = this.url + "/" + resource + "/" + id;
     const result =  await requestor(url, {method: "PUT", data: body});
     const data = result.data
@@ -164,9 +148,10 @@ export class BasePrepostDataProvider implements DataProvider {
       [singularResource + "Ids"]: params.ids
     };
 
-    let body: any;
-    if(params.meta?.isFormdata) body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
-    else body = params.data;
+    // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
+    let body: any = params.meta.isFormData === true 
+      ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
+      : params.data;
 
     const converted = convertToArrayNotation(manyIds);
     
@@ -185,9 +170,10 @@ export class BasePrepostDataProvider implements DataProvider {
     params: CreateParams<RecordType>
   ):Promise<ResultRecordType>{
 
-    let body: any;
-    if(params.meta?.isFormdata) body = convertObjectToFormDataWithRactAdminFileResolver(params.data);
-    else body = params.data;
+    // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
+    let body: any = params.meta.isFormData === true 
+      ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
+      : params.data;
 
     const url = this.url + "/" + resource;
     const result =  (await requestor(url, {method: "POST", data: body}));
