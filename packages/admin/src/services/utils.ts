@@ -26,7 +26,6 @@ export function convertObjectToFormData(obj: Record<string, any>):FormData{
  * @returns 
  */
 export function convertObjectToFormDataWithRactAdminFileResolver(obj: Record<string, any>):FormData{
-  console.log(obj)
   const data: Record<string, any> = {};
   // separate file from object
   const files: Record<string, File> = {};
@@ -38,9 +37,6 @@ export function convertObjectToFormDataWithRactAdminFileResolver(obj: Record<str
     }
     else data[key] = obj[key];
   }
-
-  console.log("flatten data")
-  console.log(data);
 
   const flattenDotNotationData = convertToDotNotation(data);
   return convertFlattenObjectToFormData({...flattenDotNotationData, ...files});
