@@ -129,7 +129,7 @@ export class BasePrepostDataProvider implements DataProvider {
     const id = params.id;
 
     // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
-    let body: any = params.meta.isFormData === true 
+    let body: any = params.meta?.isFormData === true 
       ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
       : params.data;
 
@@ -149,7 +149,7 @@ export class BasePrepostDataProvider implements DataProvider {
     };
 
     // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
-    let body: any = params.meta.isFormData === true 
+    let body: any = params.meta?.isFormData === true 
       ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
       : params.data;
 
@@ -171,7 +171,7 @@ export class BasePrepostDataProvider implements DataProvider {
   ):Promise<ResultRecordType>{
 
     // WARNING: react-admin bug, the meta props is considered undefined when using traditional if statement
-    let body: any = params.meta.isFormData === true 
+    let body: any = params.meta?.isFormData === true 
       ? convertObjectToFormDataWithRactAdminFileResolver(params.data) 
       : params.data;
 
@@ -211,5 +211,5 @@ export class BasePrepostDataProvider implements DataProvider {
     return data;
   };
 
-  
+
 }

@@ -17,6 +17,7 @@ export const PostCreate = () => {
           <SelectInput 
             defaultValue={identity?.id} 
             validate={[required()]} 
+            // only let user with admin previllige change owner
             disabled={identity?.role === Role.ADMIN ? false : true}  
             optionText="id" 
             fullWidth 
