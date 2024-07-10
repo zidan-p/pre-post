@@ -37,8 +37,8 @@ export class DeleteManyUserController extends BaseController<DeleteManyUserDTOEn
           
         }
       }
-      const affectedRecord = result.value.getValue().affectedRecord;
-      return this.okBuild({data: {affectedRecord}});
+      const userIds = result.value.getValue().userIds;
+      return this.okBuild({data: userIds});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

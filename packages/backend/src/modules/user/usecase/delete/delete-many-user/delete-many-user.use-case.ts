@@ -22,7 +22,7 @@ export class DeleteManyUserUseCase implements UseCase<DeleteManyUserDTORequest, 
 
       // when no collection id, return empty post.
       // no needed for ownership checking
-      if(!idCollection) return right(Result.ok({affectedRecord: 0}));
+      if(!idCollection) return right(Result.ok({userIds: []}));
       if(!Array.isArray(idCollection)) return left(new DeleteManyUserUseCaseErrors.InvalidUserIdValue(idCollection));
 
       const userIdCollectionOrError = idCollection.map(id => UserId.create(new UniqueEntityID(id)));
@@ -36,7 +36,7 @@ export class DeleteManyUserUseCase implements UseCase<DeleteManyUserDTORequest, 
 
       const users = await this.userRepo.find({whereIncluded: {userId: userIdCollection}});
 
-      // i use count to check, beacause the id is assumed will not same among all records
+      // check if there are some miss user, beacause the id is assumed will not same among all records
       if(users.length !== userIdCollection.length){
         return left(new DeleteManyUserUseCaseErrors.SomeUserNotFound(idCollection));
       }
@@ -45,7 +45,7 @@ export class DeleteManyUserUseCase implements UseCase<DeleteManyUserDTORequest, 
 
       const result = await this.userRepo.saveCollection(users);
 
-      return right(Result.ok({affectedRecord: users.length}));
+      return right(Result.ok({userIds: idCollection}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }

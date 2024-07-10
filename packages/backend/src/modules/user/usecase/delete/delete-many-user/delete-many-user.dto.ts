@@ -14,9 +14,9 @@ export interface DeleteManyUserDTORequest {
 }
 
 export interface DeleteManyUserDTOResponse{
-  affectedRecord: number;
+  userIds: string[];
 }
 
 export type DeleteManyUserDTOEnd = {
-  affectedRecord: number;
+  userIds: string[];
 }
