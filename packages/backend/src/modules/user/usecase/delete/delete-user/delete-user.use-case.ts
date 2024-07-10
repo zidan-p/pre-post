@@ -28,7 +28,7 @@ export class DeleteUserUseCase implements UseCase<DeleteUserDTORequest, Promise<
 
       const result = await this.userRepo.save(user);
 
-      return right(Result.ok());
+      return right(Result.ok({user: user}));
     } catch (error) {
       return left(new AppError.UnexpectedError(error.toString()));
     }

@@ -1,3 +1,4 @@
+import { User } from "~/modules/user/domain/user.agreegate-root";
 
 export interface DeleteUserFiles{}
 
@@ -13,6 +14,10 @@ export interface DeleteUserDTORequest {
   params?: DeleteUserParams;
 }
 
-export type DeleteUserDTOResponse = undefined
+export type DeleteUserDTOResponse = {
+  user: User;
+}
 
-export type DeleteUserDTOEnd = {} | null
+export type DeleteUserDTOEnd<TUser = any> = {
+  user: TUser;
+}

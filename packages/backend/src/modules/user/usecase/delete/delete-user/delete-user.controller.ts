@@ -2,13 +2,16 @@ import { BaseController } from "~/common/core/controller.base";
 import { DeleteUserUseCase } from "./delete-user.use-case";
 import { DeleteUserDTOEnd } from "./delete-user.dto";
 import { DeleteUserUseCaseErrors } from "./delete-user.error";
+import { User } from "~/modules/user/domain/user.agreegate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class DeleteUserController extends BaseController<DeleteUserDTOEnd> {
+export class DeleteUserController<TUserRaw = any>  extends BaseController<DeleteUserDTOEnd> {
 
   constructor(
-    private useCase: DeleteUserUseCase
+    private useCase: DeleteUserUseCase,
+    private readonly userMapper: IPresenterMapper<User, Promise<TUserRaw>>,
   ){
     super();
   }
@@ -34,8 +37,8 @@ export class DeleteUserController extends BaseController<DeleteUserDTOEnd> {
           
         }
       }
-
-      return this.okEmpty()
+      const user = await this.userMapper.toPresentation(result.value.getValue().user);
+      return this.okBuild({data: user});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }
