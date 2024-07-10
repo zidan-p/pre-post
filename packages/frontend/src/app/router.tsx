@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { CommonLayout } from "./layouts/common-layout";
+import { HomePage } from "../page/Home";
 
 
 
@@ -13,7 +14,7 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: <>Hello</>
+        element: <HomePage />
       },
     ]
   },

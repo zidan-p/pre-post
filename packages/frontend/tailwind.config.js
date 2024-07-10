@@ -10,7 +10,8 @@ export default {
         "primary": "#facc15",
         "secondary": "#6b7280",
         "secondary-light": "#d1d5db",
-        "secondary-dark": "#000000"
+        "dark": "#000000",
+        "light": "#ffffff",
       }
     },
   },
