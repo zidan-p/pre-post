@@ -6,6 +6,7 @@ import { UserList } from './models/user/user-list';
 import { PostEdit } from './models/post/post-edit';
 import { PostCreate } from './models/post/post-create';
 import { MainLayout } from './shared/layouts/main-layout';
+import { UserEdit } from './models/user/user-edit';
 
 
 const prepostURL = import.meta.env.VITE_PREPOST_URL;
@@ -15,7 +16,7 @@ const authProvider = new prepostAuthProvider(prepostURL);
 export const App = () => (
     <Admin layout={MainLayout} dataProvider={mainDataProvider} authProvider={authProvider} >
         <Resource name='posts' list={PostList} edit={PostEdit} create={PostCreate} /> 
-        <Resource name='users' list={UserList} edit={EditGuesser} />  
+        <Resource name='users' list={UserList} edit={UserEdit} />  
     </Admin> 
 );
 
