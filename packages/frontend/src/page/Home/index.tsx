@@ -18,7 +18,10 @@ export function HomePage(){
 
   return (
     <>
-      <PostCard post={dummyPost} />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
     </>
   )
 }
