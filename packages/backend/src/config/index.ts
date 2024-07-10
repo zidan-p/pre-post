@@ -6,6 +6,7 @@ export const appConfig = {
   appURL : process.env.APP_URL,
   root: rootPath,
   storageRootPath: path.join(rootPath, "storage"),
+  port: process.env.APP_PORT
 }
 
 export const authConfig = {

@@ -28,9 +28,9 @@ const userRepositoryFactory = new SequelizeUserCachedFactory(userPersisterMapper
 export const userUsecaseManagerFactory = new ExpressUseCaseManagerFactory();
 
 
-userUsecaseManagerFactory.addUseCaseManager(CREATE_USER, new CreateUserManager(userRepositoryFactory));
+userUsecaseManagerFactory.addUseCaseManager(CREATE_USER, new CreateUserManager(userRepositoryFactory, userPresenterMapperFactory));
 userUsecaseManagerFactory.addUseCaseManager(DELETE_MANY_USER, new DeleteManyUserManager(userRepositoryFactory));
-userUsecaseManagerFactory.addUseCaseManager(DELETE_USER, new DeleteUserManager(userRepositoryFactory));
+userUsecaseManagerFactory.addUseCaseManager(DELETE_USER, new DeleteUserManager(userRepositoryFactory, userPresenterMapperFactory));
 userUsecaseManagerFactory.addUseCaseManager(GET_LIST_USER, new GetListUserManager(userRepositoryFactory, userPresenterMapperFactory));
 userUsecaseManagerFactory.addUseCaseManager(GET_MANY_USER, new GetManyUserManager(userRepositoryFactory, userPresenterMapperFactory));
 userUsecaseManagerFactory.addUseCaseManager(GET_USER, new GetUserManager(userRepositoryFactory, userPresenterMapperFactory));

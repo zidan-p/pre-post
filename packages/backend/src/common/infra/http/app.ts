@@ -4,6 +4,7 @@ import cors from 'cors';
 import { v1 } from './api/v1';
 import { errorHandler } from './error-handler';
 import { notFoundHandler } from './not-found-handler';
+import { appConfig } from '~/config/index';
 
 const origin = {
   origin: "*"
@@ -28,7 +29,7 @@ export function loadExpressServer(){
   // handle the error
   app.use(errorHandler);
   
-  app.listen(3006, () => {
+  app.listen(appConfig.port, () => {
     console.log("app listening in http://localhost:3006");
   })
   

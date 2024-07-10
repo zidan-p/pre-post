@@ -16,9 +16,9 @@ import { WinstonPrePostLoggger } from "./logger/winston/pre-post-logger.winston"
 
 
 
-export class AppMainInfra{
+export class Bootstrap{
 
-  private readonly logger = new WinstonPrePostLoggger(AppMainInfra.name);
+  private readonly logger = new WinstonPrePostLoggger(Bootstrap.name);
 
   async load(){
     this.validateEnv();

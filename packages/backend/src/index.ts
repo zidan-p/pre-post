@@ -5,9 +5,9 @@ require("module-alias")(join(__dirname, ".."));
 import "./config/env-config";
 
 
-import { AppMainInfra } from "./common/infra/main";
+import { Bootstrap } from "./common/infra/main";
 
 
 
-const app = new AppMainInfra();
+const app = new Bootstrap();
 app.load();
