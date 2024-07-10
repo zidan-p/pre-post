@@ -2,6 +2,7 @@ import { IUseCaseManager } from "~/common/core/use-case.manager.interface";
 import { CreateUserController } from "./create-user.controller";
 import { CreateUserUseCase } from "./create-user.use-case";
 import { IUserRepoFactory } from "~/modules/user/repository/user.repository.factory";
+import { IUserMapperPresenterFactory } from "~/modules/user/mapper/user-mapper.factory.interface.ts";
 
 
 export class CreateUserManager implements IUseCaseManager{
@@ -10,14 +11,18 @@ export class CreateUserManager implements IUseCaseManager{
   private useCase: CreateUserUseCase;
 
   constructor(
-    private readonly userRepoFactory: IUserRepoFactory
+    private readonly userRepoFactory: IUserRepoFactory,
+    private readonly userMapperPresenterFactory: IUserMapperPresenterFactory,
   ){
 
     this.useCase = new CreateUserUseCase(
       this.userRepoFactory.getUserRepo()
     )
 
-    this.controller = new CreateUserController(this.useCase);
+    this.controller = new CreateUserController(
+      this.useCase,
+      this.userMapperPresenterFactory.getUserMapper()
+    );
   }
 
   getUseCase(){return this.useCase};
@@ -30,7 +35,10 @@ export class CreateUserManager implements IUseCaseManager{
   }
 
   createController(){
-    return new CreateUserController(this.useCase);
+    return new CreateUserController(
+      this.useCase,
+      this.userMapperPresenterFactory.getUserMapper()
+    );
   }
 
 }

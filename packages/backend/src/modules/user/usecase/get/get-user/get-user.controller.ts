@@ -39,9 +39,7 @@ export class GetUserController<TUserRaw = any> extends BaseController<GetUserDTO
       }
 
       const value = result.value.getValue();
-      console.log(value);
       const user = await this.userPresenterMapper.toPresentation(value?.user);
-      console.log(user);
       return this.okBuild({data: user});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);

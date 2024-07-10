@@ -2,13 +2,16 @@ import { BaseController } from "~/common/core/controller.base";
 import { CreateUserUseCase } from "./create-user.use-case";
 import { CreateUserBody, CreateUserDTOEnd } from "./create-user.dto";
 import { CreateUserUseCaseErrors } from "./create-user.error";
+import { User } from "~/modules/user/domain/user.agreegate-root";
+import { IPresenterMapper } from "~/common/core/mapper";
 
 
 
-export class CreateUserController extends BaseController<CreateUserDTOEnd> {
+export class CreateUserController<TUserRaw = any> extends BaseController<CreateUserDTOEnd> {
 
   constructor(
-    private useCase: CreateUserUseCase
+    private useCase: CreateUserUseCase,
+    private readonly userPresenterMapper: IPresenterMapper<User, Promise<TUserRaw>>
   ){
     super();
   }
@@ -36,8 +39,9 @@ export class CreateUserController extends BaseController<CreateUserDTOEnd> {
           
         }
       }
-      // return this.ok(null, "Success usersentenceCase__");
-      return this.okBuild();
+      const value = result.value.getValue();
+      const user = await this.userPresenterMapper.toPresentation(value?.user);
+      return this.okBuild({data: user});
     } catch (error) {
       return this.fail("unexpexted error eccured", error);
     }

@@ -1,8 +1,8 @@
-import { Edit, required, SelectInput, SimpleForm, TextInput } from 'react-admin';
+import { Create, required, SelectInput, SimpleForm, TextInput } from 'react-admin';
 import { AuthRole } from '../role.type';
 
-export const UserEdit = () => (
-    <Edit>
+export const UserCreate = () => (
+    <Create>
         <SimpleForm>
             <TextInput source="email" required fullWidth />
             <TextInput source="username" required fullWidth />
@@ -14,5 +14,5 @@ export const UserEdit = () => (
               choices={Object.keys(AuthRole).map((key) => ({ id: key, name: AuthRole[key as keyof typeof AuthRole] }))} 
             />
         </SimpleForm>
-    </Edit>
+    </Create>
 );
