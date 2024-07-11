@@ -3,6 +3,7 @@ import { CommonLayout } from "./layouts/common-layout";
 import { HomePage } from "../page/Home";
 import { PostPage } from "../page/post";
 import { UserPage } from "../page/user";
+import { UserListPage } from "@page/user-list";
 
 
 
@@ -22,6 +23,10 @@ const routes: RouteObject[] = [
         path: "/posts/:postId",
         element: <PostPage />
       },
+      {
+        path: "/users",
+        element: <UserListPage />
+      }
     ]
   },
   {
