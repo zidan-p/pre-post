@@ -1,3 +1,5 @@
+import { Post } from "../../entities/post/model"
+import { User } from "../../entities/user"
 
 
 
@@ -13,13 +15,26 @@ const dummyPost: Post = {
 }
 
 
-
+const dummyUser: User = {
+  id: "hdhd-askwm23-23nd",
+  email: "user@email.com",
+  username: "user",
+  role: "USER"
+}
 
 export function PostPage(){
 
   return (
     <>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dolore expedita sed, necessitatibus asperiores officia id velit. Recusandae, eligendi! Sed, reiciendis consequatur eum perferendis odio ea recusandae accusantium soluta excepturi?
+      <div className="p-2">
+        <h2 className="text-3xl font-semibold mb-5">{dummyPost.title}</h2>
+        <img src="/img/dummy-img.png" alt="post image" className="rounded mb-2" />
+        <div className="flex justify-between mb-2">
+          <div className="text-secondary ">{dummyUser.username}</div>
+          <div className="text-secondary ">{dummyPost.dateTimeCreated.toDateString()}</div>
+        </div>
+        <p>{dummyPost.content}</p>
+      </div>
     </>
   )
 }
