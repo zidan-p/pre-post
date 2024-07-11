@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Post } from "../../entities/post/model";
 import { PostCard } from "../../entities/post/ui/post-card";
 
@@ -18,14 +19,24 @@ export function HomePage(){
 
   return (
     <>
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
-      <PostCard post={dummyPost} className="mb-10" />
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
+      <Link to={"/post/test"}>
+        <PostCard post={dummyPost} className="mb-10" />
+      </Link>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { CommonLayout } from "./layouts/common-layout";
 import { HomePage } from "../page/Home";
+import { PostPage } from "../page/post";
 
 
 
@@ -15,6 +16,10 @@ const routes: RouteObject[] = [
       {
         path: "/",
         element: <HomePage />
+      },
+      {
+        path: "/post/:postId",
+        element: <PostPage />
       },
     ]
   },

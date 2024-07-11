@@ -9,7 +9,7 @@ interface PostCardProps {
 export function PostCard(props: PostCardProps){
 
   return (
-    <div className={"flex justify-between mb-5 gap-3 bg-gray-100 p-2 rounded"} >
+    <div className={"flex justify-between mb-5 gap-3 hover:bg-gray-100 p-2 rounded"} >
       <div className="">
         <div className="text-xl font-bold">{props.post.title}</div>
         <div className=" text-gray-500">{
