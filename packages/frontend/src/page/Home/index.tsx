@@ -19,22 +19,22 @@ export function HomePage(){
 
   return (
     <>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
-      <Link to={"/post/test"}>
+      <Link to={"/posts/test"}>
         <PostCard post={dummyPost} className="mb-10" />
       </Link>
     </>
