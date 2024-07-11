@@ -14,7 +14,7 @@ export function PostListLayout(props: PostListProps){
 
   return (
     <div className="bg-secondary-light min-h-screen">
-      <div className="w-[820px] mx-auto ">
+      <div className="w-[600px] mx-auto ">
         <header className="mb-1 bg-secondary-light ">
           {props.navbarSlot}
         </header>

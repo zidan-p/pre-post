@@ -22,6 +22,10 @@ export function HomePage(){
       <PostCard post={dummyPost} className="mb-10" />
       <PostCard post={dummyPost} className="mb-10" />
       <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
+      <PostCard post={dummyPost} className="mb-10" />
     </>
   )
 }
