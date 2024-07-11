@@ -17,11 +17,11 @@ export default defineConfig(({mode}) => {
         "@app" : path.resolve(__dirname, './src/app'),
         "@entities" : path.resolve(__dirname, './src/entities'),
         "@features" : path.resolve(__dirname, './src/features'),
-        "@pages" : path.resolve(__dirname, './src/pages'),
+        "@page" : path.resolve(__dirname, './src/page'),
         "@services" : path.resolve(__dirname, './src/services'),
         "@shared" : path.resolve(__dirname, './src/shared'),
         "@assets" : path.resolve(__dirname, './src/shared/assets'),
-        "@widgets" : path.resolve(__dirname, './src/widgets'),
+        "@widget" : path.resolve(__dirname, './src/widget'),
         "@process" : path.resolve(__dirname, './src/process'),
       }
     }

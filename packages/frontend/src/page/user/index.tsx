@@ -1,5 +1,10 @@
+import { Link } from "react-router-dom"
 import { Post } from "../../entities/post/model"
-import { User } from "../../entities/user"
+import { User, UserCard } from "../../entities/user"
+import { PostCard } from "@entities/post/ui/post-card"
+import { DoubleSectionLayout } from "@shared/layouts/double-section.layout"
+import { Navbar } from "@widget/navbar/navbar"
+import { Footer } from "@widget/footer/footer"
 
 
 const dummyPost: Post = {
@@ -19,9 +24,34 @@ const dummyUser: User = {
   role: "USER"
 }
 
+
+function LeftContent(){
+  return (
+    <UserCard 
+      user={dummyUser}
+      descriptionSlot={<p>12 Post</p>}
+    />
+  )
+}
+
+function RightContent(){
+  return (
+    <>
+    <Link to={"/posts/test"}>
+      <PostCard post={dummyPost} className="mb-10" />
+    </Link>
+  </>
+  )
+}
+
 export function UserPage(){
 
   return (
-    ""
+    <DoubleSectionLayout
+     footerSlot={<Footer />}
+     leftSlot={<LeftContent />}
+     rightSlot={<RightContent />}
+     navbarSlot={<Navbar />}
+     />
   )
 }
