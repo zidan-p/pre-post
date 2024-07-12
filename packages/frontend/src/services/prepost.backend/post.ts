@@ -14,11 +14,11 @@ export async function getOnePost(id: string){
   return result.data;
 }
 
-export async function getListPost(filter: RemoteQueryFilter<Post>){
-  const query = convertToArrayNotation(filter);
+export async function getListPost(filter?: RemoteQueryFilter<Post>){
+  const query = filter ? convertToArrayNotation(filter) : undefined
   const url = queryString.stringifyUrl({url: "/posts", query});
   const result = await requestor.get<PrePostGetListResponse<Post>>(url);
-  return result;
+  return result.data;
 }
 
 
