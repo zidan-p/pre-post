@@ -1,0 +1,30 @@
+import { Post } from "@entities/post/model";
+import { requestor } from "./requestor";
+import { PrePostGetListResponse, PrePostGetOneResponse } from "./response";
+import { IPaginate, RemoteQueryFilter } from "./query";
+import { convertToArrayNotation } from "@shared/utils/object";
+import queryString from "query-string";
+
+
+
+
+
+export async function getOnePost(id: string){
+  const result = await requestor.get<PrePostGetOneResponse<Post>>(`/posts/${id}`);
+  return result.data;
+}
+
+export async function getListPost(filter: RemoteQueryFilter<Post>){
+  const query = convertToArrayNotation(filter);
+  const url = queryString.stringifyUrl({url: "/posts", query});
+  const result = await requestor.get<PrePostGetListResponse<Post>>(url);
+  return result;
+}
+
+
+export async function getListPostByUser(userId: string, paginate: IPaginate){
+  const query = convertToArrayNotation(paginate);
+  const url = queryString.stringifyUrl({url: "/posts/" + userId + "/posts", query});
+  const result = await requestor.get<PrePostGetListResponse<Post>>(url);
+  return result;
+}
