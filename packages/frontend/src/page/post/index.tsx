@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { Post } from "../../entities/post/model"
 import { User } from "@entities/user"
+import { getOnePost } from "@services/prepost.backend/post"
+import { useGetOnePost } from "@entities/post/fetcher/use-get-one-post"
 
 
 
@@ -25,18 +27,29 @@ const dummyUser: User = {
 
 export function PostPage(){
 
+  const { postId } = useParams();
+  const result = useGetOnePost(postId!);
+
+  if(result.isLoading) return (
+    <h1>Loading......</h1>
+  )
+
+  if(result.isError) return (
+    <h1 className="text-red-800">{result.error.message}</h1>
+  )
+
   return (
     <>
       <div className="p-2">
-        <h2 className="text-3xl font-semibold mb-5">{dummyPost.title}</h2>
+        <h2 className="text-3xl font-semibold mb-5">{result.data?.data.title}</h2>
         <img src="/img/dummy-img.png" alt="post image" className="rounded mb-2" />
         <div className="flex justify-between mb-2">
           <Link to={"/users/test"}> 
             <div className="text-secondary hover:underline">{dummyUser.username}</div>
           </Link>
-          <div className="text-secondary ">{dummyPost.dateTimeCreated.toDateString()}</div>
+          <div className="text-secondary ">{result.data?.data.dateTimeCreated.toDateString()}</div>
         </div>
-        <p>{dummyPost.content}</p>
+        <p>{result.data?.data.content}</p>
       </div>
     </>
   )
