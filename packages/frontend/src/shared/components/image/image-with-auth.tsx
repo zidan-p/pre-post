@@ -4,10 +4,11 @@ import React, { CSSProperties, useEffect, useState } from "react"
 interface ImageWithAuthProps {
   url: string;
   style?: CSSProperties;
+  className?: string;
 }
 
 const ImageWithAuthStyle: React.CSSProperties = {
-  maxWidth: '100px',
+  // maxWidth: '100px',
 }
 
 /**
@@ -15,7 +16,7 @@ const ImageWithAuthStyle: React.CSSProperties = {
  * @param param0 
  * @returns 
  */
-export const ImageWithAuth: React.FC<ImageWithAuthProps> = ({ url, style }) => {
+export const ImageWithAuth: React.FC<ImageWithAuthProps> = ({ url, style,className }) => {
 
   const [fetchedImage, setFetchedImage] = useState<string | undefined>()
   const img: React.Ref<HTMLImageElement> = React.createRef()
@@ -46,5 +47,5 @@ export const ImageWithAuth: React.FC<ImageWithAuthProps> = ({ url, style }) => {
     }
   }, [fetchedImage])
 
-  return <img src={''} alt={'Loading...'} style={ style ?? ImageWithAuthStyle} ref={img} />
+  return <img src={''} alt={'Loading...'} style={ style ?? ImageWithAuthStyle} ref={img} className={className} />
 }

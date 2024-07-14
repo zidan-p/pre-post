@@ -8,9 +8,10 @@ import { getOneUser } from "@services/prepost.backend/user"
 
 
 
-export const useGetOneUser = (userId: string) => {
+export const useGetOneUser = (userId: string, {isEnabled = true}) => {
   return useQuery({
     queryKey: [USER, userId],
-    queryFn: () => getOneUser(userId)
+    queryFn: () => getOneUser(userId),
+    enabled: isEnabled
   })
 }
