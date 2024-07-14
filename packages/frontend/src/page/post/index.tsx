@@ -36,9 +36,14 @@ export function PostPage(){
     <h1>Loading......</h1>
   )
 
-  if(result.isError) return (
-    <h1 className="text-red-800">{result.error.message}</h1>
-  )
+  if(result.isError){
+    console.log(result.error);
+    return (
+      // eslint-disable-next-line @typescript-eslint/no-extra-non-null-assertion
+      // @ts-expect-error just not error
+      <h1 className="text-red-800">{result.error?.response?.data?.message}</h1>
+    )
+  } 
 
   return (
     <>
