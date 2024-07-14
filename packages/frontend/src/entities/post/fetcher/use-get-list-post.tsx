@@ -9,7 +9,7 @@ import { RemoteQueryFilter } from "@services/prepost.backend/query"
 
 
 
-export const useGetList = (params?: RemoteQueryFilter<Post>) => {
+export const useGetListPost = (params?: RemoteQueryFilter<Post>) => {
   return useQuery<PrePostGetListResponse<Post>>({
     queryKey: [POST, params],
     queryFn: () => getListPost()

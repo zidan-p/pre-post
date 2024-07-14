@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 
 
 
-export const useGetListByOwner = (ownerId: string, params: Partial<IPaginate>) => {
+export const useGetListPostByOwner = (ownerId: string, params: Partial<IPaginate>) => {
   return useQuery<PrePostGetListResponse<Post>>({
     queryKey: [POST, params],
     queryFn: () => getListPostByUser(ownerId, params)
