@@ -1,3 +1,4 @@
+import { ImageWithAuth } from "@shared/components/image/image-with-auth";
 import { Post } from "../model"
 
 
@@ -18,7 +19,8 @@ export function PostCard(props: PostCardProps){
       </div>
       <div className="">
         <div className={"overflow-hidden rounded max-h-40 w-24 "}>
-          <img src="/img/dummy-img.png" alt="" />
+          {props?.post?.image ? <ImageWithAuth url={props?.post?.image} /> : <img src="/img/dummy-img.png" alt="" />}
+          {/* <img src="/img/dummy-img.png" alt="" /> */}
         </div>
       </div>
     </div>
