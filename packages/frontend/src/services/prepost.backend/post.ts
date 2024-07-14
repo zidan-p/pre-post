@@ -22,9 +22,9 @@ export async function getListPost(filter?: RemoteQueryFilter<Post>){
 }
 
 
-export async function getListPostByUser(userId: string, paginate: IPaginate){
+export async function getListPostByUser(userId: string, paginate:Partial <IPaginate>){
   const query = convertToArrayNotation(paginate);
   const url = queryString.stringifyUrl({url: "/posts/" + userId + "/posts", query});
   const result = await requestor.get<PrePostGetListResponse<Post>>(url);
-  return result;
+  return result.data;
 }

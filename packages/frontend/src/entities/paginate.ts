@@ -1,7 +1,5 @@
 
 
-
-
 export interface Pagination {
   "dataPerPage": number,
   "dataTotal": number,
