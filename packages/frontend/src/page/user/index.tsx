@@ -52,7 +52,9 @@ function RightContent({userId}: {userId?: string}){
       // @ts-expect-error just not error
       <h1 className="text-red-800">{result.error?.response?.data?.message}</h1>
     )
-  } 
+  }
+
+  if(result.data?.data.length === 0) return ( <p className="text-center text-xl font-semibold"> No Post</p> )
 
   return (
     <>
