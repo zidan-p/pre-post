@@ -3,6 +3,7 @@ import { useGetOnePost } from "@entities/post/fetcher/use-get-one-post"
 import { ImageWithAuth } from "@shared/components/image/image-with-auth"
 import { useGetOneUser } from "@entities/user/fetcher/use-get-one-user"
 import Markdown from 'react-markdown'
+import rehypeRaw from "rehype-raw"
 
 
 
@@ -58,7 +59,7 @@ export function PostPage(){
           <OwnerLink ownerId={result.data?.data?.ownerId} />
           <div className="text-secondary ">{result.data?.data.dateTimeCreated.toDateString()}</div>
         </div>
-        <Markdown >{result.data?.data.content}</Markdown>
+        <Markdown rehypePlugins={[rehypeRaw]} >{result.data?.data.content}</Markdown>
       </div>
     </>
   )
