@@ -1,56 +1,79 @@
-import { Link } from "react-router-dom"
-import { Post } from "../../entities/post/model"
-import { User, UserCard } from "../../entities/user"
+import { Link, useParams } from "react-router-dom"
+import { UserCard } from "../../entities/user"
 import { PostCard } from "@entities/post/ui/post-card"
 import { DoubleSectionLayout } from "@shared/layouts/double-section.layout"
 import { Navbar } from "@widget/navbar/navbar"
 import { Footer } from "@widget/footer/footer"
+import { useGetOneUser } from "@entities/user/fetcher/use-get-one-user"
+import { useGetListPostByOwner } from "@entities/post/fetcher/use-get-list-by-owner"
 
 
-const dummyPost: Post = {
-  id: "lorem-ipsum",
-  title: "Judulnya di judul judulkan",
-  content: "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:",
-  image: null,
-  ownerId: "ipsum-lorem",
-  isPublished: true,
-  dateTimeCreated: new Date()
-}
-
-const dummyUser: User = {
-  id: "hdhd-askwm23-23nd",
-  email: "user@email.com",
-  username: "user",
-  role: "USER"
-}
 
 
-function LeftContent(){
+
+function LeftContent({userId}: {userId?: string}){
+
+  const result = useGetOneUser(userId!, {isEnabled: !!userId});
+
+  if(result.isLoading) return (
+    <>
+    <h1 className="text-secondary">Loading.....</h1>
+    </>
+  )
+
+  if(result.isError) return (
+    <h1 className="text-red-800">{result.error.message}</h1>
+  )
+
+  if(!result.data?.data) return ( <p> Pending....</p>)
+
   return (
     <UserCard 
-      user={dummyUser}
+      user={result.data?.data}
       descriptionSlot={<p>12 Post</p>}
     />
   )
 }
 
-function RightContent(){
+function RightContent({userId}: {userId?: string}){
+
+  const result = useGetListPostByOwner(userId!);
+  
+
+  if(result.isLoading) return (
+    <h1>Loading......</h1>
+  )
+
+  if(result.isError){
+    console.log(result.error);
+    return (
+      // eslint-disable-next-line @typescript-eslint/no-extra-non-null-assertion
+      // @ts-expect-error just not error
+      <h1 className="text-red-800">{result.error?.response?.data?.message}</h1>
+    )
+  } 
+
   return (
     <>
-    <Link to={"/posts/test"}>
-      <PostCard post={dummyPost} className="mb-10" />
-    </Link>
-  </>
+      {result.data?.data?.map((post) => (
+        <Link to={"/posts/" + post.id}>
+          <PostCard post={post} className="mb-10" key={post.id}/>
+        </Link>
+      ))}
+    </>
   )
 }
 
 export function UserPage(){
 
+  const { userId } = useParams();
+
+
   return (
     <DoubleSectionLayout
      footerSlot={<Footer />}
-     leftSlot={<LeftContent />}
-     rightSlot={<RightContent />}
+     leftSlot={<LeftContent userId={userId} />}
+     rightSlot={<RightContent userId={userId} />}
      navbarSlot={<Navbar />}
      />
   )
