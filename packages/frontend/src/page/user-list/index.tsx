@@ -1,33 +1,32 @@
-import { User, UserCard } from "@entities/user"
+import { UserCard } from "@entities/user"
+import { useGetListUser } from "@entities/user/fetcher/use-get-list-user";
 import { Link } from "react-router-dom"
-
-
-
-const dummyUser: User = {
-  id: "hdhd-askwm23-23nd",
-  email: "user@email.com",
-  username: "user",
-  role: "USER"
-}
 
 
 export function UserListPage(){
 
+  const result = useGetListUser();
+
+  if(result.isLoading) return (
+    <>
+    <h1 className="test-xl font-bold">Loading........</h1>
+    </>
+  )
+
+  if(result.isError) return (
+    <>
+    <h1 className="test-xl font-bold">Error........</h1>
+    {result.error.message}
+    </>
+  )
 
   return (
     <>
-      <Link to={"/users/test"} >
-        <UserCard user={dummyUser} className="mb-5"/>
-      </Link>
-      <Link to={"/users/test"} >
-        <UserCard user={dummyUser} className="mb-5"/>
-      </Link>
-      <Link to={"/users/test"} >
-        <UserCard user={dummyUser} className="mb-5"/>
-      </Link>
-      <Link to={"/users/test"} >
-        <UserCard user={dummyUser} className="mb-5"/>
-      </Link>
+      {result.data?.data?.map((user) => (
+        <Link to={"/users/" + user.id}>
+          <UserCard user={user} className="mb-5"/>
+        </Link>
+      ))}
     </>
   )
 }

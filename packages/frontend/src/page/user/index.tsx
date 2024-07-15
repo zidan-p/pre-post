@@ -10,7 +10,7 @@ import { useGetListPostByOwner } from "@entities/post/fetcher/use-get-list-by-ow
 
 
 
-
+/** @todo move to separate file */
 function LeftContent({userId}: {userId?: string}){
 
   const result = useGetOneUser(userId!, {isEnabled: !!userId});
@@ -35,6 +35,7 @@ function LeftContent({userId}: {userId?: string}){
   )
 }
 
+/** @todo move to separate file */
 function RightContent({userId}: {userId?: string}){
 
   const result = useGetListPostByOwner(userId!);
