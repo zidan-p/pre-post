@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom"
 import { useGetOnePost } from "@entities/post/fetcher/use-get-one-post"
 import { ImageWithAuth } from "@shared/components/image/image-with-auth"
 import { useGetOneUser } from "@entities/user/fetcher/use-get-one-user"
-
+import Markdown from 'react-markdown'
 
 
 
@@ -49,7 +49,6 @@ export function PostPage(){
     <>
       <div className="p-2">
         <h2 className="text-3xl font-semibold mb-5">{result.data?.data.title}</h2>
-        {/* <img src="/img/dummy-img.png" alt="post image" className="rounded mb-2" /> */}
         {
           result.data?.data?.image 
           ? <ImageWithAuth className="rounded mb-2 w-full" url={result.data?.data?.image} /> 
@@ -59,7 +58,7 @@ export function PostPage(){
           <OwnerLink ownerId={result.data?.data?.ownerId} />
           <div className="text-secondary ">{result.data?.data.dateTimeCreated.toDateString()}</div>
         </div>
-        <p>{result.data?.data.content}</p>
+        <Markdown >{result.data?.data.content}</Markdown>
       </div>
     </>
   )
