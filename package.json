@@ -10,6 +10,7 @@
     "dev:server": "yarn workspace @pre-post/backend dev",
     "dev:admin": "yarn workspace @pre-post/admin dev",
     "dev:view" : "yarn workspace @pre-post/frontend dev",
+    "build:view": "yarn workspace @pre-post/frontend build",
     "build:admin": "yarn workspace @pre-post/admin build",
     "build:server": "yarn workspace @pre-post/backend build",
     "generate:server": "yarn workspace @pre-post/backend generate"
