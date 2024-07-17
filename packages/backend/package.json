@@ -6,6 +6,7 @@
   "author": "zidan p",
   "license": "MIT",
   "scripts": {
+    "start": "node ./dist/index.js",
     "build": "tsc --project tsconfig.build.json ",
     "generate": "node ./tools/generator/generate.js",
     "dev": "tsc-watch --project tsconfig.build.json --incremental --onSuccess \" node ./dist/index.js \"",
