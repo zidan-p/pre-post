@@ -1,10 +1,11 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, UserConfigFn } from 'vite'
 import react from '@vitejs/plugin-react'
 import * as path from 'node:path';
 
-// https://vitejs.dev/config/
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, process.cwd(), "");
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+const option: UserConfigFn = (prop) => {
+  const env = loadEnv(prop.mode, process.cwd(), "");
 
   return  {
     plugins: [react()],
@@ -26,5 +27,7 @@ export default defineConfig(({mode}) => {
       }
     }
   }
-})
+}
 
+// https://vitejs.dev/config/
+export default defineConfig(option)
